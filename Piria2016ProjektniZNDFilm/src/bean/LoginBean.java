@@ -2,6 +2,8 @@ package bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import dto.UserDTO;
 
@@ -32,6 +34,7 @@ public class LoginBean {
 	}
 	
 	public String logout(){
+		((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
 		String retVal = "guest?faces-redirect=true";
 		loggedIn = false;
 		
