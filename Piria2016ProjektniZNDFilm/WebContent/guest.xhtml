@@ -11,7 +11,7 @@
 	
 	<ui:define name="content">
 		<h:form>
-			<h:commandButton value="Login" action="#{login.login}"></h:commandButton>
+			<h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
 		</h:form>
 	</ui:define>
 	

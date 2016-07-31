@@ -15,21 +15,25 @@ public class LoginBean {
 	UserDTO user;
 	String username;
 	String password;
+	boolean loggedIn;
 	
 	public LoginBean(){
 		username = "";
 		password = "";
+		loggedIn = false;
 		user = null;
 	}
 
 	public String login(){
-		String retVal = "admin";
+		String retVal = "admin?faces-redirect=true";
+		loggedIn = true;
 		
 		return retVal;
 	}
 	
 	public String logout(){
-		String retVal = "guset";
+		String retVal = "guest?faces-redirect=true";
+		loggedIn = false;
 		
 		return retVal;
 	}
@@ -56,6 +60,14 @@ public class LoginBean {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 	
 	
