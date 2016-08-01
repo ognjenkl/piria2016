@@ -10,7 +10,15 @@
 	</ui:define>
 	
 	<ui:define name="content">
-		
+		<h:form>
+			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
+		        <h:outputLabel for="username">Username:</h:outputLabel>
+		        <h:inputText id="username" value="#{login.username}"/>
+		        <h:outputLabel for="password">Password:</h:outputLabel>
+		        <h:inputText id="password" value="#{login.password}"/>
+		    </h:panelGrid>
+		    <h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
+	    </h:form>
 	</ui:define>
 	
 	

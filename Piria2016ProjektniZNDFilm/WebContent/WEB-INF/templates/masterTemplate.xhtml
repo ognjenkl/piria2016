@@ -19,7 +19,6 @@
 <div id="top">
     <ui:insert name="top">
     	<h:form>
-			<h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
 			<h:commandButton value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"></h:commandButton>
 		</h:form>
     </ui:insert>
