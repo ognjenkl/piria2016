@@ -5,6 +5,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import dao.LoginDAO;
 import dto.UserDTO;
 
 /**
@@ -27,8 +28,18 @@ public class LoginBean {
 	}
 
 	public String login(){
-		String retVal = "admin?faces-redirect=true";
-		loggedIn = true;
+		UserDTO loggedUser = null;
+		String retVal = null;
+		
+		loggedUser = LoginDAO.login(username, password);
+		if(loggedUser != null){
+			retVal = "admin?faces-redirect=true";
+			loggedIn = true;
+		}
+		else{
+			retVal = "guest&faces-redirect=true";
+			loggedIn = false;
+		}
 		
 		return retVal;
 	}
