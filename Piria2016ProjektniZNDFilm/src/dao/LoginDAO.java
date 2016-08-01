@@ -12,6 +12,31 @@ import dto.UserDTO;
 public class LoginDAO {
 
 	static Map <String, UserDTO> usersMap = new HashMap<>();
+	static{
+		UserDTO userTemp = null;
+		
+		userTemp = new UserDTO();
+		userTemp.setUsername("admin");
+		userTemp.setPassword("admin");
+		userTemp.setEmail("ognjenkl@gmail.com");
+		userTemp.setPrivilege(1);
+		usersMap.put(userTemp.getUsername(),userTemp);
+
+		userTemp = new UserDTO();
+		userTemp.setUsername("superuser");
+		userTemp.setPassword("superuser");
+		userTemp.setEmail("ognjenkl@gmail.com");
+		userTemp.setPrivilege(2);
+		usersMap.put(userTemp.getUsername(),userTemp);
+
+		userTemp = new UserDTO();
+		userTemp.setUsername("ogi");
+		userTemp.setPassword("ogi");
+		userTemp.setEmail("ognjenkl@gmail.com");
+		userTemp.setPrivilege(3);
+		usersMap.put(userTemp.getUsername(),userTemp);
+
+	}
 	
 	public static UserDTO login(String username, String password){
 		UserDTO user = usersMap.get(username);
@@ -28,6 +53,7 @@ public class LoginDAO {
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setEmail(email);
+		user.setPrivilege(3);
 		usersMap.put(username, user);
 		
 		return true;
