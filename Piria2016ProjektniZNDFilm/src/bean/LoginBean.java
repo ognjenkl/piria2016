@@ -18,11 +18,15 @@ public class LoginBean {
 	UserDTO user;
 	String username;
 	String password;
+	String usernameRegister;
+	String passwordRegister;
+	String email;
 	boolean loggedIn;
 	
 	public LoginBean(){
 		username = "";
 		password = "";
+		email = "";
 		loggedIn = false;
 		user = null;
 	}
@@ -41,6 +45,9 @@ public class LoginBean {
 			loggedIn = false;
 		}
 		
+		username = "";
+		password = "";
+		
 		return retVal;
 	}
 	
@@ -51,6 +58,17 @@ public class LoginBean {
 		
 		return retVal;
 	}
+	
+	public String register(){
+		String retVal = "guest?faces-redirect=true";
+		if(LoginDAO.register(username, password, email)){
+			retVal = login();
+		}
+		return retVal;
+	}
+	
+	
+	
 	
 	public UserDTO getUser() {
 		return user;
@@ -83,6 +101,32 @@ public class LoginBean {
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsernameRegister() {
+		return usernameRegister;
+	}
+
+	public void setUsernameRegister(String usernameRegister) {
+		this.usernameRegister = usernameRegister;
+	}
+
+	public String getPasswordRegister() {
+		return passwordRegister;
+	}
+
+	public void setPasswordRegister(String passwordRegister) {
+		this.passwordRegister = passwordRegister;
+	}
+
+	
 	
 	
 	

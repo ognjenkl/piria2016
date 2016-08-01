@@ -10,6 +10,7 @@
 	</ui:define>
 	
 	<ui:define name="content">
+		Guest
 		<h:form>
 			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
 		        <h:outputLabel for="username">Username:</h:outputLabel>
@@ -18,6 +19,18 @@
 		        <h:inputText id="password" value="#{login.password}"/>
 		    </h:panelGrid>
 		    <h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
+	    </h:form>
+	    <h:form>
+			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
+		        <h:outputLabel for="usernameRegister">Username:</h:outputLabel>
+		        <h:inputText id="usernameRegister" value="#{login.username}"/>
+		        <h:outputLabel for="passwordRegister">Password:</h:outputLabel>
+		        <h:inputText id="passwordRegister" value="#{login.password}"/>
+		        <h:outputLabel for="email">Email:</h:outputLabel>
+		        <h:inputText id="email" value="#{login.email}"/>
+		        <h:commandButton value="Register" action="#{login.register}"></h:commandButton>
+		    </h:panelGrid>
+		    
 	    </h:form>
 	</ui:define>
 	
