@@ -15,7 +15,7 @@ import dto.UserDTO;
 @SessionScoped
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
-	UserDTO user;
+	UserDTO user = null;
 	String username;
 	String password;
 	String usernameRegister;
@@ -38,6 +38,7 @@ public class LoginBean {
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
 			retVal = "admin?faces-redirect=true";
+			user = loggedUser;
 			loggedIn = true;
 		}
 		else{
@@ -47,6 +48,7 @@ public class LoginBean {
 		
 		username = "";
 		password = "";
+		email = "";
 		
 		return retVal;
 	}
@@ -55,7 +57,7 @@ public class LoginBean {
 		((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
 		String retVal = "guest?faces-redirect=true";
 		loggedIn = false;
-		
+		user = null;
 		return retVal;
 	}
 	
@@ -64,6 +66,7 @@ public class LoginBean {
 		if(LoginDAO.register(username, password, email)){
 			retVal = login();
 		}
+		
 		return retVal;
 	}
 	
