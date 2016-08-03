@@ -9,8 +9,10 @@
 		Guest
 	</ui:define>
 	
+	
+	
 	<ui:define name="content">
-		Guest
+		Welcome #{login.user.username}
 	
 		<h:form>
 			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
@@ -30,11 +32,11 @@
 					</f:facet>
 					#{m.releaseDate}
 				</h:column>
-				<h:column>
+				<h:column rendered="#{login.user.privilege lt 4}">
 					<f:facet name="header">
 						Detalji
 					</f:facet>
-					<h:link target="www.google.com">Detalji</h:link>
+					<h:outputLink value="http://www.google.com">Detalji</h:outputLink>
 				</h:column>
 			
 			</h:dataTable>

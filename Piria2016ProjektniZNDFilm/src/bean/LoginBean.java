@@ -43,16 +43,20 @@ public class LoginBean {
 
 			switch(loggedUser.getPrivilege()){
 				case 1:
-					retVal = "admin?faces-redirect=true";
+//					retVal = "admin?faces-redirect=true";
+					retVal = null;
 					break;
 				case 2:
-					retVal = "superuser?faces-redirect=true";					
+//					retVal = "superuser?faces-redirect=true";		
+					retVal = null;
 					break;
 				case 3:
-					retVal = "user?faces-redirect=true";
+//					retVal = "user?faces-redirect=true";
+					retVal = null;
 					break;
 				default:
-					retVal = "guest?faces-redirect=true";
+//					retVal = "guest?faces-redirect=true";
+					retVal = null;
 					break;
 			}
 		}
