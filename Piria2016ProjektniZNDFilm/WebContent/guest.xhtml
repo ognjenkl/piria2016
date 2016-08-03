@@ -30,7 +30,9 @@
 					<f:facet name="header">
 						Datum objavljivanja
 					</f:facet>
-					#{m.releaseDate}
+					<h:outputText value="#{m.releaseDate.time}">
+						<f:convertDateTime type="date" dateStyle="long" />
+					</h:outputText>					
 				</h:column>
 				<h:column rendered="#{login.user.privilege lt 4}">
 					<f:facet name="header">

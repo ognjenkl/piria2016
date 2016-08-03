@@ -1,7 +1,7 @@
 package dto;
 
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
 public class MovieDTO {
 
 	String title;
-	Date releaseDate;
+	Calendar releaseDate;
 	List<String> actors;
 	String storyline;
 	List<String> genres;
@@ -22,7 +22,7 @@ public class MovieDTO {
 	
 	
 	
-	public MovieDTO(String title, Date releaseDate, List<String> actors, String storyline,
+	public MovieDTO(String title, Calendar releaseDate, List<String> actors, String storyline,
 			List<String> genres, String trailerLocation, int runtimeMinutes, int rate, String movieLocation){
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -54,16 +54,14 @@ public class MovieDTO {
 
 
 
-	public Date getReleaseDate() {
+	public Calendar getReleaseDate() {
 		return releaseDate;
 	}
 
 
-
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(Calendar releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-
 
 
 	public List<String> getActors() {

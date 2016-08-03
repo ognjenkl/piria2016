@@ -16,22 +16,22 @@ public class LoginDAO {
 		UserDTO userTemp = null;
 		
 		userTemp = new UserDTO();
-		userTemp.setUsername("admin");
-		userTemp.setPassword("admin");
+		userTemp.setUsername("a");
+		userTemp.setPassword("a");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(1);
 		usersMap.put(userTemp.getUsername(),userTemp);
 
 		userTemp = new UserDTO();
-		userTemp.setUsername("superuser");
-		userTemp.setPassword("superuser");
+		userTemp.setUsername("s");
+		userTemp.setPassword("s");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(2);
 		usersMap.put(userTemp.getUsername(),userTemp);
 
 		userTemp = new UserDTO();
-		userTemp.setUsername("ogi");
-		userTemp.setPassword("ogi");
+		userTemp.setUsername("u");
+		userTemp.setPassword("u");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(3);
 		usersMap.put(userTemp.getUsername(),userTemp);

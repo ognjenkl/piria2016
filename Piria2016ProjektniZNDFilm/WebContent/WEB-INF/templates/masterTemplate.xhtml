@@ -3,10 +3,11 @@
  	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
+<h:head>
   <title><ui:insert name="title">Default title</ui:insert></title>
   <meta charset="UTF-8" />
-</head>
+  <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
 
 <body>
 	<f:view>
@@ -19,13 +20,12 @@
 <div id="top">
     <ui:insert name="top">
     	<h:form>
-    		<h:panelGrid border="1">
+    		<div class="links">
     			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}"/>
     			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}"/>
     			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}"/>
-	    		<h:commandButton value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"></h:commandButton>
-    		</h:panelGrid>
-			
+	    		<h:commandLink value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/>
+    		</div>
 		</h:form>
     </ui:insert>
 </div>
