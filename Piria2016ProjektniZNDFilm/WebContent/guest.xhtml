@@ -11,7 +11,34 @@
 	
 	<ui:define name="content">
 		Guest
-		Pretraga filmova
+	
+		<h:form>
+			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
+			<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
+			<h:commandButton value="Search" action="#{movie.search}" ></h:commandButton>
+			
+			<h:dataTable border="1" var="m" value="#{movie.foundMoviesList}">
+				<h:column>
+					<f:facet name="header">
+						Naziv
+					</f:facet>
+					#{m.title}
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						Datum objavljivanja
+					</f:facet>
+					#{m.releaseDate}
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						Detalji
+					</f:facet>
+					<h:link target="www.google.com">Detalji</h:link>
+				</h:column>
+			
+			</h:dataTable>
+		</h:form>
 		<h:form>
 			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
 		        <h:outputLabel for="username">Username:</h:outputLabel>
@@ -33,6 +60,7 @@
 		    </h:panelGrid>
 		    
 	    </h:form>
+
 	</ui:define>
 	
 	

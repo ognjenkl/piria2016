@@ -15,6 +15,7 @@ import dto.UserDTO;
 @SessionScoped
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
+	
 	UserDTO user = null;
 	String username;
 	String password;
@@ -37,9 +38,23 @@ public class LoginBean {
 		
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
-			retVal = "admin?faces-redirect=true";
 			user = loggedUser;
 			loggedIn = true;
+
+			switch(loggedUser.getPrivilege()){
+				case 1:
+					retVal = "admin?faces-redirect=true";
+					break;
+				case 2:
+					retVal = "superuser?faces-redirect=true";					
+					break;
+				case 3:
+					retVal = "user?faces-redirect=true";
+					break;
+				default:
+					retVal = "guest?faces-redirect=true";
+					break;
+			}
 		}
 		else{
 			retVal = "guest&faces-redirect=true";

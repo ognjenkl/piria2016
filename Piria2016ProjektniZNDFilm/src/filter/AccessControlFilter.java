@@ -23,6 +23,9 @@ import bean.LoginBean;
 @WebFilter("/*")
 public class AccessControlFilter implements Filter{
 
+//	 private static final String AJAX_REDIRECT_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+//		        + "<partial-response><redirect url=\"%s\"></redirect></partial-response>";
+
 	
 	@Override
 	public void destroy() {
@@ -49,23 +52,26 @@ public class AccessControlFilter implements Filter{
 		boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
 		
 		if(loggedIn || guestRequest || resourceRequest){
-			if(!resourceRequest){
+			if(!resourceRequest){ // Prevent browser from caching restricted resources.
 				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 				resp.setDateHeader("Expires", 0); // Proxies.
 		       
 			}			
-			//System.out.println("doFileter: " + req.getRequestURI());
 			if(req.getServletPath().startsWith("/admin.xhtml") && loginBean.getUser().getPrivilege() > 1)
-//				resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				resp.sendRedirect(homeURL);
 			else if(req.getServletPath().startsWith("/superuser.xhtml") && loginBean.getUser().getPrivilege() > 2)
 				resp.sendRedirect(homeURL);
 			else if(req.getServletPath().startsWith("/user.xhtml") && loginBean.getUser().getPrivilege() > 3)
 				resp.sendRedirect(homeURL);
 
-			arg2.doFilter(req, resp);
-		}else{
+			arg2.doFilter(arg0, arg1); 
+			
+//		}else if (ajaxRequest) {
+//            response.setContentType("text/xml");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
+        }else{
 			System.out.println("redirect");
 			//prereacunava naknadno putanju za resp.sendRedirect("guest.xhtml");
 			resp.sendRedirect(homeURL);
