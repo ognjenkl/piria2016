@@ -1,5 +1,10 @@
 package bean;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -24,14 +29,31 @@ public class LoginBean {
 	String email;
 	boolean loggedIn;
 	
+	
+	//localization
+	Locale locale;
+	Map<String, String> availableItems;
+	
 	public LoginBean(){
 		username = "";
 		password = "";
 		email = "";
 		loggedIn = false;
 		user = null;
+		availableItems = new TreeMap<>();
+		locale = null;
 	}
 
+	@PostConstruct
+	public void init(){
+		locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		setLanguage("sr");
+		availableItems.put("en","English");
+		availableItems.put("sr", "Srpski");
+		availableItems.put("fr", "Francais");
+		availableItems.put("de", "Deutsche");
+	}
+	
 	public String login(){
 		UserDTO loggedUser = null;
 		String retVal = null;
@@ -89,6 +111,14 @@ public class LoginBean {
 		return retVal;
 	}
 	
+	public String getLanguage(){
+		return locale.getLanguage();
+	}
+	
+	public void setLanguage(String language){
+		locale = new Locale(language);
+		FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+	}
 	
 	
 	
@@ -146,6 +176,22 @@ public class LoginBean {
 
 	public void setPasswordRegister(String passwordRegister) {
 		this.passwordRegister = passwordRegister;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public Map<String, String> getAvailableItems() {
+		return availableItems;
+	}
+
+	public void setAvailableItems(Map<String, String> availableItems) {
+		this.availableItems = availableItems;
 	}
 
 	

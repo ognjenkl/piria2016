@@ -12,7 +12,9 @@
 	
 	
 	<ui:define name="content">
-		Welcome #{login.user.username}
+		<h:outputText  value="#{msg.welcome}"></h:outputText>
+		
+		#{login.user.username}
 	
 		<h:form>
 			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
@@ -44,11 +46,13 @@
 			</h:dataTable>
 		</h:form>
 		<h:form>
-			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
+			<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 		        <h:outputLabel for="username">Username:</h:outputLabel>
-		        <h:inputText id="username" value="#{login.username}"/>
+		        <h:inputText id="username" value="#{login.username}" required="true" requiredMessage="Unesite username!"/>
+		        <h:message for="username"></h:message>
 		        <h:outputLabel for="password">Password:</h:outputLabel>
-		        <h:inputText id="password" value="#{login.password}"/>
+		        <h:inputSecret id="password" value="#{login.password}" required="true" requiredMessage="Unesite password!"/>
+		        <h:message for="password"></h:message>
 		    </h:panelGrid>
 		    <h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
 	    </h:form>
