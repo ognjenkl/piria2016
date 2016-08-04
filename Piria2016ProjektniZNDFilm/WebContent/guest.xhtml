@@ -13,9 +13,7 @@
 	
 	<ui:define name="content">
 		<h:outputText  value="#{msg.welcome}"></h:outputText>
-		
 		#{login.user.username}
-	
 		<h:form>
 			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
 			<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
@@ -40,7 +38,9 @@
 					<f:facet name="header">
 						Detalji
 					</f:facet>
-					<h:outputLink value="http://www.google.com">Detalji</h:outputLink>
+					<h:commandLink value="Detalji" action="#{movie.details}">
+						<f:param name="selectedMovie" value="#{m.title}"></f:param>
+					</h:commandLink>
 				</h:column>
 			
 			</h:dataTable>
@@ -68,8 +68,6 @@
 		    </h:panelGrid>
 		    
 	    </h:form>
-
 	</ui:define>
-	
 	
 </ui:composition>

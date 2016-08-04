@@ -47,7 +47,6 @@ public class LoginBean {
 	@PostConstruct
 	public void init(){
 		locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-		setLanguage("sr");
 		availableItems.put("en","English");
 		availableItems.put("sr", "Srpski");
 		availableItems.put("fr", "Francais");
