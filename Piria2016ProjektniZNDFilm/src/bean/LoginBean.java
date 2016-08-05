@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import dao.LoginDAO;
@@ -74,26 +75,32 @@ public class LoginBean {
 		String oldLa; 
 				
 		
-		File inputFile;
-		BufferedReader in;
-		try {
-			inputFile = new File("testLang.txt");
-			System.out.println("in    fileee " + inputFile.getAbsolutePath());
-			if(inputFile.exists()){
-				
-			
-				in = new BufferedReader( new FileReader(inputFile));
-				oldLa = in.readLine();
-				setLanguage(oldLa);
-				in.close();
-			} else 
-				System.out.println("Doesnt exist");
-
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		File inputFile;
+//		BufferedReader in;
+//		try {
+//			inputFile = new File("testLang.txt");
+//			System.out.println("in    fileee " + inputFile.getAbsolutePath());
+//			if(inputFile.exists()){
+//				
+//			
+//				in = new BufferedReader( new FileReader(inputFile));
+//				oldLa = in.readLine();
+//				setLanguage(oldLa);
+//				in.close();
+//			} else 
+//				System.out.println("Doesnt exist");
+//
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+		
+		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
+		Cookie c = (Cookie)map.get("ManCookie");
+		System.out.println("coookieeee " + c.getValue());
+		setLanguage(c.getValue());
 		
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
@@ -143,25 +150,27 @@ public class LoginBean {
 		user = null;
 		
 		
-		//ispitati kada bude baza ili neki file za upisivanje
+//		//ispitati kada bude baza ili neki file za upisivanje
 		oldLanguage = getLanguage();
-		File outputFile;
-		PrintWriter out;
-		try {
-			outputFile = new File("testLang.txt");
-			if(!outputFile.exists())
-				outputFile.createNewFile();
-			else
-				System.out.println("fileee " + outputFile.getAbsolutePath());
-			
-			out = new PrintWriter( new BufferedWriter(new FileWriter(outputFile)), true);
-			out.println(oldLanguage);
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
+//		File outputFile;
+//		PrintWriter out;
+//		try {
+//			outputFile = new File("testLang.txt");
+//			if(!outputFile.exists())
+//				outputFile.createNewFile();
+//			else
+//				System.out.println("fileee " + outputFile.getAbsolutePath());
+//			
+//			out = new PrintWriter( new BufferedWriter(new FileWriter(outputFile)), true);
+//			out.println(oldLanguage);
+//			out.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("ManCookie", oldLanguage, null);
+		
 		return retVal;
 	}
 	
