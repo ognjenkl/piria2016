@@ -99,9 +99,11 @@ public class LoginBean {
 		
 		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
 		Cookie c = (Cookie)map.get("ManCookie");
-		System.out.println("coookieeee " + c.getValue());
-		setLanguage(c.getValue());
-		
+		if(c != null){
+			System.out.println("coookieeee " + c.getValue());
+			setLanguage(c.getValue());
+		}
+	
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
