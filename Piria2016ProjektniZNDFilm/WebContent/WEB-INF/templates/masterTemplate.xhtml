@@ -3,55 +3,55 @@
  	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head>
-  <title><ui:insert name="title">Default title</ui:insert></title>
-  <meta charset="UTF-8" />
-  <h:outputStylesheet library="css" name="style.css"/>
-</h:head>
+<f:view locale="#{login.language}">
+	<h:head>
+	  <title><ui:insert name="title">Default title</ui:insert></title>
+	  <meta charset="UTF-8" />
+	  <h:outputStylesheet library="css" name="style.css"/>
+	</h:head>
+	
+	<body>
+	<div id="header">
+	    <ui:insert name="header">
+			<ui:include src="/WEB-INF/pages/header.xhtml"/> 
+	    </ui:insert>
+	</div>
+	
+	<div id="top">
+	    <ui:insert name="top">
+	    	<h:form>
+	    		<div class="links">
+	    			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}"/>
+	    			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}"/>
+	    			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}"/>
+		    		<h:commandLink value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/>
+		    		<h:selectOneMenu value="#{login.language}" onchange="submit()" >
+		    			<f:selectItems value="#{login.availableItems.entrySet()}" var="entry"
+		    							itemValue="#{entry.key}" itemLabel="#{entry.value}" ></f:selectItems>
+		    		</h:selectOneMenu>
+	    		</div>
+			</h:form>
+	    </ui:insert>
+	</div>
+	
+	<div id="content">
+	  <ui:insert name="content">
+	    	
+	  </ui:insert>
+	</div>
+	
+	<div id="bottom">
+	    <ui:insert name="bottom">
+	    	
+	    </ui:insert>
+	</div>
+	
+	<div id="footer">
+	  <ui:insert name="footer">
+			<ui:include src="/WEB-INF/pages/footer.xhtml"/>
+	  </ui:insert>
+	</div>
 
-<body>
-	<f:view>
-<div id="header">
-    <ui:insert name="header">
-		<ui:include src="/WEB-INF/pages/header.xhtml"/> 
-    </ui:insert>
-</div>
-
-<div id="top">
-    <ui:insert name="top">
-    	<h:form>
-    		<div class="links">
-    			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}"/>
-    			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}"/>
-    			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}"/>
-	    		<h:commandLink value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/>
-	    		<h:selectOneMenu value="#{login.language}" onchange="submit()" >
-	    			<f:selectItems value="#{login.availableItems.entrySet()}" var="entry"
-	    							itemValue="#{entry.key}" itemLabel="#{entry.value}" ></f:selectItems>
-	    		</h:selectOneMenu>
-    		</div>
-		</h:form>
-    </ui:insert>
-</div>
-
-<div id="content">
-  <ui:insert name="content">
-    	
-  </ui:insert>
-</div>
-
-<div id="bottom">
-    <ui:insert name="bottom">
-    	
-    </ui:insert>
-</div>
-
-<div id="footer">
-  <ui:insert name="footer">
-		<ui:include src="/WEB-INF/pages/footer.xhtml"/>
-  </ui:insert>
-</div>
+	</body>
 </f:view>
-</body>
-
 </html>

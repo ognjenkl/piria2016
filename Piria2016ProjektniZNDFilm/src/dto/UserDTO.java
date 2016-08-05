@@ -11,11 +11,15 @@ public class UserDTO {
 	String email;
 	int privilege;
 	
+	//cuvanje podesavanja za sljedeci pristup
+	String language;
+	
 	public UserDTO() {
 		username = null;
 		password = null;
 		email = null;
 		privilege = -1;
+		language = null;
 	}
 
 	public String getUsername() {
@@ -48,6 +52,14 @@ public class UserDTO {
 
 	public void setPrivilege(int privilege) {
 		this.privilege = privilege;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 

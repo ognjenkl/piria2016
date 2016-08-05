@@ -42,15 +42,20 @@ public class LoginBean {
 		user = null;
 		availableItems = new TreeMap<>();
 		locale = null;
+		
 	}
 
 	@PostConstruct
 	public void init(){
+		
 		locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+		setLanguage("sr");
+		
 		availableItems.put("en","English");
 		availableItems.put("sr", "Srpski");
 		availableItems.put("fr", "Francais");
 		availableItems.put("de", "Deutsche");
+		
 	}
 	
 	public String login(){
