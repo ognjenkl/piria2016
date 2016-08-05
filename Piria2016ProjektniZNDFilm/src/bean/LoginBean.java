@@ -1,5 +1,12 @@
 package bean;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,6 +36,7 @@ public class LoginBean {
 	String email;
 	boolean loggedIn;
 	
+	String oldLanguage;
 	
 	//localization
 	Locale locale;
@@ -42,6 +50,8 @@ public class LoginBean {
 		user = null;
 		availableItems = new TreeMap<>();
 		locale = null;
+		
+		oldLanguage = null;
 		
 	}
 
@@ -61,11 +71,39 @@ public class LoginBean {
 	public String login(){
 		UserDTO loggedUser = null;
 		String retVal = null;
+		String oldLa; 
+				
+		
+		File inputFile;
+		BufferedReader in;
+		try {
+			inputFile = new File("testLang.txt");
+			System.out.println("in    fileee " + inputFile.getAbsolutePath());
+			if(inputFile.exists()){
+				
+			
+				in = new BufferedReader( new FileReader(inputFile));
+				oldLa = in.readLine();
+				setLanguage(oldLa);
+				in.close();
+			} else 
+				System.out.println("Doesnt exist");
+
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
 			loggedIn = true;
+
+			if(oldLanguage != null){
+				System.out.println("langage old:" + oldLanguage);
+				setLanguage(oldLanguage);
+			}
 
 			switch(loggedUser.getPrivilege()){
 				case 1:
@@ -103,6 +141,27 @@ public class LoginBean {
 		String retVal = "guest?faces-redirect=true";
 		loggedIn = false;
 		user = null;
+		
+		
+		//ispitati kada bude baza ili neki file za upisivanje
+		oldLanguage = getLanguage();
+		File outputFile;
+		PrintWriter out;
+		try {
+			outputFile = new File("testLang.txt");
+			if(!outputFile.exists())
+				outputFile.createNewFile();
+			else
+				System.out.println("fileee " + outputFile.getAbsolutePath());
+			
+			out = new PrintWriter( new BufferedWriter(new FileWriter(outputFile)), true);
+			out.println(oldLanguage);
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 		return retVal;
 	}
 	
