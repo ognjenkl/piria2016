@@ -1,12 +1,5 @@
 package bean;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.LoginDAO;
@@ -72,33 +66,10 @@ public class LoginBean {
 	public String login(){
 		UserDTO loggedUser = null;
 		String retVal = null;
-		String oldLa; 
-				
-		
-//		File inputFile;
-//		BufferedReader in;
-//		try {
-//			inputFile = new File("testLang.txt");
-//			System.out.println("in    fileee " + inputFile.getAbsolutePath());
-//			if(inputFile.exists()){
-//				
-//			
-//				in = new BufferedReader( new FileReader(inputFile));
-//				oldLa = in.readLine();
-//				setLanguage(oldLa);
-//				in.close();
-//			} else 
-//				System.out.println("Doesnt exist");
-//
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
+
 		
 		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Cookie c = (Cookie)map.get("ManCookie");
+		Cookie c = (Cookie)map.get("language");
 		if(c != null){
 			System.out.println("coookieeee " + c.getValue());
 			setLanguage(c.getValue());
@@ -152,26 +123,16 @@ public class LoginBean {
 		user = null;
 		
 		
-//		//ispitati kada bude baza ili neki file za upisivanje
 		oldLanguage = getLanguage();
-//		File outputFile;
-//		PrintWriter out;
-//		try {
-//			outputFile = new File("testLang.txt");
-//			if(!outputFile.exists())
-//				outputFile.createNewFile();
-//			else
-//				System.out.println("fileee " + outputFile.getAbsolutePath());
-//			
-//			out = new PrintWriter( new BufferedWriter(new FileWriter(outputFile)), true);
-//			out.println(oldLanguage);
-//			out.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
-		FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("ManCookie", oldLanguage, null);
+		Cookie cookie = new Cookie("language", oldLanguage);
+		cookie.setHttpOnly(true);
+		cookie.setMaxAge(60*60*24*30*12);
+		cookie.setDomain("localhost");
+		
+		//FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("ManCookie", oldLanguage, null);
+		HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		resp.addCookie(cookie);
 		
 		return retVal;
 	}
