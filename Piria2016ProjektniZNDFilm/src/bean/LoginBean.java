@@ -3,6 +3,7 @@ package bean;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,6 +42,7 @@ public class LoginBean {
 	//localization
 	Locale locale;
 	Map<String, String> availableItems;
+	String language;
 	
 	public LoginBean(){
 		username = "";
@@ -56,9 +59,19 @@ public class LoginBean {
 
 	@PostConstruct
 	public void init(){
-		
-		locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-		setLanguage("sr");
+		System.out.println("init pocetak:");
+		String langu = readLanguageFromCookie();
+		if(langu != null){
+			setLanguage(langu);
+			System.out.println("init if langu: " + langu);
+		}
+		else{
+			locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+			setLanguage("sr");
+			System.out.println("init locale else: ");
+
+		}
+		System.out.println("init :" + locale.getLanguage());
 		
 		availableItems.put("en","English");
 		availableItems.put("sr", "Srpski");
@@ -132,12 +145,16 @@ public class LoginBean {
 	}
 	
 	public String getLanguage(){
-		String langu = readLanguageFromCookie();
-		if(!langu.equals(locale.getLanguage())){
-			setLanguage(langu);
-			createCookieLang(langu);
-		}
+//		String langu = readLanguageFromCookie();
+//		System.out.println("before getLanguage " + langu);
+//		if((langu != null)){// && !langu.equals(locale.getLanguage())){
+//			System.out.println("getLanguage " + langu);
+//			setLanguage(langu);
+//			createCookieLang(langu);
+//		}
 
+		System.out.println("getLanguage locale ");
+		System.out.println(locale.getLanguage());
 		return locale.getLanguage();
 	}
 	
@@ -158,10 +175,19 @@ public class LoginBean {
 	}
 	
 	public void setLanguage(String language){
+		System.out.println("setLanguage: locale laguage ");
+		System.out.println(language);
+		
 		locale = new Locale(language);
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+		createCookieLang(language);
+//		System.out.println("setLanguage: " + locale.getLanguage());
+
 		
-		
+	}
+	
+	public void languageAjax(){
+		System.out.println("Ajax");
 	}
 	
 	public void createCookieLang(String language){
@@ -169,13 +195,23 @@ public class LoginBean {
 			//oldLanguage = getLanguage();
 			
 			//Cookie cookie = new Cookie("language", oldLanguage);
-			Cookie cookie = new Cookie("language", URLEncoder.encode(language, "UTF-8"));
+//			Cookie cookie = new Cookie("language", URLEncoder.encode(language, "UTF-8"));
 			
-			cookie.setHttpOnly(true);
-			cookie.setMaxAge(60*60*24*30*12);
-			cookie.setDomain("localhost");
-			HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-			resp.addCookie(cookie);
+//			cookie.setHttpOnly(true);
+//			cookie.setMaxAge(60*60*24*30*12);
+//			cookie.setDomain(".localhost");
+//			cookie.setPath("/");
+//			HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+//			resp.addCookie(cookie);
+			
+			Map<String, Object> propertiesCookie = new Hashtable<>();
+			propertiesCookie.put("secure", false);
+			propertiesCookie.put("domain", ".localhost");
+			propertiesCookie.put("path", "/");
+			propertiesCookie.put("httpOnly", true);
+			propertiesCookie.put("maxAge", 60*60*24*30*12);
+			
+			FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("language", URLEncoder.encode(language, "UTF-8"), propertiesCookie);
 			
 			
 		} catch (UnsupportedEncodingException e) {

@@ -25,9 +25,11 @@
 	    			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}"/>
 	    			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}"/>
 		    		<h:commandLink value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/>
-		    		<h:selectOneMenu value="#{login.language}" onchange="submit()" >
+		    		<h:selectOneMenu id="langMenu" value="#{login.language}" onchange="submit()">
 		    			<f:selectItems value="#{login.availableItems.entrySet()}" var="entry"
-		    							itemValue="#{entry.key}" itemLabel="#{entry.value}" ></f:selectItems>
+		    							itemValue="#{entry.key}" itemLabel="#{entry.value}" >
+		    			</f:selectItems>
+		    			
 		    		</h:selectOneMenu>
 	    		</div>
 			</h:form>
