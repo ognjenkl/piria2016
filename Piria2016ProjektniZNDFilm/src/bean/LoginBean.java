@@ -1,5 +1,8 @@
 package bean;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,7 +34,8 @@ public class LoginBean {
 	String email;
 	boolean loggedIn;
 	
-	String oldLanguage;
+	//flag, used for change of language by user, to overcome cookie langage change,
+	String languageChange;
 	
 	//localization
 	Locale locale;
@@ -46,7 +50,7 @@ public class LoginBean {
 		availableItems = new TreeMap<>();
 		locale = null;
 		
-		oldLanguage = null;
+		languageChange = null;
 		
 	}
 
@@ -68,22 +72,15 @@ public class LoginBean {
 		String retVal = null;
 
 		
-		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Cookie c = (Cookie)map.get("language");
-		if(c != null){
-			System.out.println("coookieeee " + c.getValue());
-			setLanguage(c.getValue());
-		}
-	
 		loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
 			loggedIn = true;
 
-			if(oldLanguage != null){
-				System.out.println("langage old:" + oldLanguage);
-				setLanguage(oldLanguage);
-			}
+//			if(oldLanguage != null){
+//				System.out.println("langage old:" + oldLanguage);
+//				setLanguage(oldLanguage);
+//			}
 
 			switch(loggedUser.getPrivilege()){
 				case 1:
@@ -122,18 +119,6 @@ public class LoginBean {
 		loggedIn = false;
 		user = null;
 		
-		
-		oldLanguage = getLanguage();
-		
-		Cookie cookie = new Cookie("language", oldLanguage);
-		cookie.setHttpOnly(true);
-		cookie.setMaxAge(60*60*24*30*12);
-		cookie.setDomain("localhost");
-		
-		//FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("ManCookie", oldLanguage, null);
-		HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-		resp.addCookie(cookie);
-		
 		return retVal;
 	}
 	
@@ -147,15 +132,57 @@ public class LoginBean {
 	}
 	
 	public String getLanguage(){
+		String langu = readLanguageFromCookie();
+		if(!langu.equals(locale.getLanguage())){
+			setLanguage(langu);
+			createCookieLang(langu);
+		}
+
 		return locale.getLanguage();
+	}
+	
+	public String readLanguageFromCookie(){
+		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
+		Cookie c = (Cookie)map.get("language");
+		try {
+			if(c != null){
+				System.out.println("coookieeee " + URLDecoder.decode(c.getValue(), "UTF-8"));
+				return URLDecoder.decode(c.getValue(), "UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void setLanguage(String language){
 		locale = new Locale(language);
 		FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+		
+		
 	}
 	
-	
+	public void createCookieLang(String language){
+		try {
+			//oldLanguage = getLanguage();
+			
+			//Cookie cookie = new Cookie("language", oldLanguage);
+			Cookie cookie = new Cookie("language", URLEncoder.encode(language, "UTF-8"));
+			
+			cookie.setHttpOnly(true);
+			cookie.setMaxAge(60*60*24*30*12);
+			cookie.setDomain("localhost");
+			HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+			resp.addCookie(cookie);
+			
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public UserDTO getUser() {
 		return user;
