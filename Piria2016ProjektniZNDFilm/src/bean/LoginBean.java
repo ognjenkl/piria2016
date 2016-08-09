@@ -1,11 +1,17 @@
 package bean;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
+import java.util.PropertyPermission;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
@@ -47,6 +53,25 @@ public class LoginBean {
 		user = null;
 		availableItems = new TreeMap<>();
 		locale = null;
+		
+		FileOutputStream out = null;
+		Properties prop = new Properties();
+		
+		try {
+			out = new FileOutputStream("con.properties");
+			prop.setProperty("ogi", "ognjen");
+			prop.store(out, null);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+//		FileInputStream in = new FileInputStream
+//		Properties prop = new Properties();
 		
 		
 	}
