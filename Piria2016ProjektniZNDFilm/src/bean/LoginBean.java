@@ -1,8 +1,5 @@
 package bean;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -11,12 +8,12 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.PropertyPermission;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -45,6 +42,9 @@ public class LoginBean {
 	Map<String, String> availableItems;
 	String language;
 	
+	//config properties
+	Properties prop;
+	
 	public LoginBean(){
 		username = "";
 		password = "";
@@ -54,48 +54,35 @@ public class LoginBean {
 		availableItems = new TreeMap<>();
 		locale = null;
 		
-		FileOutputStream out = null;
-		Properties prop = new Properties();
-		
+		prop = new Properties();
 		try {
-			out = new FileOutputStream("con.properties");
-			prop.setProperty("ogi", "ognjen");
-			prop.store(out, null);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
-//		FileInputStream in = new FileInputStream
-//		Properties prop = new Properties();
-		
-		
 	}
 
 	@PostConstruct
 	public void init(){
-		System.out.println("init pocetak:");
-		String langu = readLanguageFromCookie();
-		if(langu != null){
-			setLanguage(langu);
-			System.out.println("init if langu: " + langu);
+		String languageFromCookie = readLanguageFromCookie();
+		if(languageFromCookie != null){
+			setLanguage(languageFromCookie);
 		}
 		else{
 			locale =  FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-			setLanguage("sr");
-			System.out.println("init locale else: ");
+			//setLanguage("sr");
+			setLanguage(prop.getProperty("langShortSr"));
 
 		}
-		System.out.println("init :" + locale.getLanguage());
 		
-		availableItems.put("en","English");
-		availableItems.put("sr", "Srpski");
-		availableItems.put("fr", "Francais");
-		availableItems.put("de", "Deutsche");
+		availableItems.put(prop.getProperty("langShortEn"),prop.getProperty("langLongEn"));
+		availableItems.put(prop.getProperty("langShortSr"),prop.getProperty("langLongSr"));
+		availableItems.put(prop.getProperty("langShortFr"),prop.getProperty("langLongFr"));
+		availableItems.put(prop.getProperty("langShortDe"),prop.getProperty("langLongDe"));
+
 		
 	}
 	
@@ -157,7 +144,7 @@ public class LoginBean {
 	 */
 	public String readLanguageFromCookie(){
 		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Cookie c = (Cookie)map.get("language");
+		Cookie c = (Cookie)map.get(prop.getProperty("cookieLangName"));
 		try {
 			if(c != null){
 				System.out.println("coookieeee " + URLDecoder.decode(c.getValue(), "UTF-8"));
@@ -182,16 +169,17 @@ public class LoginBean {
 
 			Map<String, Object> propertiesCookie = new Hashtable<>();
 			propertiesCookie.put("secure", false);
-			propertiesCookie.put("domain", ".localhost");
-			propertiesCookie.put("path", "/");
+			propertiesCookie.put("domain", prop.getProperty("cookieLangDomain"));
+			propertiesCookie.put("path", prop.getProperty("cookieLangPath"));
 			propertiesCookie.put("httpOnly", true);
 			propertiesCookie.put("maxAge", 60*60*24*30*12);
-			
-			FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(
-					"language", 
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ec.addResponseCookie(
+					prop.getProperty("cookieLangName"),
 					URLEncoder.encode(language, "UTF-8"), 
 					propertiesCookie);
-			
+			System.out.println("create cookie: " + prop.getProperty("cookieLangName") + " " + language);
+
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

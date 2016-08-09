@@ -7,8 +7,8 @@ import javax.faces.bean.ManagedBean;
  * @author ognjen
  *
  */
-//@ManagedBean (name="app", eager=true)
-//@ApplicationScoped
+@ManagedBean (name="app", eager=true)
+@ApplicationScoped
 public class ApplicationBean {
 
 	
