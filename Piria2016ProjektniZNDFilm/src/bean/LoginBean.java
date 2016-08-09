@@ -12,9 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.LoginDAO;
@@ -36,9 +34,6 @@ public class LoginBean {
 	String email;
 	boolean loggedIn;
 	
-	//flag, used for change of language by user, to overcome cookie langage change,
-	String languageChange;
-	
 	//localization
 	Locale locale;
 	Map<String, String> availableItems;
@@ -53,7 +48,6 @@ public class LoginBean {
 		availableItems = new TreeMap<>();
 		locale = null;
 		
-		languageChange = null;
 		
 	}
 
@@ -89,32 +83,8 @@ public class LoginBean {
 		if(loggedUser != null){
 			user = loggedUser;
 			loggedIn = true;
-
-//			if(oldLanguage != null){
-//				System.out.println("langage old:" + oldLanguage);
-//				setLanguage(oldLanguage);
-//			}
-
-			switch(loggedUser.getPrivilege()){
-				case 1:
-//					retVal = "admin?faces-redirect=true";
-					retVal = null;
-					break;
-				case 2:
-//					retVal = "superuser?faces-redirect=true";		
-					retVal = null;
-					break;
-				case 3:
-//					retVal = "user?faces-redirect=true";
-					retVal = null;
-					break;
-				default:
-//					retVal = "guest?faces-redirect=true";
-					retVal = null;
-					break;
-			}
-		}
-		else{
+			retVal = null;
+		} else {
 			retVal = "guest&faces-redirect=true";
 			loggedIn = false;
 		}
@@ -145,19 +115,21 @@ public class LoginBean {
 	}
 	
 	public String getLanguage(){
-//		String langu = readLanguageFromCookie();
-//		System.out.println("before getLanguage " + langu);
-//		if((langu != null)){// && !langu.equals(locale.getLanguage())){
-//			System.out.println("getLanguage " + langu);
-//			setLanguage(langu);
-//			createCookieLang(langu);
-//		}
-
-		System.out.println("getLanguage locale ");
-		System.out.println(locale.getLanguage());
 		return locale.getLanguage();
 	}
 	
+	public void setLanguage(String language){
+		locale = new Locale(language);
+		FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+		createCookieLang(language);
+	}
+
+	
+	/**
+	 * Reads language cookie
+	 * 
+	 * @return
+	 */
 	public String readLanguageFromCookie(){
 		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
 		Cookie c = (Cookie)map.get("language");
@@ -174,36 +146,15 @@ public class LoginBean {
 		return null;
 	}
 	
-	public void setLanguage(String language){
-		System.out.println("setLanguage: locale laguage ");
-		System.out.println(language);
-		
-		locale = new Locale(language);
-		FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-		createCookieLang(language);
-//		System.out.println("setLanguage: " + locale.getLanguage());
-
-		
-	}
 	
-	public void languageAjax(){
-		System.out.println("Ajax");
-	}
-	
+	/**
+	 * Creates language cookie.
+	 * 
+	 * @param language
+	 */
 	public void createCookieLang(String language){
 		try {
-			//oldLanguage = getLanguage();
-			
-			//Cookie cookie = new Cookie("language", oldLanguage);
-//			Cookie cookie = new Cookie("language", URLEncoder.encode(language, "UTF-8"));
-			
-//			cookie.setHttpOnly(true);
-//			cookie.setMaxAge(60*60*24*30*12);
-//			cookie.setDomain(".localhost");
-//			cookie.setPath("/");
-//			HttpServletResponse resp = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-//			resp.addCookie(cookie);
-			
+
 			Map<String, Object> propertiesCookie = new Hashtable<>();
 			propertiesCookie.put("secure", false);
 			propertiesCookie.put("domain", ".localhost");
@@ -211,8 +162,10 @@ public class LoginBean {
 			propertiesCookie.put("httpOnly", true);
 			propertiesCookie.put("maxAge", 60*60*24*30*12);
 			
-			FacesContext.getCurrentInstance().getExternalContext().addResponseCookie("language", URLEncoder.encode(language, "UTF-8"), propertiesCookie);
-			
+			FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(
+					"language", 
+					URLEncoder.encode(language, "UTF-8"), 
+					propertiesCookie);
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

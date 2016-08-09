@@ -41,9 +41,9 @@ public class AccessControlFilter implements Filter{
 		System.out.println("Access controler: ");
 		HttpSession session = req.getSession(false);
 		
-		System.out.println("uri: " + req.getRequestURI());
-		System.out.println("servlet path: " + req.getServletPath());
-		System.out.println("context path: " + req.getContextPath());
+//		System.out.println("uri: " + req.getRequestURI());
+//		System.out.println("servlet path: " + req.getServletPath());
+//		System.out.println("context path: " + req.getContextPath());
 		LoginBean loginBean = (session != null) ? (LoginBean)session.getAttribute("login") : null;
 		String homeURL = req.getContextPath() + "/guest.xhtml";
 		
@@ -56,22 +56,17 @@ public class AccessControlFilter implements Filter{
 				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 				resp.setDateHeader("Expires", 0); // Proxies.
-				System.out.println("Resource");
 			}			
 			if(req.getServletPath().startsWith("/admin.xhtml") && loginBean.getUser().getPrivilege() > 1){
 				resp.sendRedirect(homeURL);
-				System.out.println("Redirect admin");
 			}
 			else if(req.getServletPath().startsWith("/superuser.xhtml") && loginBean.getUser().getPrivilege() > 2){
 				resp.sendRedirect(homeURL);
-				System.out.println("Redirect superuser");
 			}
 			else if(req.getServletPath().startsWith("/user.xhtml") && loginBean.getUser().getPrivilege() > 3){
 				resp.sendRedirect(homeURL);
-				System.out.println("Redirect user");
 			}
 			
-			System.out.println("doFilter");
 			arg2.doFilter(arg0, arg1); 
 			
 //		}else if (ajaxRequest) {
