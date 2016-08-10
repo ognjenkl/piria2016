@@ -6,7 +6,10 @@
 	
 	
 	<ui:define name="title">
-		#{msg.titleGuest}
+		<h:outputText value="#{msg.pageTitleGuest}" rendered="#{login.user.privilege gt 3}" />
+		<h:outputText value="#{msg.pageTitleUser}" rendered="#{login.user.privilege eq 3}" />
+		<h:outputText value="#{msg.pageTitleSuperuser}" rendered="#{login.user.privilege eq 2}" />
+		<h:outputText value="#{msg.pageTitleAdmin}" rendered="#{login.user.privilege eq 1}" />
 	</ui:define>
 	
 	
@@ -35,11 +38,7 @@
 					</h:outputText>					
 				</h:column>
 				<h:column rendered="#{login.user.privilege lt 4}">
-					<f:facet name="header">
-						Detalji
-					</f:facet>
-					<h:commandLink value="Detalji" action="#{login.movie.details}">
-						<f:param name="selectedMovie" value="#{m.title}"></f:param>
+					<h:commandLink value="#{msg.details}" action="#{login.movie.details2(m)}">
 					</h:commandLink>
 				</h:column>
 			

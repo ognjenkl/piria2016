@@ -50,6 +50,11 @@ public class MovieBean implements Serializable{
 		return "movie?faces-redirect=true";
 	}
 	
+	public String details2(MovieDTO movie){
+		movieSelected = movie;
+		
+		return "movie?faces-redirect=true";
+	}
 	
 	
 
