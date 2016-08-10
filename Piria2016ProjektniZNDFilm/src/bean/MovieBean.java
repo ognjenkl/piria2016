@@ -53,7 +53,7 @@ public class MovieBean implements Serializable{
 	public String details2(MovieDTO movie){
 		movieSelected = movie;
 		
-		return "movie.xhtml?faces-redirect=true";
+		return "pages/movie.xhtml?faces-redirect=true";
 	}
 	
 	
