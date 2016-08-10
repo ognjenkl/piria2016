@@ -6,7 +6,7 @@
 	
 	
 	<ui:define name="title">
-		Guest
+		#{msg.titleGuest}
 	</ui:define>
 	
 	
@@ -16,10 +16,10 @@
 		#{login.user.username}
 		<h:form>
 			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
-			<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
-			<h:commandButton value="Search" action="#{movie.search}" ></h:commandButton>
+			<h:inputText id="searchMovie" value="#{login.movie.keyWord}"></h:inputText>
+			<h:commandButton value="Search" action="#{login.movie.search}" ></h:commandButton>
 			
-			<h:dataTable border="1" var="m" value="#{movie.foundMoviesList}">
+			<h:dataTable border="1" var="m" value="#{login.movie.foundMoviesList}">
 				<h:column>
 					<f:facet name="header">
 						Naziv
@@ -38,7 +38,7 @@
 					<f:facet name="header">
 						Detalji
 					</f:facet>
-					<h:commandLink value="Detalji" action="#{movie.details}">
+					<h:commandLink value="Detalji" action="#{login.movie.details}">
 						<f:param name="selectedMovie" value="#{m.title}"></f:param>
 					</h:commandLink>
 				</h:column>

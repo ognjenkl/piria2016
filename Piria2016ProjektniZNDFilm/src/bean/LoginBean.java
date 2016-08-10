@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -45,6 +46,15 @@ public class LoginBean {
 	//config properties
 	Properties prop;
 	
+	//movie bean
+	@ManagedProperty(value="#{movie}")
+	MovieBean movie;
+	
+	
+	
+	
+	
+	//consturctor
 	public LoginBean(){
 		username = "";
 		password = "";
@@ -258,6 +268,13 @@ public class LoginBean {
 		this.availableItems = availableItems;
 	}
 
+	public MovieBean getMovie() {
+		return movie;
+	}
+
+	public void setMovie(MovieBean movie) {
+		this.movie = movie;
+	}
 	
 	
 	
