@@ -18,7 +18,7 @@ public class UserDTO {
 		username = null;
 		password = null;
 		email = null;
-		privilege = -1;
+		privilege = 10;
 		language = null;
 	}
 

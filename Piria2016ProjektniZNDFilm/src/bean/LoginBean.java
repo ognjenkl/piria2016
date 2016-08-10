@@ -60,7 +60,7 @@ public class LoginBean {
 		password = "";
 		email = "";
 		loggedIn = false;
-		user = null;
+		user = new UserDTO();
 		availableItems = new TreeMap<>();
 		locale = null;
 		
