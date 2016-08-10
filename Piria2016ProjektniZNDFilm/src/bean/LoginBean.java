@@ -30,7 +30,7 @@ import dto.UserDTO;
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
 	
-	UserDTO user = null;
+	UserDTO user;
 	String username;
 	String password;
 	String usernameRegister;
@@ -122,7 +122,7 @@ public class LoginBean {
 		((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
 		String retVal = "guest?faces-redirect=true";
 		loggedIn = false;
-		user = null;
+		user = new UserDTO();
 		
 		return retVal;
 	}
