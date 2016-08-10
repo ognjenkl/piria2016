@@ -48,10 +48,7 @@ public class AccessControlFilter implements Filter{
 		String homeURL = req.getContextPath() + "/guest.xhtml";
 		
 		boolean loggedIn = loginBean != null && loginBean.isLoggedIn();
-		System.out.println("request: " + req.getRequestURI());
-		System.out.println("homeURL: " + homeURL);
 		boolean guestRequest = req.getRequestURI().startsWith(homeURL);
-		System.out.println("booleant of two: " + guestRequest);
 		boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
 		
 		if(loggedIn || guestRequest || resourceRequest){
