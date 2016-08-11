@@ -16,24 +16,36 @@ public class LoginDAO {
 		UserDTO userTemp = null;
 		
 		userTemp = new UserDTO();
-		userTemp.setUsername("a");
-		userTemp.setPassword("a");
+		userTemp.setFirstName("Administrator");
+		userTemp.setLastName("Admin");
+		userTemp.setSocialNo("1234");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(1);
+		userTemp.setPicture("n/a");
+		userTemp.setUsername("a");
+		userTemp.setPassword("a");
 		usersMap.put(userTemp.getUsername(),userTemp);
 
 		userTemp = new UserDTO();
-		userTemp.setUsername("s");
-		userTemp.setPassword("s");
+		userTemp.setFirstName("Superuser");
+		userTemp.setLastName("Super");
+		userTemp.setSocialNo("2222");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(2);
+		userTemp.setPicture("n/a");
+		userTemp.setUsername("s");
+		userTemp.setPassword("s");
 		usersMap.put(userTemp.getUsername(),userTemp);
 
 		userTemp = new UserDTO();
-		userTemp.setUsername("u");
-		userTemp.setPassword("u");
+		userTemp.setFirstName("User");
+		userTemp.setLastName("User");
+		userTemp.setSocialNo("3333");
 		userTemp.setEmail("ognjenkl@gmail.com");
 		userTemp.setPrivilege(3);
+		userTemp.setPicture("n/a");
+		userTemp.setUsername("u");
+		userTemp.setPassword("u");
 		usersMap.put(userTemp.getUsername(),userTemp);
 
 	}

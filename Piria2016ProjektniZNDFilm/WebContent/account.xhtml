@@ -1,0 +1,39 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.pageTitleAccount}" ></h:outputText>		
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form id="formAccount">
+			<h:panelGrid columns="3">	
+				<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
+		        <h:inputText id="firstName" value="#{login.user.firstName}"/>
+		        <h:message for="lastName"></h:message>
+				<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
+		        <h:inputText id="lastName" value="#{login.user.lastName}"/>
+		        <h:message for="firstName"></h:message>
+				<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
+		        <h:inputText id="socialNo" value="#{login.user.socialNo}"/>
+		        <h:message for="socialNo"></h:message>
+				<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
+		        <h:inputText id="email" value="#{login.user.email}"/>
+		        <h:message for="email"></h:message>
+				<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
+		        <h:inputText id="picture" value="#{login.user.picture}"/>
+		        <h:message for="picture"></h:message>
+		        <h:outputLabel for="usernameRegister"  value="#{msg.username}:"></h:outputLabel>
+		        <h:inputText id="usernameRegister" value="#{login.user.username}"/>
+		        <h:message for="usernameRegister"></h:message>
+		        <h:outputLabel for="passwordRegister" value="#{msg.password}:"></h:outputLabel>
+		        <h:inputSecret id="passwordRegister" value="#{login.user.password}"/>
+				<h:message for="passwordRegister"></h:message>
+			</h:panelGrid>
+		</h:form>	
+	</ui:define>
+</ui:composition>

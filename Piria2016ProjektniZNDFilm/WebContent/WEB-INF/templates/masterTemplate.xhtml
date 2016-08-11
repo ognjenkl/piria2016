@@ -21,7 +21,8 @@
 	    <ui:insert name="top">
 	    	<h:form>
 	    		<div class="links">
-	    			<h:link outcome="#{msg.pageGuest}" value="#{msg.linkPageGuest}" />
+	    			<h:link outcome="#{msg.pageGuest}" value="#{msg.pageGuestLinkName}" />
+	    			<h:link outcome="#{msg.pageAccount}" value="#{msg.pageAccountLinkName}" rendered="#{login.user.privilege lt 4}"/>
 	    			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}"/>
 	    			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}"/>
 	    			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}"/>
@@ -39,7 +40,6 @@
 	
 	<div id="content">
 	  <ui:insert name="content">
-	    	
 	  </ui:insert>
 	</div>
 	
