@@ -17,10 +17,10 @@
 	<ui:define name="content">
 		<h:outputText  value="#{msg.welcome}"></h:outputText>
 		#{login.user.username}
-		<h:form>
-			<h:outputLabel for="searchMovie">Search:</h:outputLabel>
+		<h:form id="searchForm">
+			<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
 			<h:inputText id="searchMovie" value="#{login.movie.keyWord}"></h:inputText>
-			<h:commandButton value="Search" action="#{login.movie.search}" ></h:commandButton>
+			<h:commandButton value="#{msg.search}" action="#{login.movie.search}" ></h:commandButton>
 			
 			<h:dataTable border="1" var="m" value="#{login.movie.foundMoviesList}">
 				<h:column>
@@ -44,26 +44,42 @@
 			
 			</h:dataTable>
 		</h:form>
-		<h:form>
+		<h:form id="loginForm">
 			<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
-		        <h:outputLabel for="username">Username:</h:outputLabel>
+		        <h:outputLabel for="username" value="#{msg.username}:"></h:outputLabel>
 		        <h:inputText id="username" value="#{login.username}" required="true" requiredMessage="Unesite username!"/>
 		        <h:message for="username"></h:message>
-		        <h:outputLabel for="password">Password:</h:outputLabel>
+		        <h:outputLabel for="password" value="#{msg.password}:"></h:outputLabel>
 		        <h:inputSecret id="password" value="#{login.password}" required="true" requiredMessage="Unesite password!"/>
 		        <h:message for="password"></h:message>
 		    </h:panelGrid>
-		    <h:commandButton value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
+		    <h:commandButton value="#{msg.login}" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
 	    </h:form>
-	    <h:form>
-			<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
-		        <h:outputLabel for="usernameRegister">Username:</h:outputLabel>
-		        <h:inputText id="usernameRegister" value="#{login.username}"/>
-		        <h:outputLabel for="passwordRegister">Password:</h:outputLabel>
-		        <h:inputText id="passwordRegister" value="#{login.password}"/>
-		        <h:outputLabel for="email">Email:</h:outputLabel>
-		        <h:inputText id="email" value="#{login.email}"/>
-		        <h:commandButton value="Register" action="#{login.register}"></h:commandButton>
+	    <h:form id="registerForm">
+			<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
+				<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
+		        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
+		        <h:message for="lastName"></h:message>
+				<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
+		        <h:inputText id="lastName" value="#{login.userRegister.lastName}"/>
+		        <h:message for="firstName"></h:message>
+				<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
+		        <h:inputText id="socialNo" value="#{login.userRegister.socialNo}"/>
+		        <h:message for="socialNo"></h:message>
+				<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
+		        <h:inputText id="email" value="#{login.userRegister.email}"/>
+		        <h:message for="email"></h:message>
+				<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
+		        <h:inputText id="picture" value="#{login.userRegister.picture}"/>
+		        <h:message for="picture"></h:message>
+		        <h:outputLabel for="usernameRegister"  value="#{msg.username}:"></h:outputLabel>
+		        <h:inputText id="usernameRegister" value="#{login.userRegister.username}"/>
+		        <h:message for="usernameRegister"></h:message>
+		        <h:outputLabel for="passwordRegister" value="#{msg.password}:"></h:outputLabel>
+		        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}"/>
+				<h:message for="passwordRegister"></h:message>
+				
+				<h:commandButton value="#{msg.register}" action="#{login.register}"></h:commandButton>
 		    </h:panelGrid>
 		    
 	    </h:form>

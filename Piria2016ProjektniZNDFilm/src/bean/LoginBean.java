@@ -30,12 +30,14 @@ import dto.UserDTO;
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
 	
+	//user if logged in
 	UserDTO user;
+	//set properties during registration process
+	UserDTO userRegister;
+	
 	String username;
 	String password;
-	String usernameRegister;
-	String passwordRegister;
-	String email;
+	
 	boolean loggedIn;
 	
 	//localization
@@ -58,9 +60,9 @@ public class LoginBean {
 	public LoginBean(){
 		username = "";
 		password = "";
-		email = "";
 		loggedIn = false;
 		user = new UserDTO();
+		userRegister = new UserDTO();
 		availableItems = new TreeMap<>();
 		locale = null;
 		
@@ -113,15 +115,17 @@ public class LoginBean {
 		
 		username = "";
 		password = "";
-		email = "";
+
 		
 		return retVal;
 	}
 	
 	public String logout(){
-		((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
 		String retVal = "guest?faces-redirect=true";
+		
+		((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
 		loggedIn = false;
+		//reset user to guest
 		user = new UserDTO();
 		
 		return retVal;
@@ -129,9 +133,11 @@ public class LoginBean {
 	
 	public String register(){
 		String retVal = "guest?faces-redirect=true";
-		if(LoginDAO.register(username, password, email)){
+		if(LoginDAO.register(userRegister)){
 			retVal = login();
 		}
+		
+		userRegister = null;
 		
 		return retVal;
 	}
@@ -204,6 +210,14 @@ public class LoginBean {
 		this.user = user;
 	}
 
+	public UserDTO getUserRegister() {
+		return userRegister;
+	}
+
+	public void setUserRegister(UserDTO userRegister) {
+		this.userRegister = userRegister;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -226,30 +240,6 @@ public class LoginBean {
 
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUsernameRegister() {
-		return usernameRegister;
-	}
-
-	public void setUsernameRegister(String usernameRegister) {
-		this.usernameRegister = usernameRegister;
-	}
-
-	public String getPasswordRegister() {
-		return passwordRegister;
-	}
-
-	public void setPasswordRegister(String passwordRegister) {
-		this.passwordRegister = passwordRegister;
 	}
 
 	public Locale getLocale() {

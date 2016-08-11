@@ -6,17 +6,42 @@ package dto;
  */
 public class UserDTO {
 	
+	String firstName;
+	String lastName;
+	String socialNo;
+	String email;
+	String picture;
 	String username;
 	String password;
-	String email;
 	int privilege;
 	
 	public UserDTO() {
+		firstName = null;
+		lastName = null;
+		socialNo = null;
+		email = null;
+		picture = null;
 		username = null;
 		password = null;
-		email = null;
 		privilege = 10;
 	}
+
+	
+	
+	public UserDTO(String firstName, String lastName, String socialNo, String email, String picture, String username,
+			String password, int privilege) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.socialNo = socialNo;
+		this.email = email;
+		this.picture = picture;
+		this.username = username;
+		this.password = password;
+		this.privilege = privilege;
+	}
+
+
 
 	public String getUsername() {
 		return username;
@@ -48,6 +73,38 @@ public class UserDTO {
 
 	public void setPrivilege(int privilege) {
 		this.privilege = privilege;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getSocialNo() {
+		return socialNo;
+	}
+
+	public void setSocialNo(String socialNo) {
+		this.socialNo = socialNo;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 
 

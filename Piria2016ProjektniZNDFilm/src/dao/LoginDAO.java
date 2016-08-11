@@ -47,15 +47,19 @@ public class LoginDAO {
 
 	}
 	
-	public static boolean register(String username, String password, String email){
-		UserDTO user = null;
-		user = new UserDTO();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setEmail(email);
-		user.setPrivilege(3);
-		usersMap.put(username, user);
+	public static boolean register(UserDTO userRegister){
+		userRegister.setPrivilege(3);
+		usersMap.put(userRegister.getUsername(), userRegister);
 		
+		//todo admin must allow registration
 		return true;
+	}
+	
+	public static UserDTO getUser(String username){
+		return usersMap.get(username);
+	}
+	
+	public static Map<String, UserDTO> getAllUsersMap(){
+		return usersMap;
 	}
 }
