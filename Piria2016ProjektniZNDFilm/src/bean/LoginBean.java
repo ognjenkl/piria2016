@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.naming.spi.ResolveResult;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
@@ -53,7 +55,9 @@ public class LoginBean {
 	@ManagedProperty(value="#{movie}")
 	MovieBean movie;
 	
-	
+	//Localization messages
+	@ManagedProperty("#{msg}")
+	ResourceBundle msgResourceBundle;
 	
 	
 	
@@ -110,7 +114,15 @@ public class LoginBean {
 			loggedIn = true;
 		} else {
 			loggedIn = false;
-			FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage("Neuspjesan login"));
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			String messageBundle = facesContext.getApplication().getMessageBundle();
+			System.out.println("mess bundle: " + messageBundle);
+			Locale locale = facesContext.getViewRoot().getLocale();
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			ResourceBundle msgResourceBundle = ResourceBundle.getBundle("resources.lang", locale, loader);
+			
+			//FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage("Neuspjesan login"));
+			FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(msgResourceBundle.getString("loginErrorMessage")));
 		}
 		//username = "";
 		//password = "";
@@ -271,6 +283,14 @@ public class LoginBean {
 
 	public void setMovie(MovieBean movie) {
 		this.movie = movie;
+	}
+
+	public ResourceBundle getMsgResourceBundle() {
+		return msgResourceBundle;
+	}
+
+	public void setMsgResourceBundle(ResourceBundle msgResourceBundle) {
+		this.msgResourceBundle = msgResourceBundle;
 	}
 	
 	

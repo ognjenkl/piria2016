@@ -47,14 +47,16 @@
 		<h:form id="loginForm">
 			<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 		        <h:outputLabel for="username" value="#{msg.username}:"></h:outputLabel>
-		        <h:inputText id="username" value="#{login.username}" required="true" requiredMessage="Unesite username!"/>
-		        <h:message for="username"></h:message>
+		        <h:inputText id="username" value="#{login.username}" required="true" requiredMessage="#{msg.usernameRequiredMessage}"/>
+		        <h:message for="username" style="color: red"></h:message>
 		        <h:outputLabel for="password" value="#{msg.password}:"></h:outputLabel>
-		        <h:inputSecret id="password" value="#{login.password}" required="true" requiredMessage="Unesite password!"/>
-		        <h:message for="password"></h:message>
+		        <h:inputSecret id="password" value="#{login.password}" required="true" requiredMessage="#{msg.passwordRequiredMessage}"/>
+		        <h:message for="password" style="color: red"></h:message>
 		    </h:panelGrid>
 		    <h:commandButton id="loginButton" value="#{msg.login}" action="#{login.login}" rendered="#{!login.loggedIn}"></h:commandButton>
-		    <h:message for="loginForm" style="color: red"></h:message>
+			<div></div>
+			<div></div>
+			<h:message for="loginForm" style="color: red"></h:message>
 	    </h:form>
 	    <h:form id="registerForm">
 			<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
