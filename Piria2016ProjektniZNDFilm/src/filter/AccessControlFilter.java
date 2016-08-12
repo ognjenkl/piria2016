@@ -38,7 +38,7 @@ public class AccessControlFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) arg0;
 		HttpServletResponse resp = (HttpServletResponse) arg1;
-		System.out.println("Access controler: ");
+		//System.out.println("Access controler: ");
 		HttpSession session = req.getSession(false);
 		
 //		System.out.println("uri: " + req.getRequestURI());

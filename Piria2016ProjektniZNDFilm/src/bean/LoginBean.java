@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -98,26 +99,37 @@ public class LoginBean {
 		
 	}
 	
-	public String login(){
-		UserDTO loggedUser = null;
-		String retVal = null;
-
-		
-		loggedUser = LoginDAO.login(username, password);
+	/*
+	 * Login with loginBean's properties username i password, which are afterwards set to empty
+	 * 
+	 */
+	public void login(){
+		UserDTO loggedUser = LoginDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
 			loggedIn = true;
-			retVal = null;
 		} else {
-			retVal = "guest&faces-redirect=true";
 			loggedIn = false;
+			FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage("Neuspjesan login"));
 		}
-		
-		username = "";
-		password = "";
+		//username = "";
+		//password = "";
 
-		
-		return retVal;
+
+	}
+	
+	/*
+	 * Login with userRegister properties, which is afterwards set to default UserDTO object
+	 * 
+	 */
+	public void login(UserDTO userReg){
+		UserDTO loggedUser = LoginDAO.login(userReg.getUsername(), userReg.getPassword());
+		if(loggedUser != null){
+			user = loggedUser;
+			userReg = new UserDTO();
+			loggedIn = true;
+		} else
+			loggedIn = false;
 	}
 	
 	public String logout(){
@@ -132,14 +144,11 @@ public class LoginBean {
 	}
 	
 	public String register(){
-		String retVal = "guest?faces-redirect=true";
 		if(LoginDAO.register(userRegister)){
-			retVal = login();
+			login(userRegister);
 		}
 		
-		userRegister = null;
-		
-		return retVal;
+		return null;
 	}
 	
 	public String getLanguage(){
@@ -163,7 +172,6 @@ public class LoginBean {
 		Cookie c = (Cookie)map.get(prop.getProperty("cookieLangName"));
 		try {
 			if(c != null){
-				System.out.println("coookieeee " + URLDecoder.decode(c.getValue(), "UTF-8"));
 				return URLDecoder.decode(c.getValue(), "UTF-8");
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -194,7 +202,6 @@ public class LoginBean {
 					prop.getProperty("cookieLangName"),
 					URLEncoder.encode(language, "UTF-8"), 
 					propertiesCookie);
-			System.out.println("create cookie: " + prop.getProperty("cookieLangName") + " " + language);
 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
