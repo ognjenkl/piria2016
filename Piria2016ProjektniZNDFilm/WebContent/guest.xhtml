@@ -79,15 +79,15 @@
 		        <h:inputText id="usernameRegister" value="#{login.userRegister.username}"/>
 		        <h:message for="usernameRegister"></h:message>
 		        <h:outputLabel for="passwordRegister" value="#{msg.password}:"></h:outputLabel>
-		        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}">
+		        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}" required="true">
 		        	<f:attribute name="confirmPasswordAttribute" value="#{confirmPasswordBind.submittedValue}" />
 		        	<f:validator validatorId="passwordConfirmValidator" />
 		        </h:inputSecret>
-				<h:message for="passwordRegister"></h:message>
+				<h:message for="passwordRegister" style="color: red"></h:message>
 				<h:outputLabel for="passwordRegisterConfirm" value="#{msg.passwordConfirm}:" />
-				<h:inputSecret id="passwordRegisterConfirm" binding="#{confirmPasswordBind}">
+				<h:inputSecret id="passwordRegisterConfirm" binding="#{confirmPasswordBind}" required="true">
 				</h:inputSecret>
-				<h:message for="passwordRegisterConfirm" />
+				<h:message for="passwordRegisterConfirm" style="color: red"/>
 								
 				<h:commandButton value="#{msg.register}" action="#{login.register}"></h:commandButton>
 		    </h:panelGrid>

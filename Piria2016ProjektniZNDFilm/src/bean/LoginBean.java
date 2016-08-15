@@ -18,12 +18,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.naming.spi.ResolveResult;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
+import com.sun.faces.application.annotation.FacesComponentUsage;
+
 import dao.LoginDAO;
 import dto.UserDTO;
+import util.JSFUtil;
 
 /**
  * @author ognjen
@@ -114,20 +116,8 @@ public class LoginBean {
 			loggedIn = true;
 		} else {
 			loggedIn = false;
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			String messageBundle = facesContext.getApplication().getMessageBundle();
-			System.out.println("mess bundle: " + messageBundle);
-			Locale locale = facesContext.getViewRoot().getLocale();
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			ResourceBundle msgResourceBundle = ResourceBundle.getBundle("resources.lang", locale, loader);
-			
-			//FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage("Neuspjesan login"));
-			FacesContext.getCurrentInstance().addMessage("loginForm", new FacesMessage(msgResourceBundle.getString("loginErrorMessage")));
+			FacesContext.getCurrentInstance().addMessage( "loginForm", new FacesMessage(JSFUtil.getLangMessage("loginErrorMessage")));
 		}
-		//username = "";
-		//password = "";
-
-
 	}
 	
 	/*

@@ -7,6 +7,8 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import util.JSFUtil;
+
 /**
  * 
  * JSF 2.2 password confirmation validator.
@@ -18,7 +20,7 @@ import javax.faces.validator.ValidatorException;
 public class PasswordConfirmValidator implements Validator {
 
 	public PasswordConfirmValidator() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/* (non-Javadoc)
@@ -33,8 +35,7 @@ public class PasswordConfirmValidator implements Validator {
 			return;
 		
 		if(!password.equals(passwordConfirm)){
-			
-			throw new ValidatorException(new FacesMessage("Passwords do not match!"));
+			throw new ValidatorException(new FacesMessage(JSFUtil.getLangMessage("passwordsConfirmValidatorErrorMessage")));
 		}
 	}
 
