@@ -21,8 +21,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
-import com.sun.faces.application.annotation.FacesComponentUsage;
-
 import dao.LoginDAO;
 import dto.UserDTO;
 import util.JSFUtil;
@@ -35,15 +33,17 @@ import util.JSFUtil;
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
 	
-	//user if logged in
+	//login: user is set if logged in
 	UserDTO user;
-	//set properties during registration process
-	UserDTO userRegister;
-	
+
+	//prelogin
 	String username;
 	String password;
-	
 	boolean loggedIn;
+
+	//registration: set properties during registration process
+	UserDTO userRegister;
+	
 	
 	//localization
 	Locale locale;
@@ -210,6 +210,14 @@ public class LoginBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public String accountSave(){
+		LoginDAO.updateUser(user);
+		
+		return null;
+	}
+	
+	
 	
 	public UserDTO getUser() {
 		return user;

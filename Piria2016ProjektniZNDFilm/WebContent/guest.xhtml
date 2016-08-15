@@ -63,29 +63,38 @@
 				<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
 		        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
 		        <h:message for="lastName"></h:message>
+				
 				<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
 		        <h:inputText id="lastName" value="#{login.userRegister.lastName}"/>
 		        <h:message for="firstName"></h:message>
+				
 				<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
 		        <h:inputText id="socialNo" value="#{login.userRegister.socialNo}"/>
 		        <h:message for="socialNo"></h:message>
+				
 				<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
 		        <h:inputText id="email" value="#{login.userRegister.email}"/>
 		        <h:message for="email"></h:message>
+				
 				<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
 		        <h:inputText id="picture" value="#{login.userRegister.picture}"/>
 		        <h:message for="picture"></h:message>
+		       
 		        <h:outputLabel for="usernameRegister"  value="#{msg.username}:"></h:outputLabel>
 		        <h:inputText id="usernameRegister" value="#{login.userRegister.username}"/>
 		        <h:message for="usernameRegister"></h:message>
+		        
 		        <h:outputLabel for="passwordRegister" value="#{msg.password}:"></h:outputLabel>
-		        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}" required="true">
+		        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}" 
+		        				required="true" requiredMessage="#{msg.passwordRequiredMessage}">
 		        	<f:attribute name="confirmPasswordAttribute" value="#{confirmPasswordBind.submittedValue}" />
 		        	<f:validator validatorId="passwordConfirmValidator" />
 		        </h:inputSecret>
 				<h:message for="passwordRegister" style="color: red"></h:message>
+				
 				<h:outputLabel for="passwordRegisterConfirm" value="#{msg.passwordConfirm}:" />
-				<h:inputSecret id="passwordRegisterConfirm" binding="#{confirmPasswordBind}" required="true">
+				<h:inputSecret id="passwordRegisterConfirm" binding="#{confirmPasswordBind}" 
+								required="true" requiredMessage="#{msg.passwordRequiredMessage}">
 				</h:inputSecret>
 				<h:message for="passwordRegisterConfirm" style="color: red"/>
 								

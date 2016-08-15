@@ -74,7 +74,6 @@ public class AccessControlFilter implements Filter{
 //            response.setCharacterEncoding("UTF-8");
 //            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }else{
-			System.out.println("redirect else home url: " + homeURL);
 			//prereacunava naknadno putanju za resp.sendRedirect("guest.xhtml");
 			resp.sendRedirect(homeURL);
 		}

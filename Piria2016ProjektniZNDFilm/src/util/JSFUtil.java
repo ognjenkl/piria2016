@@ -34,7 +34,7 @@ public class JSFUtil {
 	}
 	
 	/**
-	 * Gets message from language properties locale defined in faces-config.xhtml
+	 * Gets message from language resource bundle properties locale defined in faces-config.xhtml
 	 * 
 	 * @param messageKey message key in locale language properties
 	 * @return

@@ -74,4 +74,10 @@ public class LoginDAO {
 	public static Map<String, UserDTO> getAllUsersMap(){
 		return usersMap;
 	}
+	
+	public static boolean updateUser(UserDTO user){
+		usersMap.put(user.getUsername(), user);
+		return true;
+	}
+	
 }
