@@ -1,0 +1,65 @@
+<ui:composition template="/WEB-INF/templates/masterTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="title">
+		<h:outputText value="#{msg.pageTitleManageAccounts}" ></h:outputText>		
+	</ui:define>
+
+	<ui:define name="content">
+		<h:dataTable border="1" value="#{login.usersAll}" var="u">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.username}" />
+				</f:facet>
+				<h:outputText value="#{u.username}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.password}" />
+				</f:facet>
+				<h:outputText value="#{u.password}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.firstName}" />
+				</f:facet>
+				<h:outputText value="#{u.firstName}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.lastName}" />
+				</f:facet>
+				<h:outputText value="#{u.lastName}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.socialNo}" />
+				</f:facet>
+				<h:outputText value="#{u.socialNo}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.email}" />
+				</f:facet>
+				<h:outputText value="#{u.email}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.privilege}" />
+				</f:facet>
+				<h:outputText value="#{u.privilege}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.picture}" />
+				</f:facet>
+				<h:outputText value="#{u.picture}"></h:outputText>
+			</h:column>
+			
+		</h:dataTable>
+	</ui:define>
+
+</ui:composition>

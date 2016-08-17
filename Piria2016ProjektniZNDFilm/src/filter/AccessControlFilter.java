@@ -57,7 +57,8 @@ public class AccessControlFilter implements Filter{
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 				resp.setDateHeader("Expires", 0); // Proxies.
 			}			
-			if(req.getServletPath().startsWith("/admin.xhtml") && loginBean.getUser().getPrivilege() > 1){
+			
+			if(req.getServletPath().startsWith("/manageAccounts.xhtml") && loginBean.getUser().getPrivilege() > 1){
 				resp.sendRedirect(homeURL);
 			}
 			else if(req.getServletPath().startsWith("/superuser.xhtml") && loginBean.getUser().getPrivilege() > 2){

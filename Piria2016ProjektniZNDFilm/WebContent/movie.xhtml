@@ -8,37 +8,37 @@
 	
 	<ui:define name="content">
 		<h:panelGrid columns="1" width="600">
-			#{msg.movieTitle}
+			#{msg.movieTitle}:
 			<h:outputText value="#{login.movie.movieSelected.title}"></h:outputText>
 			
-			#{msg.movieReleaseDate}
+			#{msg.movieReleaseDate}:
 			<h:outputText value="#{login.movie.movieSelected.releaseDate.time}">
 				<f:convertDateTime type="date" dateStyle="long" />
 			</h:outputText>
 			
-			#{msg.movieActors}
+			#{msg.movieActors}:
 			<ui:repeat value="#{login.movie.movieSelected.actors}" var="actor">
 				#{actor} &#160;
 			</ui:repeat>
 	
-			#{msg.movieStroyline}
+			#{msg.movieStroyline}:
 			<h:outputText value="#{login.movie.movieSelected.storyline}"></h:outputText>
 	
-			#{msg.movieGenres}
+			#{msg.movieGenres}:
 			<ui:repeat var="genre" value="#{login.movie.movieSelected.genres}">
 				#{genre} &#160;
 			</ui:repeat>
 				
-			#{msg.movieTrailer}
+			#{msg.movieTrailer}:
 			<h:outputLink value="#{login.movie.movieSelected.trailerLocation}">Trailer</h:outputLink>
 	
-			#{msg.movieRuntime}
+			#{msg.movieRuntime}:
 			<h:outputText value="#{login.movie.movieSelected.runtimeMinutes}"></h:outputText>
 	
-			#{msg.movieRate}
+			#{msg.movieRate}:
 			<h:outputText value="#{login.movie.movieSelected.rate}"></h:outputText>
 	
-			#{msg.movieMovie}
+			#{msg.movieMovie}:
 			<h:outputText value="#{login.movie.movieSelected.movieLocation}"></h:outputText>
 			
 		</h:panelGrid>

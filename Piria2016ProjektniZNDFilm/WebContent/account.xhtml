@@ -33,7 +33,7 @@
 		        <h:inputText id="picture" value="#{account.user.picture}"/>
 		        <h:message for="picture"></h:message>
 		        
-		        <h:outputLabel for="privilege"  value="#{msg.typeUser}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
+		        <h:outputLabel for="privilege"  value="#{msg.privilege}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
 		        <h:inputText id="privilege" value="#{account.user.privilege}" rendered="#{login.user.privilege lt 2}" />
 		        <h:message for="privilege" rendered="#{login.user.privilege lt 2}" ></h:message>
 		        

@@ -25,13 +25,13 @@
 			<h:dataTable border="1" var="m" value="#{login.movie.foundMoviesList}">
 				<h:column>
 					<f:facet name="header">
-						Naziv
+						<h:outputText value="#{msg.movieTitle}" />
 					</f:facet>
 					#{m.title}
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						Datum objavljivanja
+						<h:outputText value="#{msg.movieReleaseDate}"/>
 					</f:facet>
 					<h:outputText value="#{m.releaseDate.time}">
 						<f:convertDateTime type="date" dateStyle="long" />

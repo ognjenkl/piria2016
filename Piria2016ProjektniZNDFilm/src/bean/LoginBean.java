@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -62,6 +63,8 @@ public class LoginBean {
 	ResourceBundle msgResourceBundle;
 	
 	
+	//admin
+	List<UserDTO> usersAll;
 	
 	//consturctor
 	public LoginBean(){
@@ -72,6 +75,9 @@ public class LoginBean {
 		userRegister = new UserDTO();
 		availableItems = new TreeMap<>();
 		locale = null;
+		
+		//admin
+		usersAll = null;
 		
 		prop = new Properties();
 		try {
@@ -102,7 +108,6 @@ public class LoginBean {
 		availableItems.put(prop.getProperty("langShortFr"),prop.getProperty("langLongFr"));
 		availableItems.put(prop.getProperty("langShortDe"),prop.getProperty("langLongDe"));
 
-		
 	}
 	
 	/*
@@ -298,6 +303,16 @@ public class LoginBean {
 	public void setMsgResourceBundle(ResourceBundle msgResourceBundle) {
 		this.msgResourceBundle = msgResourceBundle;
 	}
+
+	public List<UserDTO> getUsersAll() {
+		usersAll = LoginDAO.getAllUsersList();
+		return usersAll;
+	}
+
+	public void setUsersAll(List<UserDTO> usersAll) {
+		this.usersAll = usersAll;
+	}
+
 	
 	
 	

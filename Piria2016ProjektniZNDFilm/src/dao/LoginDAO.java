@@ -1,6 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dto.UserDTO;
@@ -73,6 +75,12 @@ public class LoginDAO {
 	
 	public static Map<String, UserDTO> getAllUsersMap(){
 		return usersMap;
+	}
+	
+	public static List<UserDTO> getAllUsersList(){
+		List<UserDTO> list = new ArrayList<UserDTO>(usersMap.values());
+		
+		return list;
 	}
 	
 	/**
