@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
@@ -309,7 +310,12 @@ public class LoginBean {
 	}
 
 	public List<UserDTO> getUsersAll() {
-		usersAll = LoginDAO.getAllUsersList();
+		if(user.getPrivilege() < 2)
+			usersAll = LoginDAO.getAllUsersList();
+		else{
+			usersAll = new ArrayList<UserDTO>();
+			usersAll.add(user);
+		}
 		return usersAll;
 	}
 
