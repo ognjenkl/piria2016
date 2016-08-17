@@ -32,6 +32,14 @@
 				<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
 		        <h:inputText id="picture" value="#{account.user.picture}"/>
 		        <h:message for="picture"></h:message>
+		        
+		        <h:outputLabel for="privilege"  value="#{msg.typeUser}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
+		        <h:inputText id="privilege" value="#{account.user.privilege}" rendered="#{login.user.privilege lt 2}" />
+		        <h:message for="privilege" rendered="#{login.user.privilege lt 2}" ></h:message>
+		        
+		        <h:outputLabel for="username"  value="#{msg.username}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
+		        <h:inputText id="username" value="#{account.user.username}" rendered="#{login.user.privilege lt 2}" />
+		        <h:message for="username" rendered="#{login.user.privilege lt 2}" ></h:message>
 				
 				<h:outputLabel for="passwordAccount" value="#{msg.password}:"></h:outputLabel>
 				<h:inputSecret id="passwordAccount" value="#{account.user.password}" >
