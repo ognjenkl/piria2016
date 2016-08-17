@@ -75,9 +75,59 @@ public class LoginDAO {
 		return usersMap;
 	}
 	
+	/**
+	 * Universal update user method. If some argument is not to be set, should be set to <code>null</code>. 
+	 * Privilege argument should be cast to String. 
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param socialNo
+	 * @param email
+	 * @param picture
+	 * @param newUsername
+	 * @param password
+	 * @param privilege
+	 * @return
+	 */
+	public static boolean updateUser(String username, String firstName, String lastName, String socialNo, String email, String picture, String newUsername,
+			String password, String privilege) {
+		
+		if(username != null && !username.equals("")){
+			UserDTO userToUpdate = usersMap.get(username);
+		
+			if(firstName != null)
+				userToUpdate.setFirstName(firstName);
+			if(lastName != null)
+				userToUpdate.setLastName(lastName);
+			if(socialNo != null)
+				userToUpdate.setSocialNo(socialNo);
+			if(email != null)
+				userToUpdate.setEmail(email);
+			if(picture != null)
+				userToUpdate.setPicture(picture);
+			if(newUsername != null)
+				userToUpdate.setUsername(newUsername);
+			if(password != null)
+				userToUpdate.setPassword(password);
+			if(privilege != null)
+				userToUpdate.setPrivilege(Integer.valueOf(privilege));
+		
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static boolean updateUser(UserDTO user){
-		usersMap.put(user.getUsername(), user);
-		return true;
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), user.getUsername(), user.getPassword(), new Integer(user.getPrivilege()).toString());	
+	}
+	
+	public static boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), null, null, null);
+	}
+	
+	public static boolean updateUserWithoutPrivilege(UserDTO user){
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), null, user.getPassword(), null);
 	}
 	
 }

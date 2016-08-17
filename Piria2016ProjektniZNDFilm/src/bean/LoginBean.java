@@ -211,12 +211,20 @@ public class LoginBean {
 		}
 	}
 	
-	public String accountSave(){
+	public void updateUser(UserDTO user){
 		LoginDAO.updateUser(user);
-		
-		return null;
+		this.user = user;
 	}
 	
+	public void updateUserWithoutPasswordAndPrivilege(UserDTO user){
+		LoginDAO.updateUserWithoutPasswordAndPrivilege(user);
+		this.user = LoginDAO.getUser(user.getUsername());
+	}
+	
+	public void updateUserWithoutPrivilege(UserDTO user){
+		LoginDAO.updateUserWithoutPrivilege(user);
+		this.user = LoginDAO.getUser(user.getUsername());
+	}
 	
 	
 	public UserDTO getUser() {

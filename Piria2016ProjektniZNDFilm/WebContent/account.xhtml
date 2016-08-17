@@ -11,33 +11,30 @@
 	
 	<ui:define name="content">
 		<h:form id="formAccount">
+			<h:outputText  value="#{msg.username}: #{account.user.username}" />
 			<h:panelGrid columns="3">	
 				<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
-		        <h:inputText id="firstName" value="#{login.user.firstName}"/>
+		        <h:inputText id="firstName" value="#{account.user.firstName}"/>
 		        <h:message for="lastName"></h:message>
 				
 				<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
-		        <h:inputText id="lastName" value="#{login.user.lastName}"/>
+		        <h:inputText id="lastName" value="#{account.user.lastName}"/>
 		        <h:message for="firstName"></h:message>
 				
 				<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
-		        <h:inputText id="socialNo" value="#{login.user.socialNo}"/>
+		        <h:inputText id="socialNo" value="#{account.user.socialNo}"/>
 		        <h:message for="socialNo"></h:message>
 				
 				<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
-		        <h:inputText id="email" value="#{login.user.email}"/>
+		        <h:inputText id="email" value="#{account.user.email}"/>
 		        <h:message for="email"></h:message>
 				
 				<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
-		        <h:inputText id="picture" value="#{login.user.picture}"/>
+		        <h:inputText id="picture" value="#{account.user.picture}"/>
 		        <h:message for="picture"></h:message>
-		        
-		        <h:outputLabel for="usernameAccount"  value="#{msg.username}:"></h:outputLabel>
-		        <h:inputText id="usernameAccount" value="#{login.user.username}"/>
-		        <h:message for="usernameAccount"></h:message>
 				
 				<h:outputLabel for="passwordAccount" value="#{msg.password}:"></h:outputLabel>
-				<h:inputSecret id="passwordAccount" value="#{login.user.password}" >
+				<h:inputSecret id="passwordAccount" value="#{account.user.password}" >
 					<f:attribute name="confirmPasswordAttribute" value="#{confirmPasswordBind.submittedValue}" />
 		        	<f:validator validatorId="passwordConfirmValidator" />
 		        </h:inputSecret>
@@ -47,7 +44,7 @@
 				<h:inputSecret id="passwordAccountConfirm" binding="#{confirmPasswordBind}" />
 				<h:message for="passwordAccountConfirm" style="color: red"/>
 				
-				<h:commandButton value="#{msg.save}" action="#{login.accountSave}" />
+				<h:commandButton value="#{msg.save}" action="#{account.accountSave}" />
 				<div />
 				<div />
 				<h:message for="formAccount" ></h:message>

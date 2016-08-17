@@ -107,7 +107,10 @@ public class UserDTO {
 		this.picture = picture;
 	}
 
-
+	@Override
+	public String toString() {
+		return firstName + " " + lastName + " " + socialNo + " " + email + " " + picture + " " + username + " " + password + " " + privilege;
+	}
 
 	
 }

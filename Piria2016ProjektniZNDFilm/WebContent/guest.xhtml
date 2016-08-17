@@ -15,8 +15,8 @@
 	
 	
 	<ui:define name="content">
-		<h:outputText  value="#{msg.welcome}"></h:outputText>
-		#{login.user.username}
+		<h:outputText  value="#{msg.welcome} #{login.user.firstName}"></h:outputText>
+		<h:outputText value=""></h:outputText>
 		<h:form id="searchForm">
 			<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
 			<h:inputText id="searchMovie" value="#{login.movie.keyWord}"></h:inputText>
