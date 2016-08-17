@@ -45,28 +45,20 @@ public class AccountBean {
 	}
 	
 	public String accountSave(UserDTO user){
-		System.out.println("save account: " + this.user.getUsername());
 		user.setEditable(false);
 		this.user = user;
+		loginBean.updateUser(user);
 		
-//		return "manageAccounts?faces-redirect=true";
 		return null;
 	}
 	
-	public String editAccount(UserDTO user){
-		System.out.println("edit account: " + this.user.getUsername());
+	public String accoountEdit(UserDTO user){
 		user.setEditable(true);
 		this.user = user;
 		
-//		return "manageAccounts?faces-redirect=true";
 		return null;
 	}
 	
-	public String editSelf(){
-		System.out.println("edit self");		
-		user = new UserDTO(loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege());
-		return "account?faces-redirect=true";
-	}
 	
 	
 	

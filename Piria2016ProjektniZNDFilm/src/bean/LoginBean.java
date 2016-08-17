@@ -232,6 +232,10 @@ public class LoginBean {
 	}
 	
 	
+	
+	
+	
+	
 	public UserDTO getUser() {
 		return user;
 	}
