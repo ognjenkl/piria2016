@@ -9,57 +9,71 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:dataTable border="1" value="#{login.usersAll}" var="u">
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.username}" />
-				</f:facet>
-				<h:outputText value="#{u.username}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.password}" />
-				</f:facet>
-				<h:outputText value="#{u.password}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.firstName}" />
-				</f:facet>
-				<h:outputText value="#{u.firstName}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.lastName}" />
-				</f:facet>
-				<h:outputText value="#{u.lastName}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.socialNo}" />
-				</f:facet>
-				<h:outputText value="#{u.socialNo}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.email}" />
-				</f:facet>
-				<h:outputText value="#{u.email}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.privilege}" />
-				</f:facet>
-				<h:outputText value="#{u.privilege}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="#{msg.picture}" />
-				</f:facet>
-				<h:outputText value="#{u.picture}"></h:outputText>
-			</h:column>
-			
-		</h:dataTable>
+		<h:form id="manageAccountsForm">
+			<h:dataTable border="1" value="#{login.usersAll}" var="u">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.username}" />
+					</f:facet>
+					<h:outputText value="#{u.username}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.username}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.password}" />
+					</f:facet>
+					<h:outputText value="#{u.password}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.password}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.firstName}" />
+					</f:facet>
+					<h:outputText value="#{u.firstName}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.firstName}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.lastName}" />
+					</f:facet>
+					<h:outputText value="#{u.lastName}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.lastName}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.socialNo}" />
+					</f:facet>
+					<h:outputText value="#{u.socialNo}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.socialNo}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.email}" />
+					</f:facet>
+					<h:outputText value="#{u.email}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.email}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.privilege}" />
+					</f:facet>
+					<h:outputText value="#{u.privilege}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.privilege}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.picture}" />
+					</f:facet>
+					<h:outputText value="#{u.picture}" rendered="#{not u.editable}"></h:outputText>
+					<h:inputText value="#{u.picture}" rendered="#{u.editable}"></h:inputText>
+				</h:column>
+				<h:column>
+					<h:commandLink value="#{msg.edit}" action="#{account.editAccount(u)}" rendered="#{not u.editable}"></h:commandLink>
+					<h:commandLink value="#{msg.save}" action="#{account.accountSave(u)}" rendered="#{u.editable}"></h:commandLink>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -24,9 +24,7 @@ public class AccountBean {
 	 * Used for account editing properties. 
 	 */
 	public AccountBean() {
-		
-		if(user != null)
-			System.out.println(user.toString());
+		System.out.println("constructor");
 	}
 
 	@PostConstruct
@@ -43,24 +41,41 @@ public class AccountBean {
 		else
 			loginBean.updateUserWithoutPasswordAndPrivilege(user);
 		
-		
 		return null;
 	}
 	
+	public String accountSave(UserDTO user){
+		System.out.println("save account: " + this.user.getUsername());
+		user.setEditable(false);
+		this.user = user;
+		
+//		return "manageAccounts?faces-redirect=true";
+		return null;
+	}
+	
+	public String editAccount(UserDTO user){
+		System.out.println("edit account: " + this.user.getUsername());
+		user.setEditable(true);
+		this.user = user;
+		
+//		return "manageAccounts?faces-redirect=true";
+		return null;
+	}
+	
+	public String editSelf(){
+		System.out.println("edit self");		
+		user = new UserDTO(loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege());
+		return "account?faces-redirect=true";
+	}
+	
+	
+	
+	
 	public UserDTO getUser() {
-		if(user != null){
-			System.out.println("get: " + user.toString());
-			System.out.println("get login.user: " + loginBean.getUser().toString());
-		}
 		return user;
 	}
 
 	public void setUser(UserDTO user) {
-		if(user != null){
-			System.out.println("set: " + user.toString());
-			System.out.println("set login.user: " + loginBean.getUser().toString());
-
-		}
 		this.user = user;
 	}
 

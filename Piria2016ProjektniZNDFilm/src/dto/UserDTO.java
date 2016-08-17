@@ -15,6 +15,8 @@ public class UserDTO {
 	String password;
 	int privilege;
 	
+	boolean editable;
+	
 	public UserDTO() {
 		firstName = null;
 		lastName = null;
@@ -24,6 +26,8 @@ public class UserDTO {
 		username = null;
 		password = null;
 		privilege = 10;
+		
+		editable = false;
 	}
 
 	
@@ -106,6 +110,18 @@ public class UserDTO {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+
 
 	@Override
 	public String toString() {
