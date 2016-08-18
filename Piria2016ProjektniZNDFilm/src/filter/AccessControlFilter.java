@@ -67,9 +67,6 @@ public class AccessControlFilter implements Filter{
 			else if(req.getServletPath().startsWith("/user.xhtml") && loginBean.getUser().getPrivilege() > 3){
 				resp.sendRedirect(homeURL);
 			}
-			else if(req.getServletPath().startsWith("/manageUsers.xhtml") && loginBean.getUser().getPrivilege() > 3){
-				resp.sendRedirect(homeURL);
-			}
 			else
 				arg2.doFilter(arg0, arg1); 
 			
