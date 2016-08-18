@@ -14,6 +14,7 @@ public class UserDTO {
 	String username;
 	String password;
 	int privilege;
+	boolean active;
 	
 	boolean editable;
 	
@@ -26,14 +27,14 @@ public class UserDTO {
 		username = null;
 		password = null;
 		privilege = 10;
+		active = false;
 		
 		editable = false;
 	}
 
 	
-	
 	public UserDTO(String firstName, String lastName, String socialNo, String email, String picture, String username,
-			String password, int privilege) {
+			String password, int privilege, boolean active, boolean editable) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -43,6 +44,8 @@ public class UserDTO {
 		this.username = username;
 		this.password = password;
 		this.privilege = privilege;
+		this.active = active;
+		this.editable = editable;
 	}
 
 
@@ -115,17 +118,23 @@ public class UserDTO {
 		return editable;
 	}
 
-
-
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 
 
 	@Override
 	public String toString() {
-		return firstName + " " + lastName + " " + socialNo + " " + email + " " + picture + " " + username + " " + password + " " + privilege;
+		return firstName + " " + lastName + " " + socialNo + " " + email + " " + picture + " " + username + " " + password + " " + privilege + " " + active;
 	}
 
 	

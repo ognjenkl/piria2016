@@ -30,7 +30,7 @@ public class AccountBean {
 	@PostConstruct
 	public void init(){
 		if(loginBean != null){
-			user = new UserDTO(loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege());
+			user = new UserDTO(loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege(), loginBean.getUser().isActive(), loginBean.getUser().isEditable());
 		}
 	}
 	
@@ -58,8 +58,13 @@ public class AccountBean {
 		return null;
 	}
 				  
-	public String accountDelete(UserDTO user){
-		
+	public String accountActivate(UserDTO user){
+		user.setActive(true);
+		return null;
+	}
+
+	public String accountDeactivate(UserDTO user){
+		user.setActive(false);
 		return null;
 	}
 	

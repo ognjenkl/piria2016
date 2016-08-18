@@ -217,6 +217,9 @@ public class LoginBean {
 		}
 	}
 	
+	/*
+	 * Admin accounts update, not for self-account update use.
+	 */
 	public void updateUser(UserDTO user){
 		LoginDAO.updateUser(user);
 		//this.user = user;
