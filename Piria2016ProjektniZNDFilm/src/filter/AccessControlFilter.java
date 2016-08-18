@@ -58,7 +58,7 @@ public class AccessControlFilter implements Filter{
 				resp.setDateHeader("Expires", 0); // Proxies.
 			}			
 			
-			if(req.getServletPath().startsWith("/admin.xhtml") && loginBean.getUser().getPrivilege() > 1){
+			if(req.getServletPath().startsWith("/manageAccounts.xhtml") && loginBean.getUser().getPrivilege() > 1){
 				resp.sendRedirect(homeURL);
 			}
 			else if(req.getServletPath().startsWith("/superuser.xhtml") && loginBean.getUser().getPrivilege() > 2){
@@ -70,8 +70,8 @@ public class AccessControlFilter implements Filter{
 			else if(req.getServletPath().startsWith("/manageUsers.xhtml") && loginBean.getUser().getPrivilege() > 3){
 				resp.sendRedirect(homeURL);
 			}
-			
-			arg2.doFilter(arg0, arg1); 
+			else
+				arg2.doFilter(arg0, arg1); 
 			
 //		}else if (ajaxRequest) {
 //            response.setContentType("text/xml");
