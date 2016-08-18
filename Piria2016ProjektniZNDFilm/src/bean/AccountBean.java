@@ -57,7 +57,11 @@ public class AccountBean {
 		
 		return null;
 	}
-	
+				  
+	public String accountDelete(UserDTO user){
+		
+		return null;
+	}
 	
 	
 	
