@@ -6,6 +6,7 @@ package dto;
  */
 public class UserDTO {
 	
+	int id;
 	String firstName;
 	String lastName;
 	String socialNo;
@@ -19,6 +20,7 @@ public class UserDTO {
 	boolean editable;
 	
 	public UserDTO() {
+		id = -1;
 		firstName = null;
 		lastName = null;
 		socialNo = null;
@@ -33,7 +35,7 @@ public class UserDTO {
 	}
 
 	
-	public UserDTO(String firstName, String lastName, String socialNo, String email, String picture, String username,
+	public UserDTO(int id, String firstName, String lastName, String socialNo, String email, String picture, String username,
 			String password, int privilege, boolean active, boolean editable) {
 		super();
 		this.firstName = firstName;
@@ -130,6 +132,16 @@ public class UserDTO {
 		this.active = active;
 	}
 
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 
 	@Override

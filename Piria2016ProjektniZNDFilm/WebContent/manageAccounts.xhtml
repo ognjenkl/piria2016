@@ -10,7 +10,7 @@
 
 	<ui:define name="content">
 		<h:form id="manageAccountsForm">
-			<h:dataTable border="1" value="#{login.usersAll}" var="u">
+			<h:dataTable border="1" value="#{manageAccounts.usersList}" var="u">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="#{msg.username}" />
@@ -67,13 +67,16 @@
 					<h:inputText value="#{u.picture}" rendered="#{u.editable}"></h:inputText>
 				</h:column>
 				<h:column>
+					<h:commandLink value="#{msg.activate}" action="#{account.accountActivate(u)}" rendered="#{not u.active and u.editable}" disabled="#{not u.editable}"></h:commandLink>
+					<h:commandLink value="#{msg.deactivate}" action="#{account.accountDeactivate(u)}" rendered="#{u.active and u.editable}" disabled="#{not u.editable}"></h:commandLink>
+					<h:outputText value="#{msg.active}" rendered="#{not u.editable and u.active}"></h:outputText>
+					<h:outputText value="#{msg.inactive}" rendered="#{not u.editable and not u.active}"></h:outputText>
+				</h:column>
+				<h:column>
 					<h:commandLink value="#{msg.edit}" action="#{account.accoountEdit(u)}" rendered="#{not u.editable}"></h:commandLink>
 					<h:commandLink value="#{msg.save}" action="#{account.accountSave(u)}" rendered="#{u.editable}"></h:commandLink>
 				</h:column>
-				<h:column>
-					<h:commandLink value="#{msg.activate}" action="#{account.accountActivate(u)}" rendered="#{not u.active}" disabled="#{!u.editable}"></h:commandLink>
-					<h:commandLink value="#{msg.deactivate}" action="#{account.accountDeactivate(u)}" rendered="#{u.active}" disabled="#{!u.editable}"></h:commandLink>
-				</h:column>
+				
 				
 			</h:dataTable>
 		</h:form>

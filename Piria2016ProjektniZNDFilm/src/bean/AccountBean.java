@@ -30,7 +30,7 @@ public class AccountBean {
 	@PostConstruct
 	public void init(){
 		if(loginBean != null){
-			user = new UserDTO(loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege(), loginBean.getUser().isActive(), loginBean.getUser().isEditable());
+			user = new UserDTO(loginBean.getUser().getId(), loginBean.getUser().getFirstName(), loginBean.getUser().getLastName(), loginBean.getUser().getSocialNo(), loginBean.getUser().getEmail(), loginBean.getUser().getPicture(), loginBean.getUser().getUsername(), loginBean.getUser().getPassword(), loginBean.getUser().getPrivilege(), loginBean.getUser().isActive(), loginBean.getUser().isEditable());
 		}
 	}
 	
