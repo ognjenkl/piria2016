@@ -76,7 +76,7 @@ public class LoginDAO {
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ppst = null;
-		String sql = "INSERT INTO users (username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO users (username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(sql);
