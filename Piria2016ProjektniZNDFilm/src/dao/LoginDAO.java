@@ -76,7 +76,7 @@ public class LoginDAO {
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ppst = null;
-		String sql = "INSERT INTO users (username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(sql);
@@ -91,7 +91,7 @@ public class LoginDAO {
 			ppst.setBoolean(9, userRegister.isActive());
 			ppst.setBoolean(10, userRegister.isEditable());
 
-			if(ppst.executeUpdate(sql) > 0);
+			if(ppst.executeUpdate() > 0);
 				retVal = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
