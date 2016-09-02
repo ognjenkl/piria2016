@@ -146,7 +146,7 @@ public class UserDTO {
 
 	@Override
 	public String toString() {
-		return firstName + " " + lastName + " " + socialNo + " " + email + " " + picture + " " + username + " " + password + " " + privilege + " " + active;
+		return firstName + " " + lastName + " " + socialNo + " " + email + " " + picture + " " + username + " " + password + " " + privilege + " " + active + " " + editable;
 	}
 
 	
