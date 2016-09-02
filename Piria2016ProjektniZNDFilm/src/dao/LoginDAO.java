@@ -62,8 +62,10 @@ public class LoginDAO {
 	public static UserDTO login(String username, String password){
 		//UserDTO user = usersMap.get(username);
 		UserDTO user = getUser(username);
-		if(user != null && user.getPassword().equals(password) && user.getUsername().equals(username) && user.isActive())
+		if(user != null && user.getPassword().equals(password) && user.getUsername().equals(username) && user.isActive()){
+			System.out.println("login user:  " + user.toString());
 			return user;
+		}
 		else
 			return null;
 
@@ -97,6 +99,15 @@ public class LoginDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
+		} finally {
+			if (ppst != null)
+				try {
+					ppst.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
 		
 		return retVal;
@@ -119,10 +130,11 @@ public class LoginDAO {
 				retUser = new UserDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("social_no"),
 									rs.getString("email"), rs.getString("picture"), rs.getString("username"), rs.getString("password"),
 									rs.getInt("privilege"), rs.getBoolean("active"), rs.getBoolean("editable"));
-
+			System.out.println("get user:  " + retUser.toString());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} finally {
 			if (ppst != null)
 				try {
@@ -181,59 +193,87 @@ public class LoginDAO {
 //		return list;
 	}
 	
-//	/**
-//	 * Universal update user method. If some argument is not to be set, should be set to <code>null</code>. 
-//	 * Privilege argument should be cast to String. 
-//	 * 
-//	 * @param firstName
-//	 * @param lastName
-//	 * @param socialNo
-//	 * @param email
-//	 * @param picture
-//	 * @param newUsername
-//	 * @param password
-//	 * @param privilege
-//	 * @return
-//	 */
-//	public static boolean updateUser(String username, String firstName, String lastName, String socialNo, String email, String picture, String newUsername,
-//			String password, String privilege) {
-//		
-//		if(username != null && !username.equals("")){
-//			UserDTO userToUpdate = usersMap.get(username);
-//		
-//			if(firstName != null)
-//				userToUpdate.setFirstName(firstName);
-//			if(lastName != null)
-//				userToUpdate.setLastName(lastName);
-//			if(socialNo != null)
-//				userToUpdate.setSocialNo(socialNo);
-//			if(email != null)
-//				userToUpdate.setEmail(email);
-//			if(picture != null)
-//				userToUpdate.setPicture(picture);
-//			if(newUsername != null)
-//				userToUpdate.setUsername(newUsername);
-//			if(password != null)
-//				userToUpdate.setPassword(password);
-//			if(privilege != null)
-//				userToUpdate.setPrivilege(Integer.valueOf(privilege));
-//		
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-//	
-//	public static boolean updateUser(UserDTO user){
-//		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), user.getUsername(), user.getPassword(), new Integer(user.getPrivilege()).toString());	
-//	}
-//	
-//	public static boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
-//		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), null, null, null);
-//	}
-//	
-//	public static boolean updateUserWithoutPrivilege(UserDTO user){
-//		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), user.getPicture(), null, user.getPassword(), null);
-//	}
+	/**
+	 * Universal update user method. If some argument is not to be set, should be set to <code>null</code>. 
+	 * Privilege argument should be cast to String. 
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param socialNo
+	 * @param email
+	 * @param picture
+	 * @param newUsername
+	 * @param password
+	 * @param privilege
+	 * @return
+	 */
+	public static boolean updateUser(String username, String firstName, String lastName, String socialNo, String email, 
+			String newUsername, String password, String privilege, String picture, String active, String editable) {
+		
+
+		boolean retVal = false;
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		String sql = "UPDATE users SET username=?, password=?, first_name=?, last_name=?, social_no=?, "
+				+ "email=?, privilege=?, picture=?, active=?, editable=? WHERE username=?;";
+
+		if(username != null && !username.equals("")){
+			try{
+				conn = ConnectionPool.getConnectionPool().checkOut();
+				ppst = conn.prepareStatement(sql);
+				ppst.setString(1, newUsername != null ? newUsername : null);
+				ppst.setString(2, password != null ? password : null);
+				ppst.setString(3, firstName != null ? firstName : null);
+				ppst.setString(4, lastName != null ? lastName : null);
+				ppst.setString(5, socialNo != null ? socialNo : null);
+				ppst.setString(6, email != null ? email : null);
+				ppst.setInt(7, privilege != null ? Integer.valueOf(privilege) : null);
+				ppst.setString(8, picture != null ? picture : null);
+				ppst.setBoolean(9, active != null ? Boolean.valueOf(active) : null);
+				ppst.setBoolean(10, editable != null ? Boolean.valueOf(editable) : null);
+				
+				ppst.setString(11, username);
+				
+				if(ppst.executeUpdate() > 0);
+					retVal = true;
+					
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			} finally {
+				if (ppst != null)
+					try {
+						ppst.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				ConnectionPool.getConnectionPool().checkIn(conn);
+			}
+			
+		} else {
+			retVal = false;
+		}
+	
+		return retVal;
+	}
+	
+	public static boolean updateUser(UserDTO user){
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), 
+			user.getEmail(), user.getUsername(), user.getPassword(), new Integer(user.getPrivilege()).toString(), 
+			user.getPicture(), new Boolean(user.isActive()).toString(), new Boolean(user.isEditable()).toString());	
+	}
+	
+	public static boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
+				null, null, null, user.getPicture(), null, null);
+	}
+	
+	public static boolean updateUserWithoutPrivilege(UserDTO user){
+		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
+				null, user.getPassword(), null, user.getPicture(), null, null);
+	}
+	
 	
 }
