@@ -7,41 +7,7 @@
 	
 	
 	<ui:define name="content">
-		<h:panelGrid columns="1" width="600">
-			#{msg.movieTitle}:
-			<h:outputText value="#{login.movie.movieSelected.title}"></h:outputText>
-			
-			#{msg.movieReleaseDate}:
-			<h:outputText value="#{login.movie.movieSelected.releaseDate.time}">
-				<f:convertDateTime type="date" dateStyle="long" />
-			</h:outputText>
-			
-			#{msg.movieActors}:
-			<ui:repeat value="#{login.movie.movieSelected.actors}" var="actor">
-				#{actor} &#160;
-			</ui:repeat>
-	
-			#{msg.movieStroyline}:
-			<h:outputText value="#{login.movie.movieSelected.storyline}"></h:outputText>
-	
-			#{msg.movieGenres}:
-			<ui:repeat var="genre" value="#{login.movie.movieSelected.genres}">
-				#{genre} &#160;
-			</ui:repeat>
-				
-			#{msg.movieTrailer}:
-			<h:outputLink value="#{login.movie.movieSelected.trailerLocation}">Trailer</h:outputLink>
-	
-			#{msg.movieRuntime}:
-			<h:outputText value="#{login.movie.movieSelected.runtimeMinutes}"></h:outputText>
-	
-			#{msg.movieRate}:
-			<h:outputText value="#{login.movie.movieSelected.rate}"></h:outputText>
-	
-			#{msg.movieMovie}:
-			<h:outputText value="#{login.movie.movieSelected.movieLocation}"></h:outputText>
-			
-		</h:panelGrid>
+		<ui:include src="/WEB-INF/pages/contentMovie.xhtml"></ui:include>
 	</ui:define>
 
 </ui:composition>
