@@ -19,23 +19,7 @@
 	
 	<div id="top">
 	    <ui:insert name="top">
-	    	<h:form>
-	    		<div class="links">
-	    			<h:link outcome="#{msg.pageGuest}" value="#{msg.pageGuestLinkName}" />
-	    			<h:link outcome="#{msg.pageAccount}" value="#{msg.pageAccountLinkName}" rendered="#{login.user.privilege lt 4}" />
-	    			<h:link outcome="#{msg.pageManageAccounts}" value="#{msg.pageManageAccountsLinkName}" rendered="#{login.user.privilege lt 2}" />
-	    			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}" />
-	    			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}" />
-	    			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}" />
-		    		<h:commandLink value="#{msg.logout}" action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}" />
-		    		<h:selectOneMenu id="langMenu" value="#{login.language}" onchange="submit()">
-		    			<f:selectItems value="#{login.availableItems.entrySet()}" var="entry"
-		    							itemValue="#{entry.key}" itemLabel="#{entry.value}" >
-		    			</f:selectItems>
-		    			
-		    		</h:selectOneMenu>
-	    		</div>
-			</h:form>
+	    	<ui:include src="/WEB-INF/pages/top.xhtml"></ui:include>
 	    </ui:insert>
 	</div>
 	

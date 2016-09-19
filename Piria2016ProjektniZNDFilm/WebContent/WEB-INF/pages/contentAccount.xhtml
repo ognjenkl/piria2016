@@ -1,0 +1,56 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<h:form id="formAccount">
+		<h:outputText  value="#{msg.username}: #{account.user.username}" />
+		<h:panelGrid columns="3">	
+			<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
+	        <h:inputText id="firstName" value="#{account.user.firstName}"/>
+	        <h:message for="lastName"></h:message>
+			
+			<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
+	        <h:inputText id="lastName" value="#{account.user.lastName}"/>
+	        <h:message for="firstName"></h:message>
+			
+			<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
+	        <h:inputText id="socialNo" value="#{account.user.socialNo}"/>
+	        <h:message for="socialNo"></h:message>
+			
+			<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
+	        <h:inputText id="email" value="#{account.user.email}"/>
+	        <h:message for="email"></h:message>
+			
+			<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
+	        <h:inputText id="picture" value="#{account.user.picture}"/>
+	        <h:message for="picture"></h:message>
+	        
+	        <h:outputLabel for="privilege"  value="#{msg.privilege}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
+	        <h:inputText id="privilege" value="#{account.user.privilege}" rendered="#{login.user.privilege lt 2}" />
+	        <h:message for="privilege" rendered="#{login.user.privilege lt 2}" ></h:message>
+	        
+	        <h:outputLabel for="username"  value="#{msg.username}:" rendered="#{login.user.privilege lt 2}" ></h:outputLabel>
+	        <h:inputText id="username" value="#{account.user.username}" rendered="#{login.user.privilege lt 2}" />
+	        <h:message for="username" rendered="#{login.user.privilege lt 2}" ></h:message>
+			
+			<h:outputLabel for="passwordAccount" value="#{msg.password}:"></h:outputLabel>
+			<h:inputSecret id="passwordAccount" value="#{account.user.password}" >
+				<f:attribute name="confirmPasswordAttribute" value="#{confirmPasswordBind.submittedValue}" />
+	        	<f:validator validatorId="passwordConfirmValidator" />
+	        </h:inputSecret>
+			<h:message for="passwordAccount" style="color: red"></h:message>
+			
+			<h:outputLabel for="passwordAccountConfirm" value="#{msg.passwordConfirm}:" />
+			<h:inputSecret id="passwordAccountConfirm" binding="#{confirmPasswordBind}" />
+			<h:message for="passwordAccountConfirm" style="color: red"/>
+			
+			<h:commandButton value="#{msg.save}" action="#{account.accountSave}" />
+			<div />
+			<div />
+			<h:message for="formAccount" ></h:message>
+		</h:panelGrid>
+	</h:form>	
+
+</ui:composition>
