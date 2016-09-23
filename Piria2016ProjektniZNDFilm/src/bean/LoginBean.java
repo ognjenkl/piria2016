@@ -52,6 +52,10 @@ public class LoginBean {
 	Map<String, String> availableItems;
 	String language;
 	
+	//Localization messages
+	@ManagedProperty("#{msg}")
+	ResourceBundle msgResourceBundle;
+	
 	//config properties
 	Properties prop;
 	
@@ -59,9 +63,6 @@ public class LoginBean {
 	@ManagedProperty(value="#{movie}")
 	MovieBean movie;
 	
-	//Localization messages
-	@ManagedProperty("#{msg}")
-	ResourceBundle msgResourceBundle;
 	
 	
 	//admin

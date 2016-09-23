@@ -52,11 +52,11 @@
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 			<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
 	        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
-	        <h:message for="lastName"></h:message>
+	        <h:message for="firstName"></h:message>
 			
 			<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
 	        <h:inputText id="lastName" value="#{login.userRegister.lastName}"/>
-	        <h:message for="firstName"></h:message>
+	        <h:message for="lastName"></h:message>
 			
 			<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
 	        <h:inputText id="socialNo" value="#{login.userRegister.socialNo}"/>

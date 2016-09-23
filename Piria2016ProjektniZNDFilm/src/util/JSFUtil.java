@@ -6,19 +6,8 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-/**
- * @author ognjen
- *
- */
 public class JSFUtil {
 
-	/**
-	 * 
-	 */
-	public JSFUtil() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	/**
 	 * Creates view message.
 	 * 
