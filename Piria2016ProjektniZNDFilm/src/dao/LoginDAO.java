@@ -227,7 +227,7 @@ public class LoginDAO {
 				ppst.setString(4, lastName != null ? lastName : null);
 				ppst.setString(5, socialNo != null ? socialNo : null);
 				ppst.setString(6, email != null ? email : null);
-				ppst.setInt(7, privilege != null ? Integer.valueOf(privilege) : null);
+				ppst.setInt(7, privilege != null ? Integer.valueOf(privilege) : 30);
 				ppst.setString(8, picture != null ? picture : null);
 				ppst.setBoolean(9, active != null ? Boolean.valueOf(active) : null);
 				ppst.setBoolean(10, editable != null ? Boolean.valueOf(editable) : null);
@@ -265,15 +265,15 @@ public class LoginDAO {
 			user.getPicture(), new Boolean(user.isActive()).toString(), new Boolean(user.isEditable()).toString());	
 	}
 	
-	public static boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
-		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
-				null, null, null, user.getPicture(), null, null);
-	}
-	
-	public static boolean updateUserWithoutPrivilege(UserDTO user){
-		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
-				null, user.getPassword(), null, user.getPicture(), null, null);
-	}
+//	public static boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
+//		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
+//				null, null, null, user.getPicture(), null, null);
+//	}
+//	
+//	public static boolean updateUserWithoutPrivilege(UserDTO user){
+//		return updateUser(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
+//				null, user.getPassword(), null, user.getPicture(), null, null);
+//	}
 	
 	
 }
