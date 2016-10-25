@@ -227,12 +227,14 @@ public class LoginBean {
 	}
 	
 	public void updateUserWithoutPasswordAndPrivilege(UserDTO user){
-		LoginDAO.updateUserWithoutPasswordAndPrivilege(user);
+		//LoginDAO.updateUserWithoutPasswordAndPrivilege(user);
+		LoginDAO.updateUser(user);
 		this.user = LoginDAO.getUser(user.getUsername());
 	}
 	
 	public void updateUserWithoutPrivilege(UserDTO user){
-		LoginDAO.updateUserWithoutPrivilege(user);
+		//LoginDAO.updateUserWithoutPrivilege(user);
+		LoginDAO.updateUser(user);
 		this.user = LoginDAO.getUser(user.getUsername());
 	}
 	
