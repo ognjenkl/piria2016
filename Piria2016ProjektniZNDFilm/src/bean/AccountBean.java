@@ -1,11 +1,14 @@
 package bean;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import dto.UserDTO;
+import util.JSFUtil;
 
 /**
  * @author ognjen
@@ -36,10 +39,18 @@ public class AccountBean {
 	
 	public String accountSave(){
 		if(!user.getPassword().equals(""))
-			loginBean.updateUserWithoutPrivilege(user);
-		else
-			loginBean.updateUserWithoutPasswordAndPrivilege(user);
-		
+			if (loginBean.updateUserWithoutPrivilege(user))
+				FacesContext.getCurrentInstance().addMessage( "formAccount", new FacesMessage(JSFUtil.getLangMessage("saveAccountSuccessfulMessage")));
+			else
+				FacesContext.getCurrentInstance().addMessage( "formAccount", new FacesMessage(JSFUtil.getLangMessage("saveAccountErrorMessage")));
+			
+		else 
+			if (loginBean.updateUserWithoutPasswordAndPrivilege(user))
+				FacesContext.getCurrentInstance().addMessage( "formAccount", new FacesMessage(JSFUtil.getLangMessage("saveAccountSuccessfulMessage")));
+			else
+				FacesContext.getCurrentInstance().addMessage( "formAccount", new FacesMessage(JSFUtil.getLangMessage("saveAccountErrorMessage")));
+			
+
 		return null;
 	}
 	
