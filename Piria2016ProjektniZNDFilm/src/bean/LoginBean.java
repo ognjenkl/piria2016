@@ -221,22 +221,28 @@ public class LoginBean {
 	/*
 	 * Admin accounts update, not for self-account update use.
 	 */
-	public void updateUser(UserDTO user){
-		LoginDAO.updateUser(user);
+	public boolean updateUser(UserDTO user){
+		return LoginDAO.updateUser(user);
 		//this.user = user;
 	}
 	
-	public void updateUserWithoutPasswordAndPrivilege(UserDTO user){
-		//LoginDAO.updateUserWithoutPasswordAndPrivilege(user);
-		LoginDAO.updateUser(user);
-		this.user = LoginDAO.getUser(user.getUsername());
+	public boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
+		if(LoginDAO.updateUserWithoutPasswordAndPrivilege(user)){
+			this.user = LoginDAO.getUser(user.getUsername());
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public void updateUserWithoutPrivilege(UserDTO user){
-		//LoginDAO.updateUserWithoutPrivilege(user);
-		LoginDAO.updateUser(user);
-		this.user = LoginDAO.getUser(user.getUsername());
-	}
+	public boolean updateUserWithoutPrivilege(UserDTO user){
+		if(LoginDAO.updateUserWithoutPrivilege(user)){
+			this.user = LoginDAO.getUser(user.getUsername());
+			return true;
+		}
+		
+		return false;
+	}	
 	
 	
 	
