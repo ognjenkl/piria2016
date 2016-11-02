@@ -126,11 +126,12 @@ public class LoginDAO {
 			ppst.setString(1, username);
 			rs = ppst.executeQuery();
 		
-			if(rs.next())
+			if(rs.next()){
 				retUser = new UserDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("social_no"),
 									rs.getString("email"), rs.getString("picture"), rs.getString("username"), rs.getString("password"),
 									rs.getInt("privilege"), rs.getBoolean("active"), rs.getBoolean("editable"));
-			System.out.println("get user:  " + retUser.toString());
+				System.out.println("get user:  " + retUser.toString());
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
