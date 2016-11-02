@@ -50,8 +50,8 @@ public class AccessControlFilter implements Filter{
 		boolean loggedIn = loginBean != null && loginBean.isLoggedIn();
 		boolean guestRequest = req.getRequestURI().startsWith(homeURL);
 		boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
-		
-		if(loggedIn || guestRequest || resourceRequest){
+		//to do temp added movie
+		if(loggedIn || guestRequest || resourceRequest || req.getRequestURI().startsWith(req.getContextPath() + "/addMovie.xhtml")){
 			if(!resourceRequest){ // Prevent browser from caching restricted resources.
 				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -66,15 +66,19 @@ public class AccessControlFilter implements Filter{
 			}
 			else if(req.getServletPath().startsWith("/user.xhtml") && loginBean.getUser().getPrivilege() > 3){
 				resp.sendRedirect(homeURL);
-			}
-			else
+			}//to do add add movie page
+			else{
+				System.out.println("2");
+
 				arg2.doFilter(arg0, arg1); 
-			
+			}
 //		}else if (ajaxRequest) {
 //            response.setContentType("text/xml");
 //            response.setCharacterEncoding("UTF-8");
 //            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }else{
+			System.out.println("3");
+
 			//prereacunava naknadno putanju za resp.sendRedirect("guest.xhtml");
 			resp.sendRedirect(homeURL);
 		}

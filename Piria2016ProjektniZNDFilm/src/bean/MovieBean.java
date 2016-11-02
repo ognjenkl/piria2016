@@ -24,6 +24,8 @@ public class MovieBean implements Serializable{
 	List<MovieDTO> foundMoviesList;
 	//film koji ce biti prikazan na stranici movie.xhtml zasebno
 	MovieDTO movieSelected;
+	//movie to be inserted ie. added
+	MovieDTO movieInsert;
 	
 	private static final long serialVersionUID = -6851375545924053833L;
 
@@ -81,6 +83,14 @@ public class MovieBean implements Serializable{
 
 	public void setMovieSelected(MovieDTO movieSelected) {
 		this.movieSelected = movieSelected;
+	}
+
+	public MovieDTO getMovieInsert() {
+		return movieInsert;
+	}
+
+	public void setMovieInsert(MovieDTO movieInsert) {
+		this.movieInsert = movieInsert;
 	}
 
 	
