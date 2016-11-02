@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
   <display-name>Piria2016ProjektniZNDFilm</display-name>
+  <welcome-file-list>
+    <welcome-file>guest.xhtml</welcome-file>
+  </welcome-file-list>
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -29,4 +32,7 @@
   <session-config>
   	<session-timeout>15</session-timeout>
   </session-config>
+  <error-page>
+  	<location>/error.xhtml</location>
+  </error-page>
 </web-app>
