@@ -1,60 +1,236 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
---
--- Host: localhost    Database: zndfilm
--- ------------------------------------------------------
--- Server version	5.7.13-log
+-- MySQL Workbench Forward Engineering
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
---
--- Table structure for table `users`
---
+-- -----------------------------------------------------
+-- Schema zndfilm
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `zndfilm` ;
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `social_no` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `privilege` int(11) DEFAULT NULL,
-  `picture` varchar(256) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT '0',
-  `editable` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='		';
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- -----------------------------------------------------
+-- Schema zndfilm
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `zndfilm` DEFAULT CHARACTER SET utf8 ;
+USE `zndfilm` ;
 
---
--- Dumping data for table `users`
---
+-- -----------------------------------------------------
+-- Table `zndfilm`.`actors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`actors` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (3,'a','a','Administrator','Admin','1111','ognjenkl@gmail.com',1,NULL,1,0),(4,'s','s','Superuser','Super','2222','ognjenkl@gmail.com',2,NULL,1,0),(5,'u','u','User','User','333','ognjenkl@gmail.com',3,NULL,1,0),(6,'t','t','tSuperuser','tSuper','3333','ognjenkl@gmail.com',3,NULL,1,0);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- -----------------------------------------------------
+-- Table `zndfilm`.`events`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`events` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `event_announcement` DATETIME NOT NULL,
+  `event_maintained` DATETIME NOT NULL,
+  `name` VARCHAR(256) NOT NULL,
+  `location` VARCHAR(128) NOT NULL,
+  `active` INT(11) NULL DEFAULT '0',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
--- Dump completed on 2016-08-23  9:05:55
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`gallery_pictures`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`gallery_pictures` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256) NULL DEFAULT NULL,
+  `location` VARCHAR(256) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`genres`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`genres` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`movies`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`movies` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NULL DEFAULT NULL,
+  `release_date` DATETIME NULL DEFAULT NULL,
+  `storyline` VARCHAR(10000) NULL DEFAULT NULL,
+  `genres` VARCHAR(45) NULL DEFAULT NULL,
+  `trailer_location` VARCHAR(2048) NULL DEFAULT NULL,
+  `runtime_minutes` INT(11) NULL DEFAULT NULL,
+  `rate` DOUBLE NULL DEFAULT NULL,
+  `movie_location` VARCHAR(2048) NULL DEFAULT NULL,
+  `moviescol` VARCHAR(45) NULL DEFAULT NULL,
+  `added_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` INT(11) NULL DEFAULT '1',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NULL DEFAULT NULL,
+  `first_name` VARCHAR(45) NULL DEFAULT NULL,
+  `last_name` VARCHAR(45) NULL DEFAULT NULL,
+  `social_no` VARCHAR(45) NULL DEFAULT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `privilege` INT(11) NULL DEFAULT NULL,
+  `picture` VARCHAR(256) NULL DEFAULT NULL,
+  `active` TINYINT(1) NULL DEFAULT '0',
+  `editable` TINYINT(1) NULL DEFAULT '0',
+  `registered` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 16
+DEFAULT CHARACTER SET = utf8
+COMMENT = '		';
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`users_has_movies`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`users_has_movies` (
+  `users_id` INT(11) NOT NULL,
+  `movies_id` INT(11) NOT NULL,
+  `favorite` INT(11) NULL DEFAULT NULL,
+  `rate` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`users_id`, `movies_id`),
+  INDEX `fk_users_has_movies_users_idx` (`users_id` ASC),
+  INDEX `fk_users_has_movies_movies1_idx` (`movies_id` ASC),
+  CONSTRAINT `fk_users_has_movies_movies1`
+    FOREIGN KEY (`movies_id`)
+    REFERENCES `zndfilm`.`movies` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_movies_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `zndfilm`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`users_has_movies_comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`users_has_movies_comments` (
+  `comment_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `movies_id` INT(11) NOT NULL,
+  `comment` VARCHAR(4096) NULL DEFAULT NULL,
+  `coomment_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` INT(11) NULL DEFAULT '1',
+  PRIMARY KEY (`comment_id`, `users_id`, `movies_id`),
+  INDEX `fk_users_has_movies1_users2_idx` (`users_id` ASC),
+  INDEX `fk_users_has_movies1_movies2_idx` (`movies_id` ASC),
+  CONSTRAINT `fk_users_has_movies1_movies2`
+    FOREIGN KEY (`movies_id`)
+    REFERENCES `zndfilm`.`movies` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_movies1_users2`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `zndfilm`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`users_has_movies_lists`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`users_has_movies_lists` (
+  `list_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `movies_id` INT(11) NOT NULL,
+  `list_name` VARCHAR(128) NULL DEFAULT NULL,
+  PRIMARY KEY (`list_id`, `users_id`, `movies_id`),
+  INDEX `fk_users_has_movies1_users1_idx` (`users_id` ASC),
+  INDEX `fk_users_has_movies1_movies1_idx` (`movies_id` ASC),
+  CONSTRAINT `fk_users_has_movies1_movies1`
+    FOREIGN KEY (`movies_id`)
+    REFERENCES `zndfilm`.`movies` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_movies1_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `zndfilm`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`movies_has_genres`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`movies_has_genres` (
+  `movies_id` INT(11) NOT NULL,
+  `genres_id` INT(11) NOT NULL,
+  PRIMARY KEY (`movies_id`, `genres_id`),
+  INDEX `fk_movies_has_genres_genres1_idx` (`genres_id` ASC),
+  INDEX `fk_movies_has_genres_movies1_idx` (`movies_id` ASC),
+  CONSTRAINT `fk_movies_has_genres_movies1`
+    FOREIGN KEY (`movies_id`)
+    REFERENCES `zndfilm`.`movies` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_movies_has_genres_genres1`
+    FOREIGN KEY (`genres_id`)
+    REFERENCES `zndfilm`.`genres` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `zndfilm`.`movies_has_actors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zndfilm`.`movies_has_actors` (
+  `movies_id` INT(11) NOT NULL,
+  `actors_id` INT(11) NOT NULL,
+  PRIMARY KEY (`movies_id`, `actors_id`),
+  INDEX `fk_movies_has_actors_actors1_idx` (`actors_id` ASC),
+  INDEX `fk_movies_has_actors_movies1_idx` (`movies_id` ASC),
+  CONSTRAINT `fk_movies_has_actors_movies1`
+    FOREIGN KEY (`movies_id`)
+    REFERENCES `zndfilm`.`movies` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_movies_has_actors_actors1`
+    FOREIGN KEY (`actors_id`)
+    REFERENCES `zndfilm`.`actors` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
