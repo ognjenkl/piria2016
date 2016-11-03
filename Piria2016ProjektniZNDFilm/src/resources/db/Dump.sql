@@ -28,7 +28,7 @@ CREATE TABLE `actors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `actors` (
 
 LOCK TABLES `actors` WRITE;
 /*!40000 ALTER TABLE `actors` DISABLE KEYS */;
+INSERT INTO `actors` VALUES (1,'Vin Diesel'),(2,'Paul Walker'),(3,'Michelle Rodriguez'),(4,'Jordana Brewster'),(5,'Rick Yune'),(6,'Chad Lindberg'),(7,'Johnny Strong'),(8,'Ted Levine'),(9,'Matt Schulze'),(10,'Keanu Reeves'),(11,'Laurence Fishburne'),(12,'Carrie-Anne Moss'),(13,'Hugo Weaving'),(14,'Joe Pantoliano');
 /*!40000 ALTER TABLE `actors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +132,6 @@ CREATE TABLE `movies` (
   `runtime_minutes` int(11) DEFAULT NULL,
   `rate` double DEFAULT NULL,
   `movie_location` varchar(2048) DEFAULT NULL,
-  `moviescol` varchar(45) DEFAULT NULL,
   `added_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `active` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -222,7 +222,7 @@ CREATE TABLE `users` (
   `editable` tinyint(1) DEFAULT '0',
   `registered` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='		';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='		';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +231,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (16,'a','a','a','a','a','a',1,'a',1,0,'2016-11-02 10:32:05'),(17,'s','s','s','s','s','s',2,'s',1,0,'2016-11-02 10:32:15'),(18,'u','u','u','u','u','u',3,'u',1,0,'2016-11-02 10:32:24'),(19,'e','e','e','e','e','e',3,'e',1,0,'2016-11-02 10:32:32');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +275,7 @@ CREATE TABLE `users_has_movies_comments` (
   `users_id` int(11) NOT NULL,
   `movies_id` int(11) NOT NULL,
   `comment` varchar(4096) DEFAULT NULL,
-  `comment_date` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `coomment_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `active` int(11) DEFAULT '1',
   PRIMARY KEY (`comment_id`,`users_id`,`movies_id`),
   KEY `fk_users_has_movies1_users2_idx` (`users_id`),
@@ -333,4 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-02 15:46:23
+-- Dump completed on 2016-11-03 15:52:03
