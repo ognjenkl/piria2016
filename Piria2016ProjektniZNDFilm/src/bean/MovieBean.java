@@ -59,8 +59,12 @@ public class MovieBean implements Serializable{
 		return "movie.xhtml?faces-redirect=true";
 	}
 	
-	
+	public void addMovie(){
+		MovieDAO.insertMovie(movieInsert);
+		movieInsert = null;
+	}
 
+	
 	public String getKeyWord() {
 		return keyWord;
 	}

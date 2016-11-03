@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.Calendar;
+
 /**
  * @author ognjen
  *
@@ -15,9 +17,11 @@ public class UserDTO {
 	String username;
 	String password;
 	int privilege;
+	Calendar registered;
 	boolean active;
 	
 	boolean editable;
+	
 	
 	public UserDTO() {
 		id = -1;
@@ -30,6 +34,7 @@ public class UserDTO {
 		password = null;
 		privilege = 10;
 		active = false;
+		registered = null;
 		
 		editable = false;
 	}
@@ -49,6 +54,10 @@ public class UserDTO {
 		this.active = active;
 		this.editable = editable;
 	}
+
+	
+
+
 
 
 
@@ -132,6 +141,16 @@ public class UserDTO {
 		this.active = active;
 	}
 
+
+
+	public Calendar getRegistered() {
+		return registered;
+	}
+
+
+	public void setRegistered(Calendar registered) {
+		this.registered = registered;
+	}
 
 
 	public int getId() {
