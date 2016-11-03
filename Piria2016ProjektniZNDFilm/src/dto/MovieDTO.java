@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class MovieDTO {
 
+	int id;
 	String title;
 	Calendar releaseDate;
 	List<String> actors;
@@ -19,7 +20,8 @@ public class MovieDTO {
 	int runtimeMinutes;
 	int rate;
 	String movieLocation;
-	
+	Calendar addedDate;
+	boolean active;
 	
 	
 	public MovieDTO(String title, Calendar releaseDate, List<String> actors, String storyline,
@@ -35,8 +37,52 @@ public class MovieDTO {
 		this.movieLocation = movieLocation;
 			
 	}
+	
+	
 
 	
+	public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+
+	public Calendar getAddedDate() {
+		return addedDate;
+	}
+
+
+
+
+	public void setAddedDate(Calendar addedDate) {
+		this.addedDate = addedDate;
+	}
+
+
+
+
+	public boolean isActive() {
+		return active;
+	}
+
+
+
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+
+
+
 	public MovieDTO(){
 		
 	}

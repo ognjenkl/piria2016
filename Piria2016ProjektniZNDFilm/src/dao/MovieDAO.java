@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -15,6 +17,8 @@ public class MovieDAO {
 
 	static List<MovieDTO> list = null;
 	
+	static final String SQL_INSERT = "INSERT INTO movies (name) VALUES (?)";
+
 	public static List<MovieDTO> search(String keyWorkd){
 		
 		if(list == null){
@@ -73,4 +77,27 @@ public class MovieDAO {
 		return null;
 	}
 
+	public static boolean insertMovie(MovieDTO movie){
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		boolean retVal = false;
+		
+		try{
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_INSERT);
+			ppst.setString(1, movie.getTitle());
+			
+			if (ppst.executeUpdate() > 0)
+				retVal = true;
+		
+			ppst.close();
+			return retVal;
+		} catch (Exception e){
+			//to do log
+			return retVal;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	}
+	
 }

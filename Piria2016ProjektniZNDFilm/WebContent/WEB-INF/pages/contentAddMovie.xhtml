@@ -5,7 +5,15 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 	<h:form id="addMovieForm">
-		Content
+		<h:panelGrid columns="3">
+			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:"></h:outputLabel>
+	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
+	        <h:message for="movieTitle"></h:message>
+			
+						
+							
+			<h:commandButton value="#{msg.add}" action="#{movie.addMovie}"></h:commandButton>
+	    </h:panelGrid>
 	</h:form>
 
 </ui:composition>

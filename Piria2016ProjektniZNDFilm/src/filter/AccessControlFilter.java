@@ -68,7 +68,7 @@ public class AccessControlFilter implements Filter{
 				resp.sendRedirect(homeURL);
 			}//to do add add movie page
 			else{
-				System.out.println("2");
+				//System.out.println("2");
 
 				arg2.doFilter(arg0, arg1); 
 			}
@@ -77,7 +77,7 @@ public class AccessControlFilter implements Filter{
 //            response.setCharacterEncoding("UTF-8");
 //            response.getWriter().printf(AJAX_REDIRECT_XML, loginURL); // So, return special XML response instructing JSF ajax to send a redirect.
         }else{
-			System.out.println("3");
+			//System.out.println("3");
 
 			//prereacunava naknadno putanju za resp.sendRedirect("guest.xhtml");
 			resp.sendRedirect(homeURL);
