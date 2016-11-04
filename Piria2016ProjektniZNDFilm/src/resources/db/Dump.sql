@@ -276,7 +276,7 @@ CREATE TABLE `users_has_movies_comments` (
   `users_id` int(11) NOT NULL,
   `movies_id` int(11) NOT NULL,
   `comment` varchar(4096) DEFAULT NULL,
-  `coomment_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `comment_date` timestamp DEFAULT CURRENT_TIMESTAMP,
   `active` int(11) DEFAULT '1',
   PRIMARY KEY (`comment_id`,`users_id`,`movies_id`),
   KEY `fk_users_has_movies1_users2_idx` (`users_id`),
