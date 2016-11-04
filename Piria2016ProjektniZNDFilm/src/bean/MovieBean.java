@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import dao.MovieDAO;
+import dto.ActorDTO;
 import dto.MovieDTO;
 
 /**
@@ -26,6 +28,10 @@ public class MovieBean implements Serializable{
 	MovieDTO movieSelected;
 	//movie to be inserted ie. added
 	MovieDTO movieInsert;
+	//All actors in db
+	Map<Integer, ActorDTO> actors;
+	//Selected actors
+	List<ActorDTO> selectedActors;
 	
 	private static final long serialVersionUID = -6851375545924053833L;
 
@@ -33,6 +39,7 @@ public class MovieBean implements Serializable{
 		keyWord = null;
 		foundMoviesList = null;
 		movieSelected = null;
+		selectedActors = new ArrayList<>();
 	}
 
 	public String search(){
@@ -64,6 +71,13 @@ public class MovieBean implements Serializable{
 		movieInsert = null;
 	}
 
+	public Map<Integer, ActorDTO> getActors(){
+		Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
+		System.out.println(actors.get(1).getName());
+		return actors;
+	}
+	
+	
 	
 	public String getKeyWord() {
 		return keyWord;
@@ -95,6 +109,18 @@ public class MovieBean implements Serializable{
 
 	public void setMovieInsert(MovieDTO movieInsert) {
 		this.movieInsert = movieInsert;
+	}
+
+	public List<ActorDTO> getSelectedActors() {
+		return selectedActors;
+	}
+
+	public void setSelectedActors(List<ActorDTO> selectedActors) {
+		this.selectedActors = selectedActors;
+	}
+
+	public void setActors(Map<Integer, ActorDTO> actors) {
+		this.actors = actors;
 	}
 
 	

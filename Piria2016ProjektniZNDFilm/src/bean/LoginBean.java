@@ -154,9 +154,11 @@ public class LoginBean {
 	
 	public String register(){
 		if(LoginDAO.register(userRegister)){
-			login(userRegister);
+			userRegister = new UserDTO();
+			FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
 		}
-		
+
+		FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerUnsuccessful")));
 		return null;
 	}
 	

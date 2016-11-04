@@ -14,8 +14,13 @@ public class ActorDTO {
 		name = null;
 	}
 
-	
-	
+	public ActorDTO(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+
 	public int getId() {
 		return id;
 	}

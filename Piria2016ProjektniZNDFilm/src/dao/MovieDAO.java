@@ -2,12 +2,18 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import dto.ActorDTO;
 import dto.MovieDTO;
+import dto.UserDTO;
 
 /**
  * @author ognjen
@@ -18,6 +24,8 @@ public class MovieDAO {
 	static List<MovieDTO> list = null;
 	
 	static final String SQL_INSERT = "INSERT INTO movies (name) VALUES (?)";
+	static final String SQL_SELECT_ALL_ACTORS = "SELECT * FROM zndfilm.actors;";
+
 
 	public static List<MovieDTO> search(String keyWorkd){
 		
@@ -98,6 +106,33 @@ public class MovieDAO {
 		} finally {
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
+	}
+	
+	public static Map<Integer, ActorDTO> getAllActorsMap(){
+		Connection conn = null;
+		ResultSet rs = null;
+		Map<Integer, ActorDTO> actors = new TreeMap<>();
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_SELECT_ALL_ACTORS);
+			rs = ppst.executeQuery();
+
+			while(rs.next())
+				actors.put(rs.getInt("id"), new ActorDTO(rs.getInt("id"), rs.getString("name")));
+
+			ppst.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return actors;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	
+		return actors;
 	}
 	
 }

@@ -222,7 +222,7 @@ CREATE TABLE `users` (
   `editable` tinyint(1) DEFAULT '0',
   `registered` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='		';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='		';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,6 +231,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (16,'a','a','a','a','a','a',1,'a',1,0,'2016-11-04 13:11:32'),(17,'s','s','s','s','s','s',3,'s',1,0,'2016-11-04 13:11:41'),(19,'u','u','u','u','u','u',3,'u',1,0,'2016-11-04 13:19:36'),(20,'e','e','e','e','e','e',3,'e',1,0,'2016-11-04 13:19:45');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-03 15:52:03
+-- Dump completed on 2016-11-04 14:39:17

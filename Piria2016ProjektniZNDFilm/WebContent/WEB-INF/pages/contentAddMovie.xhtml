@@ -10,8 +10,12 @@
 	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
 	        <h:message for="movieTitle"></h:message>
 			
-						
-							
+			<h:selectManyListbox value="#{movie.selectedActors}">
+				<f:selectItems value="#{movie.actors.entrySet()}" var="entry" 
+						itemValue="#{entry.value.id}" itemLabel="#{entry.value.name}"/>
+			</h:selectManyListbox>
+			
+			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie}"></h:commandButton>
 	    </h:panelGrid>
 	</h:form>
