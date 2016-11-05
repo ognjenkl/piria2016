@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import DefaultNamespace.Actor;
+import DefaultNamespace.ActorProxy;
+import DefaultNamespace.ActorService;
 import dao.MovieDAO;
 import dto.ActorDTO;
 import dto.MovieDTO;
@@ -32,6 +36,7 @@ public class MovieBean implements Serializable{
 	Map<Integer, ActorDTO> actors;
 	//Selected actors
 	List<ActorDTO> selectedActors;
+	String actorName;
 	
 	private static final long serialVersionUID = -6851375545924053833L;
 
@@ -75,6 +80,17 @@ public class MovieBean implements Serializable{
 		Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
 		System.out.println(actors.get(1).getName());
 		return actors;
+	}
+	
+	public void addActor(){
+		Actor a = new ActorProxy();
+		try {
+			a.addActor(actorName);
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -121,6 +137,14 @@ public class MovieBean implements Serializable{
 
 	public void setActors(Map<Integer, ActorDTO> actors) {
 		this.actors = actors;
+	}
+
+	public String getActorName() {
+		return actorName;
+	}
+
+	public void setActorName(String actorName) {
+		this.actorName = actorName;
 	}
 
 	

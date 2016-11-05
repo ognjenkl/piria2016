@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/DefaultNamespace/Actor.java=UTF-8
+encoding//src/DefaultNamespace/ActorService.java=UTF-8
+encoding//src/DefaultNamespace/ActorServiceLocator.java=UTF-8
+encoding//src/DefaultNamespace/ActorSoapBindingStub.java=UTF-8
 encoding//src/dao/MovieDAO.java=UTF-8

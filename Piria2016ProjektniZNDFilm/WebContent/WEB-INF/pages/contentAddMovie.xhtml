@@ -15,8 +15,9 @@
 						itemValue="#{entry.value.id}" itemLabel="#{entry.value.name}"/>
 			</h:selectManyListbox>
 			
+			<h:inputText id="actorname" value="#{movie.actorName}"></h:inputText>
 			
-			<h:commandButton value="#{msg.add}" action="#{movie.addMovie}"></h:commandButton>
+			<h:commandButton value="#{msg.add}" action="#{movie.addActor()}"></h:commandButton>
 	    </h:panelGrid>
 	</h:form>
 
