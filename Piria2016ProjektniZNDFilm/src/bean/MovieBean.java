@@ -3,16 +3,21 @@ package bean;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.xml.rpc.ServiceException;
 
-import DefaultNamespace.Actor;
-import DefaultNamespace.ActorProxy;
-import DefaultNamespace.ActorService;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import actor.Actor;
+import actor.ActorServiceLocator;
 import dao.MovieDAO;
 import dto.ActorDTO;
 import dto.MovieDTO;
@@ -44,6 +49,7 @@ public class MovieBean implements Serializable{
 		keyWord = null;
 		foundMoviesList = null;
 		movieSelected = null;
+		movieInsert = new MovieDTO();
 		selectedActors = new ArrayList<>();
 	}
 
@@ -78,16 +84,38 @@ public class MovieBean implements Serializable{
 
 	public Map<Integer, ActorDTO> getActors(){
 		Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
-		System.out.println(actors.get(1).getName());
+		//System.out.println(actors.get(1).getName());
 		return actors;
 	}
 	
 	public void addActor(){
-		Actor a = new ActorProxy();
 		try {
-			a.addActor(actorName);
+			//Actor a = new ActorProxy();
 			
+			Actor a = new ActorServiceLocator().getActor();
+		
+			//a.addActor(actorName);
+			JSONArray jArray = new JSONArray(a.getActors(actorName));
+			System.out.println("received jArray: " + jArray.toString());
+			for(int i = 0; i < jArray.length(); i++){
+				JSONObject jObj = jArray.getJSONObject(i);
+				
+			}
+//			List<ActorDTO> listOfActors = new ArrayList<>();
+//			for(Object o : objs)
+//				listOfActors.add((ActorDTO) o);
+			
+				
+//			for(int i = 0; i < listOfActors.size(); i++)
+//				System.out.println(i + ". " + listOfActors.get(i).getName());
+		
 		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

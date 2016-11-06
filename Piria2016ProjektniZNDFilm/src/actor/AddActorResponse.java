@@ -1,71 +1,47 @@
 /**
- * ActorDTO.java
+ * AddActorResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package dto;
+package actor;
 
-public class ActorDTO  implements java.io.Serializable {
-    private int id;
+public class AddActorResponse  implements java.io.Serializable {
+    private java.lang.String addActorReturn;
 
-    private java.lang.String name;
-
-    public ActorDTO() {
+    public AddActorResponse() {
     }
 
-    public ActorDTO(
-           int id,
-           java.lang.String name) {
-           this.id = id;
-           this.name = name;
+    public AddActorResponse(
+           java.lang.String addActorReturn) {
+           this.addActorReturn = addActorReturn;
     }
 
 
     /**
-     * Gets the id value for this ActorDTO.
+     * Gets the addActorReturn value for this AddActorResponse.
      * 
-     * @return id
+     * @return addActorReturn
      */
-    public int getId() {
-        return id;
+    public java.lang.String getAddActorReturn() {
+        return addActorReturn;
     }
 
 
     /**
-     * Sets the id value for this ActorDTO.
+     * Sets the addActorReturn value for this AddActorResponse.
      * 
-     * @param id
+     * @param addActorReturn
      */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    /**
-     * Gets the name value for this ActorDTO.
-     * 
-     * @return name
-     */
-    public java.lang.String getName() {
-        return name;
-    }
-
-
-    /**
-     * Sets the name value for this ActorDTO.
-     * 
-     * @param name
-     */
-    public void setName(java.lang.String name) {
-        this.name = name;
+    public void setAddActorReturn(java.lang.String addActorReturn) {
+        this.addActorReturn = addActorReturn;
     }
 
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof ActorDTO)) return false;
-        ActorDTO other = (ActorDTO) obj;
+        if (!(obj instanceof AddActorResponse)) return false;
+        AddActorResponse other = (AddActorResponse) obj;
         if (obj == null) return false;
         if (this == obj) return true;
         if (__equalsCalc != null) {
@@ -74,10 +50,9 @@ public class ActorDTO  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
-            this.id == other.getId() &&
-            ((this.name==null && other.getName()==null) || 
-             (this.name!=null &&
-              this.name.equals(other.getName())));
+            ((this.addActorReturn==null && other.getAddActorReturn()==null) || 
+             (this.addActorReturn!=null &&
+              this.addActorReturn.equals(other.getAddActorReturn())));
         __equalsCalc = null;
         return _equals;
     }
@@ -89,9 +64,8 @@ public class ActorDTO  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
-        _hashCode += getId();
-        if (getName() != null) {
-            _hashCode += getName().hashCode();
+        if (getAddActorReturn() != null) {
+            _hashCode += getAddActorReturn().hashCode();
         }
         __hashCodeCalc = false;
         return _hashCode;
@@ -99,21 +73,15 @@ public class ActorDTO  implements java.io.Serializable {
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(ActorDTO.class, true);
+        new org.apache.axis.description.TypeDesc(AddActorResponse.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://dto", "ActorDTO"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("http://actor", ">addActorResponse"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("id");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://dto", "id"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("name");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://dto", "name"));
+        elemField.setFieldName("addActorReturn");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://actor", "addActorReturn"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(true);
+        elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
 

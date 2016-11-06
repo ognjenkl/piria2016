@@ -13,7 +13,6 @@ import java.util.TreeMap;
 
 import dto.ActorDTO;
 import dto.MovieDTO;
-import dto.UserDTO;
 
 /**
  * @author ognjen

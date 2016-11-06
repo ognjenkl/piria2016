@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package DefaultNamespace;
+package actor;
 
-public class ActorServiceLocator extends org.apache.axis.client.Service implements DefaultNamespace.ActorService {
+public class ActorServiceLocator extends org.apache.axis.client.Service implements actor.ActorService {
 
     public ActorServiceLocator() {
     }
@@ -39,7 +39,7 @@ public class ActorServiceLocator extends org.apache.axis.client.Service implemen
         ActorWSDDServiceName = name;
     }
 
-    public DefaultNamespace.Actor getActor() throws javax.xml.rpc.ServiceException {
+    public actor.Actor getActor() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(Actor_address);
@@ -50,9 +50,9 @@ public class ActorServiceLocator extends org.apache.axis.client.Service implemen
         return getActor(endpoint);
     }
 
-    public DefaultNamespace.Actor getActor(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public actor.Actor getActor(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            DefaultNamespace.ActorSoapBindingStub _stub = new DefaultNamespace.ActorSoapBindingStub(portAddress, this);
+            actor.ActorSoapBindingStub _stub = new actor.ActorSoapBindingStub(portAddress, this);
             _stub.setPortName(getActorWSDDServiceName());
             return _stub;
         }
@@ -72,8 +72,8 @@ public class ActorServiceLocator extends org.apache.axis.client.Service implemen
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (DefaultNamespace.Actor.class.isAssignableFrom(serviceEndpointInterface)) {
-                DefaultNamespace.ActorSoapBindingStub _stub = new DefaultNamespace.ActorSoapBindingStub(new java.net.URL(Actor_address), this);
+            if (actor.Actor.class.isAssignableFrom(serviceEndpointInterface)) {
+                actor.ActorSoapBindingStub _stub = new actor.ActorSoapBindingStub(new java.net.URL(Actor_address), this);
                 _stub.setPortName(getActorWSDDServiceName());
                 return _stub;
             }
@@ -105,7 +105,7 @@ public class ActorServiceLocator extends org.apache.axis.client.Service implemen
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("http://DefaultNamespace", "ActorService");
+        return new javax.xml.namespace.QName("http://actor", "ActorService");
     }
 
     private java.util.HashSet ports = null;
@@ -113,7 +113,7 @@ public class ActorServiceLocator extends org.apache.axis.client.Service implemen
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://DefaultNamespace", "Actor"));
+            ports.add(new javax.xml.namespace.QName("http://actor", "Actor"));
         }
         return ports.iterator();
     }

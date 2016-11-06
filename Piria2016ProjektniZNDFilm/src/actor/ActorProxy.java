@@ -1,8 +1,8 @@
-package DefaultNamespace;
+package actor;
 
-public class ActorProxy implements DefaultNamespace.Actor {
+public class ActorProxy implements actor.Actor {
   private String _endpoint = null;
-  private DefaultNamespace.Actor actor = null;
+  private actor.Actor actor = null;
   
   public ActorProxy() {
     _initActorProxy();
@@ -15,7 +15,7 @@ public class ActorProxy implements DefaultNamespace.Actor {
   
   private void _initActorProxy() {
     try {
-      actor = (new DefaultNamespace.ActorServiceLocator()).getActor();
+      actor = (new actor.ActorServiceLocator()).getActor();
       if (actor != null) {
         if (_endpoint != null)
           ((javax.xml.rpc.Stub)actor)._setProperty("javax.xml.rpc.service.endpoint.address", _endpoint);
@@ -38,10 +38,16 @@ public class ActorProxy implements DefaultNamespace.Actor {
     
   }
   
-  public DefaultNamespace.Actor getActor() {
+  public actor.Actor getActor() {
     if (actor == null)
       _initActorProxy();
     return actor;
+  }
+  
+  public java.lang.String getActors(java.lang.String actorName) throws java.rmi.RemoteException{
+    if (actor == null)
+      _initActorProxy();
+    return actor.getActors(actorName);
   }
   
   public java.lang.String addActor(java.lang.String actor0) throws java.rmi.RemoteException{
