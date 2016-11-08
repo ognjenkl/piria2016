@@ -5,9 +5,13 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 	
 	
+	<h:outputScript library="js" name="tag-it.js"></h:outputScript>
+	<h:outputStylesheet library="css" name="jquery.tagit.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="tagit.ui-zendesk.css"></h:outputStylesheet>
+
 	<script>
-		$(document).ready(function(){
-			alert("ogi");
+		$(function(){
+			$('#addMovieForm\\:actorName').tagit();
 		});
 	</script>
 
@@ -22,8 +26,8 @@
 						itemValue="#{entry.value.id}" itemLabel="#{entry.value.name}"/>
 			</h:selectManyListbox>
 			
-			<h:inputText id="actorname" value="#{movie.actorName}"></h:inputText>
-			
+			<h:inputText id="actorName" value="#{movie.actorName}" ></h:inputText>
+						
 			<h:commandButton value="#{msg.add}" action="#{movie.addActor()}"></h:commandButton>
 	    </h:panelGrid>
 	</h:form>
