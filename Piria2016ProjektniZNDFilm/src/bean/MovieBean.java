@@ -91,7 +91,7 @@ public class MovieBean implements Serializable{
 	public void addActor(){
 		try {
 			//Actor a = new ActorProxy();
-			
+			System.out.println("actor name: " + actorName);
 			Actor a = new ActorServiceLocator().getActor();
 		
 			//a.addActor(actorName);
