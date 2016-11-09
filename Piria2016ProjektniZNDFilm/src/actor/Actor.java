@@ -8,6 +8,6 @@
 package actor;
 
 public interface Actor extends java.rmi.Remote {
-    public java.lang.String getActors(java.lang.String actorName) throws java.rmi.RemoteException;
     public java.lang.String addActor(java.lang.String actor) throws java.rmi.RemoteException;
+    public java.lang.String getActors(java.lang.String actorName) throws java.rmi.RemoteException;
 }

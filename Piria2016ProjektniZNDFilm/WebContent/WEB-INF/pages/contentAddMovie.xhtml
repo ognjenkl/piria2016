@@ -10,8 +10,12 @@
 	<h:outputStylesheet library="css" name="tagit.ui-zendesk.css"></h:outputStylesheet>
 
 	<script>
+		var sampleTags = [vvv, sss];	
+		
 		$(function(){
-			$('#addMovieForm\\:actorName').tagit();
+			$('#addMovieForm\\:actorName').tagit({
+				availableTags: sampleTags
+			});
 		});
 	</script>
 
@@ -21,13 +25,16 @@
 	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
 	        <h:message for="movieTitle"></h:message>
 			
-			<h:selectManyListbox value="#{movie.selectedActors}">
-				<f:selectItems value="#{movie.actors.entrySet()}" var="entry" 
-						itemValue="#{entry.value.id}" itemLabel="#{entry.value.name}"/>
-			</h:selectManyListbox>
+			<div></div>
+			<h:selectOneMenu onchange="allActors(#{movie.actorsString})">
+				<f:selectItems value="#{movie.getActors()}"></f:selectItems>
+			</h:selectOneMenu>	
+			<div></div>		
 			
+			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
 			<h:inputText id="actorName" value="#{movie.actorName}" ></h:inputText>
-						
+			<h:message for="actorName"></h:message>
+			
 			<h:commandButton value="#{msg.add}" action="#{movie.addActor()}"></h:commandButton>
 	    </h:panelGrid>
 	</h:form>

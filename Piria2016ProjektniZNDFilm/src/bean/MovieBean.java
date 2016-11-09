@@ -38,7 +38,12 @@ public class MovieBean implements Serializable{
 	//movie to be inserted ie. added
 	MovieDTO movieInsert;
 	//All actors in db
-	Map<Integer, ActorDTO> actors;
+	//Map<Integer, ActorDTO> actors;
+	List<String> actors;
+	String actorsString;
+	
+	
+
 	//Selected actors
 	List<ActorDTO> selectedActors;
 	String actorName;
@@ -82,11 +87,7 @@ public class MovieBean implements Serializable{
 		movieInsert = null;
 	}
 
-	public Map<Integer, ActorDTO> getActors(){
-		Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
-		//System.out.println(actors.get(1).getName());
-		return actors;
-	}
+	
 	
 	public void addActor(){
 		try {
@@ -95,12 +96,7 @@ public class MovieBean implements Serializable{
 			Actor a = new ActorServiceLocator().getActor();
 		
 			//a.addActor(actorName);
-			JSONArray jArray = new JSONArray(a.getActors(actorName));
-			System.out.println("received jArray: " + jArray.toString());
-			for(int i = 0; i < jArray.length(); i++){
-				JSONObject jObj = jArray.getJSONObject(i);
-				
-			}
+
 //			List<ActorDTO> listOfActors = new ArrayList<>();
 //			for(Object o : objs)
 //				listOfActors.add((ActorDTO) o);
@@ -109,13 +105,7 @@ public class MovieBean implements Serializable{
 //			for(int i = 0; i < listOfActors.size(); i++)
 //				System.out.println(i + ". " + listOfActors.get(i).getName());
 		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -163,10 +153,6 @@ public class MovieBean implements Serializable{
 		this.selectedActors = selectedActors;
 	}
 
-	public void setActors(Map<Integer, ActorDTO> actors) {
-		this.actors = actors;
-	}
-
 	public String getActorName() {
 		return actorName;
 	}
@@ -176,7 +162,56 @@ public class MovieBean implements Serializable{
 	}
 
 	
-	
+	public List<String> getActors(){
+		//Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
+		//System.out.println(actors.get(1).getName());
+		
+		List<String> actors = new ArrayList<>();
+		Actor a;
+		
+		try {
+			
+			a = new ActorServiceLocator().getActor();
+
+			JSONArray jArray = new JSONArray(a.getActors(actorName));
+			System.out.println("received jArray: " + jArray.toString());
+			for(int i = 0; i < jArray.length(); i++){
+				JSONObject jObj = jArray.getJSONObject(i);
+				actors.add(jObj.getString("name"));
+			}		
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
+		return actors;
+	}
+		
+	public void setActors(List<String> actors) {
+		this.actors = actors;
+	}
+
+	public String getActorsString() {
+		String retVal = "";
+		List<String> a = getActors();
+		for(String aS : a){
+			retVal += aS + ",";
+		}
+		actorsString = retVal.substring(0, retVal.length() - 1);
+		return actorsString;
+	}
+
+	public void setActorsString(String actorsString) {
+		this.actorsString = actorsString;
+	}
 	
 	
 	

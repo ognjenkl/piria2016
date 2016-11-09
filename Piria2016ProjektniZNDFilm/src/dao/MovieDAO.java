@@ -24,7 +24,7 @@ public class MovieDAO {
 	
 	static final String SQL_INSERT = "INSERT INTO movies (name) VALUES (?)";
 	static final String SQL_SELECT_ALL_ACTORS = "SELECT * FROM zndfilm.actors;";
-
+	static final String SQL_INSERT_ACTOR = "INSERT INTO actors (name) VALUES (?)";
 
 	public static List<MovieDTO> search(String keyWorkd){
 		
@@ -134,4 +134,8 @@ public class MovieDAO {
 		return actors;
 	}
 	
+	
+	
+
+
 }
