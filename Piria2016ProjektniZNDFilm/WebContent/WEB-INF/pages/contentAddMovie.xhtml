@@ -8,34 +8,42 @@
 	<h:outputScript library="js" name="tag-it.js"></h:outputScript>
 	<h:outputStylesheet library="css" name="jquery.tagit.css"></h:outputStylesheet>
 	<h:outputStylesheet library="css" name="tagit.ui-zendesk.css"></h:outputStylesheet>
+	<h:outputScript target="body">
+		obj = document.getElementById("hiddenForm:actorList");
+		obj.onchange = allActors(a);
+	</h:outputScript>
 
 	<script>
-
+		
 		function allActors(a) {
 			$('#addMovieForm\\:actorName').tagit({
 				availableTags: a
 			});
 		}
-
-		//$(function() {
-		//	$('#addMovieForm\\:actorName').tagit({
-		//		availableTags: b
-		//	});
-		//});
+		
+		
+// 		$(function() {
+// 			$('#addMovieForm\\:actorName').tagit({
+// 				availableTags: [""]
+// 			});
+// 		});
 		
 	</script>
-
+	<h:form id="hiddenForm">
+		<div></div>
+			<h:selectOneMenu id='actorList' onchange='allActors(#{movie.actorsString})'>
+				<f:selectItems value="#{movie.getActors()}"></f:selectItems>
+			</h:selectOneMenu>	
+			<div></div>		
+	</h:form>
 	<h:form id="addMovieForm">
+		
 		<h:panelGrid columns="3">
 			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:"></h:outputLabel>
 	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
 	        <h:message for="movieTitle"></h:message>
 			
-			<div></div>
-			<h:selectOneMenu onchange='allActors(#{movie.actorsString})'>
-				<f:selectItems value="#{movie.getActors()}"></f:selectItems>
-			</h:selectOneMenu>	
-			<div></div>		
+			
 			
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
 			<h:inputText id="actorName" value="#{movie.actorName}"></h:inputText>

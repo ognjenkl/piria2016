@@ -88,7 +88,7 @@ public class MovieBean implements Serializable{
 		movieInsert = null;
 	}
 
-	
+
 	
 	public void addActor(){
 		try {
@@ -112,7 +112,9 @@ public class MovieBean implements Serializable{
 		}
 	}
 	
-	
+	public void init(){
+		setActorsString(getActorsString());
+	}
 	
 	public String getKeyWord() {
 		return keyWord;
