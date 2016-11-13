@@ -1,5 +1,6 @@
 package bean;
 
+import java.awt.JobAttributes;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -161,7 +162,10 @@ public class MovieBean implements Serializable{
 		this.actorName = actorName;
 	}
 
-	
+	/**
+	 * Get actors from SOAP WS Actor
+	 * @return
+	 */
 	public List<String> getActors(){
 		//Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
 		//System.out.println(actors.get(1).getName());
@@ -199,13 +203,28 @@ public class MovieBean implements Serializable{
 		this.actors = actors;
 	}
 
+
 	public String getActorsString() {
 		String retVal = "";
 		List<String> a = getActors();
-		for(String aS : a){
-			retVal += aS + ",";
-		}
-		actorsString = retVal.substring(0, retVal.length() - 1);
+		JSONArray jArr = new JSONArray(a);
+		//JSONObject jObj = new JSONObject(a);
+//		for(String aS : a){
+//			try {
+//				jObj.pu;
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			//retVal += "\"" + aS + "\"" + ",";
+//			
+//		}
+
+		System.out.println("jArr: " + jArr.toString());
+		if(retVal.length() > 0)
+			actorsString = retVal.substring(0, retVal.length() - 1);
+		actorsString = jArr.toString();
+		System.out.println("actorString: " + actorsString);
 		return actorsString;
 	}
 
