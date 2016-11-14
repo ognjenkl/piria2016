@@ -8,10 +8,7 @@
 	<h:outputScript library="js" name="tag-it.js"></h:outputScript>
 	<h:outputStylesheet library="css" name="jquery.tagit.css"></h:outputStylesheet>
 	<h:outputStylesheet library="css" name="tagit.ui-zendesk.css"></h:outputStylesheet>
-	<h:outputScript target="body">
-		obj = document.getElementById("hiddenForm:actorList");
-		obj.onchange = allActors(a);
-	</h:outputScript>
+	
 
 	<script>
 		
@@ -29,13 +26,6 @@
 // 		});
 		
 	</script>
-	<h:form id="hiddenForm">
-		<div></div>
-			<h:selectOneMenu id='actorList' onchange='allActors(#{movie.actorsString})'>
-				<f:selectItems value="#{movie.getActors()}"></f:selectItems>
-			</h:selectOneMenu>	
-			<div></div>		
-	</h:form>
 	<h:form id="addMovieForm">
 		
 		<h:panelGrid columns="3">
@@ -43,10 +33,8 @@
 	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
 	        <h:message for="movieTitle"></h:message>
 			
-			
-			
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
-			<h:inputText id="actorName" value="#{movie.actorName}"></h:inputText>
+			<h:inputText id="actorName" value="#{movie.actorName}" onfocus='allActors(#{movie.actorsString})'></h:inputText>
 			<h:message for="actorName"></h:message>
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addActor()}"></h:commandButton>
