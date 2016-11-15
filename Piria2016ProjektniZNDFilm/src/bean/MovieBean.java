@@ -84,7 +84,8 @@ public class MovieBean implements Serializable{
 	}
 	
 	public void addMovie(){
-		MovieDAO.insertMovie(movieInsert);
+		addActor();
+		//MovieDAO.insertMovie(movieInsert);
 		movieInsert = null;
 	}
 
@@ -95,7 +96,17 @@ public class MovieBean implements Serializable{
 			//Actor a = new ActorProxy();
 			System.out.println("actor name: " + actorName);
 			Actor a = new ActorServiceLocator().getActor();
-		
+			String[] actors = actorName.split(",");
+			System.out.println("addActor actorString: " + actorsString);
+			System.out.println("addActor actorName: " + actorName);
+
+			for(String actor : actors){
+				if(!actorsString.contains("\"" + actor + "\"")){
+					System.out.println("actorrrrrrrr: " + actor);
+					a.insertActor(actor);
+				}
+					
+			}
 			//a.addActor(actorName);
 
 //			List<ActorDTO> listOfActors = new ArrayList<>();
@@ -107,6 +118,9 @@ public class MovieBean implements Serializable{
 //				System.out.println(i + ". " + listOfActors.get(i).getName());
 		
 		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -179,7 +193,7 @@ public class MovieBean implements Serializable{
 			
 			a = new ActorServiceLocator().getActor();
 
-			JSONArray jArray = new JSONArray(a.getActors(actorName));
+			JSONArray jArray = new JSONArray(a.getActors(null));
 			System.out.println("received jArray: " + jArray.toString());
 			for(int i = 0; i < jArray.length(); i++){
 				JSONObject jObj = jArray.getJSONObject(i);
