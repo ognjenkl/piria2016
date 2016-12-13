@@ -103,7 +103,7 @@ public class MovieBean implements Serializable{
 			for(String actor : actors){
 				if(!actorsString.contains("\"" + actor + "\"")){
 					System.out.println("actorrrrrrrr: " + actor);
-					a.insertActor(actor);
+					System.out.println("actor inserted keyyyy: " + a.insertActor(actor));
 				}
 					
 			}

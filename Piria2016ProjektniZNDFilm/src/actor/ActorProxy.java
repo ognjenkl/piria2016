@@ -56,7 +56,7 @@ public class ActorProxy implements actor.Actor {
     return actor.getActors(actorName);
   }
   
-  public boolean insertActor(java.lang.String actorName) throws java.rmi.RemoteException{
+  public int insertActor(java.lang.String actorName) throws java.rmi.RemoteException{
     if (actor == null)
       _initActorProxy();
     return actor.insertActor(actorName);
