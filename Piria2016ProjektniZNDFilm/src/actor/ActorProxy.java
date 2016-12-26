@@ -44,16 +44,16 @@ public class ActorProxy implements actor.Actor {
     return actor;
   }
   
-  public java.lang.String addActor(java.lang.String actor0) throws java.rmi.RemoteException{
-    if (actor == null)
-      _initActorProxy();
-    return actor.addActor(actor0);
-  }
-  
   public java.lang.String getActors(java.lang.String actorName) throws java.rmi.RemoteException{
     if (actor == null)
       _initActorProxy();
     return actor.getActors(actorName);
+  }
+  
+  public java.lang.String addActor(java.lang.String actor0) throws java.rmi.RemoteException{
+    if (actor == null)
+      _initActorProxy();
+    return actor.addActor(actor0);
   }
   
   public int insertActor(java.lang.String actorName) throws java.rmi.RemoteException{

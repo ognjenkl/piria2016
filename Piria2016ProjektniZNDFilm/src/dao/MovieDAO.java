@@ -77,30 +77,39 @@ public class MovieDAO {
 		return list;
 	}
 	
-	public static MovieDTO getMovie(String title){
+	
+	public static MovieDTO getByTitle(String title){
 		for(MovieDTO m : list)
 			if(m.getTitle().equals(title))
 				return m;
 		return null;
 	}
 
-	public static boolean insertMovie(MovieDTO movie){
+	/**
+	 * 
+	 * @param movie
+	 * @return auto_generated key
+	 */
+	public static int insert(MovieDTO movie){
 		Connection conn = null;
 		PreparedStatement ppst = null;
-		boolean retVal = false;
+		int retVal = -1;
+		ResultSet resultSet = null;
 		
 		try{
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_INSERT);
 			ppst.setString(1, movie.getTitle());
+			int rowCount = ppst.executeUpdate();
+			resultSet = ppst.getGeneratedKeys();
 			
-			if (ppst.executeUpdate() > 0)
-				retVal = true;
-		
+			if (rowCount > 0 && resultSet.next())
+				retVal = resultSet.getInt(1);
+			
 			ppst.close();
 			return retVal;
 		} catch (Exception e){
-			//to do log
+			//TODO log
 			return retVal;
 		} finally {
 			ConnectionPool.getConnectionPool().checkIn(conn);

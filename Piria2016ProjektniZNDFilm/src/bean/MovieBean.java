@@ -70,7 +70,7 @@ public class MovieBean implements Serializable{
 		
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String movie = params.get("selectedMovie");
-		movieSelected = MovieDAO.getMovie(movie);
+		movieSelected = MovieDAO.getByTitle(movie);
 		System.out.println("Film: " + movieSelected.getTitle());
 		
 		return "movie?faces-redirect=true";
@@ -84,14 +84,30 @@ public class MovieBean implements Serializable{
 	}
 	
 	public void addMovie(){
-		addActor();
+		
+		try {
+			Actor a = new ActorServiceLocator().getActor();
+			int actorNum = a.insertActor("bbb");
+			if (actorNum > 0)
+				System.out.println("Dodat actor: " + actorNum);
+			else
+				System.out.println("Actor nije dodat");
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//addNonExistingActorsFromStringOfActors();
 		//MovieDAO.insertMovie(movieInsert);
-		movieInsert = null;
+		//movieInsert = null;
 	}
 
 
-	
-	public void addActor(){
+	//add nonexistent actors
+	public void addNonExistingActorsFromStringOfActors(){
 		try {
 			//Actor a = new ActorProxy();
 			System.out.println("actor name: " + actorName);
@@ -100,10 +116,15 @@ public class MovieBean implements Serializable{
 			System.out.println("addActor actorString: " + actorsString);
 			System.out.println("addActor actorName: " + actorName);
 
+			//loop through all actors statad in the addMovieForm form
+			//check if any actor does not exist and insert it in db through soap ws
+			//id of inserted acotr is returned
 			for(String actor : actors){
 				if(!actorsString.contains("\"" + actor + "\"")){
 					System.out.println("actorrrrrrrr: " + actor);
-					System.out.println("actor inserted keyyyy: " + a.insertActor(actor));
+					int actorId = a.insertActor(actor);
+					System.out.println("actor inserted keyyyy: " + actorId);
+
 				}
 					
 			}
