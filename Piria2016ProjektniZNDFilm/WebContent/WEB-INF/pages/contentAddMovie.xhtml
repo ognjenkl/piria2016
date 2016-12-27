@@ -27,10 +27,32 @@
 			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:"></h:outputLabel>
 	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}" required="true" />
 	        <h:message for="movieTitle"></h:message>
-			
+	        
+	        <h:outputLabel for="movieReleaseDate"  value="#{msg.movieReleaseDate}:"></h:outputLabel>
+	        <h:inputText id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}" />
+	        <h:message for="movieReleaseDate"></h:message>
+
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
 			<h:inputText id="actorName" value="#{movie.actorName}" onfocus='allActors(#{movie.actorsString})'></h:inputText>
 			<h:message for="actorName"></h:message>
+			
+			<h:outputLabel for="movieStoryline"  value="#{msg.movieStoryline}:"></h:outputLabel>
+	        <h:inputText id="movieStoryline" value="#{movie.movieInsert.storyline}" />
+	        <h:message for="movieStoryline"></h:message>
+			
+			<h:outputLabel for="movieGenres"  value="#{msg.movieGenres}:"></h:outputLabel>
+	        <h:inputText id="movieGenres" value="#{movie.movieInsert.genres}" />
+	        <h:message for="movieGenres"></h:message>
+			
+			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:"></h:outputLabel>
+	        <h:inputText id="movieTrailer" value="#{movie.movieInsert.trailerLocation}" />
+	        <h:message for="movieTrailer"></h:message>
+			
+			<h:outputLabel for="movieRuntime"  value="#{msg.movieRuntime}:"></h:outputLabel>
+	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
+	        <h:message for="movieRuntime"></h:message>
+			
+			
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}"></h:commandButton>
 	    </h:panelGrid>

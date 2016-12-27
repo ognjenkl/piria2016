@@ -2,7 +2,9 @@ package dto;
 
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 
 /**
  * @author ognjen
@@ -12,20 +14,24 @@ public class MovieDTO {
 
 	int id;
 	String title;
-	Calendar releaseDate;
+	Date releaseDate;
 	List<String> actors;
 	String storyline;
 	List<String> genres;
 	String trailerLocation;
-	int runtimeMinutes;
-	int rate;
+	Integer runtimeMinutes;
+	Integer rate;
 	String movieLocation;
-	Calendar addedDate;
+	Date addedDate;
 	boolean active;
 	
 	
-	public MovieDTO(String title, Calendar releaseDate, List<String> actors, String storyline,
-			List<String> genres, String trailerLocation, int runtimeMinutes, int rate, String movieLocation){
+	public MovieDTO() {
+		
+	}
+	
+	public MovieDTO(String title, Date releaseDate, List<String> actors, String storyline,
+			List<String> genres, String trailerLocation, Integer runtimeMinutes, Integer rate, String movieLocation){
 		this.title = title;
 		this.releaseDate = releaseDate;
 		this.actors = actors;
@@ -37,54 +43,21 @@ public class MovieDTO {
 		this.movieLocation = movieLocation;
 			
 	}
+
+	
+
+
+
 	
 	
 
-	
 	public int getId() {
 		return id;
 	}
 
 
-
-
 	public void setId(int id) {
 		this.id = id;
-	}
-
-
-
-
-	public Calendar getAddedDate() {
-		return addedDate;
-	}
-
-
-
-
-	public void setAddedDate(Calendar addedDate) {
-		this.addedDate = addedDate;
-	}
-
-
-
-
-	public boolean isActive() {
-		return active;
-	}
-
-
-
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-
-
-
-	public MovieDTO(){
-		
 	}
 
 
@@ -93,19 +66,17 @@ public class MovieDTO {
 	}
 
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 
-
-	public Calendar getReleaseDate() {
+	public Date getReleaseDate() {
 		return releaseDate;
 	}
 
 
-	public void setReleaseDate(Calendar releaseDate) {
+	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 
@@ -115,11 +86,9 @@ public class MovieDTO {
 	}
 
 
-
 	public void setActors(List<String> actors) {
 		this.actors = actors;
 	}
-
 
 
 	public String getStoryline() {
@@ -127,11 +96,9 @@ public class MovieDTO {
 	}
 
 
-
 	public void setStoryline(String storyline) {
 		this.storyline = storyline;
 	}
-
 
 
 	public List<String> getGenres() {
@@ -139,46 +106,9 @@ public class MovieDTO {
 	}
 
 
-
 	public void setGenres(List<String> genres) {
 		this.genres = genres;
 	}
-
-
-	public int getRuntimeMinutes() {
-		return runtimeMinutes;
-	}
-
-
-
-	public void setRuntimeMinutes(int runtimeMinutes) {
-		this.runtimeMinutes = runtimeMinutes;
-	}
-
-
-
-	public int getRate() {
-		return rate;
-	}
-
-
-
-	public void setRate(int rate) {
-		this.rate = rate;
-	}
-
-
-
-	public String getMovieLocation() {
-		return movieLocation;
-	}
-
-
-
-	public void setMovieLocation(String movieLocation) {
-		this.movieLocation = movieLocation;
-	}
-
 
 
 	public String getTrailerLocation() {
@@ -186,10 +116,61 @@ public class MovieDTO {
 	}
 
 
-
 	public void setTrailerLocation(String trailerLocation) {
 		this.trailerLocation = trailerLocation;
 	}
+
+
+	public Integer getRuntimeMinutes() {
+		return runtimeMinutes;
+	}
+
+
+	public void setRuntimeMinutes(Integer runtimeMinutes) {
+		this.runtimeMinutes = runtimeMinutes;
+	}
+
+
+	public Integer getRate() {
+		return rate;
+	}
+
+
+	public void setRate(Integer rate) {
+		this.rate = rate;
+	}
+
+
+	public String getMovieLocation() {
+		return movieLocation;
+	}
+
+
+	public void setMovieLocation(String movieLocation) {
+		this.movieLocation = movieLocation;
+	}
+
+
+	public Date getAddedDate() {
+		return addedDate;
+	}
+
+
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
+	}
+
+
+	public boolean isActive() {
+		return active;
+	}
+
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	
 	
 	
 

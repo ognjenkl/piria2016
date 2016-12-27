@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class MovieDAO {
 
 	static List<MovieDTO> list = null;
 	
-	static final String SQL_INSERT = "INSERT INTO movies (title) VALUES (?);";
+	static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location, runtime_minutes, movie_location) VALUES (?, ?, ?, ?, ?, ?);";
 	static final String SQL_SELECT_ALL_ACTORS = "SELECT * FROM zndfilm.actors;";
 	static final String SQL_INSERT_ACTOR = "INSERT INTO actors (name) VALUES (?);";
 
@@ -32,7 +34,7 @@ public class MovieDAO {
 		
 		if(list == null){
 			list= new ArrayList<>();
-			list.add(new MovieDTO("The Fast and the Furious", new GregorianCalendar(2001, 06, 22), 
+			list.add(new MovieDTO("The Fast and the Furious", Date.from(new GregorianCalendar(2001, 06, 22).toInstant()), 
 					Arrays.asList(new String[]{ 
 							"Vin Diesel", 
 							"Paul Walker",
@@ -47,7 +49,7 @@ public class MovieDAO {
 					Arrays.asList(new String[]{ "Action", "Crime", "Thriller"}), 
 					"https://www.youtube.com/watch?v=ZsJz2TJAPjw", 
 					106, -1, null));
-			list.add(new MovieDTO("The Matrix", new GregorianCalendar(1999, 03, 31),
+			list.add(new MovieDTO("The Matrix", Date.from(new GregorianCalendar(1999, 03, 31).toInstant()),
 					Arrays.asList(new String[]{ 
 							"Keanu Reeves",
 							"Laurence Fishburne",
@@ -58,7 +60,7 @@ public class MovieDAO {
 					Arrays.asList(new String[]{ "Action", "Sci-Fi"}), 
 					"https://www.youtube.com/watch?v=m8e-FF8MsqU", 
 					136, -1, null));
-			list.add(new MovieDTO("Ko to tamo peva", new GregorianCalendar(1980, 01, 01),
+			list.add(new MovieDTO("Ko to tamo peva", Date.from(new GregorianCalendar(1980, 01, 01).toInstant()),
 					Arrays.asList(new String[]{ 
 							"Pavle Vujisić",
 							"Dragan Nikolić",
@@ -87,11 +89,7 @@ public class MovieDAO {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param movie
-	 * @return auto_generated key
-	 */
+
 	public static int insert(MovieDTO movie){
 		Connection conn = null;
 		PreparedStatement ppst = null;
@@ -102,6 +100,27 @@ public class MovieDAO {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ppst.setString(1, movie.getTitle());
+			if (movie.getReleaseDate() != null)
+				ppst.setDate(2, new java.sql.Date(movie.getReleaseDate().getTime()));
+			else
+				ppst.setNull(2, Types.NULL);
+			if (movie.getStoryline() != null)
+				ppst.setString(3, movie.getStoryline());
+			else
+				ppst.setNull(3, Types.NULL);
+			if (movie.getTrailerLocation() != null)
+				ppst.setString(4, movie.getTrailerLocation());
+			else
+				ppst.setNull(4, Types.NULL);
+			if (movie.getRuntimeMinutes() != null)
+				ppst.setInt(5, movie.getRuntimeMinutes());
+			else
+				ppst.setNull(5, Types.NULL);
+			if (movie.getMovieLocation() != null)
+				ppst.setString(6, movie.getMovieLocation());
+			else
+				ppst.setNull(6, Types.NULL);
+			
 			int rowCount = ppst.executeUpdate();
 			resultSet = ppst.getGeneratedKeys();
 			
