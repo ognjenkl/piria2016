@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import actor.Actor;
 import actor.ActorServiceLocator;
 import dao.MovieDAO;
+import dao.MovieHasActorDAO;
 import dto.ActorDTO;
 import dto.MovieDTO;
 
@@ -84,14 +85,42 @@ public class MovieBean implements Serializable{
 	}
 	
 	public void addMovie(){
-		
 		try {
+			//array of actors strings from form
+			String[] actors = actorName.split(",");
+			actorName = "";
+			
+			//insert all actors that haven't existed in database through Soap ws
+			//Soap
 			Actor a = new ActorServiceLocator().getActor();
-			int actorNum = a.insertActor("bbb");
-			if (actorNum > 0)
-				System.out.println("Dodat actor: " + actorNum);
-			else
-				System.out.println("Actor nije dodat");
+			for(String actor : actors){
+				int actorId = a.insertActor(actor);
+				if (actorId > 0)
+					System.out.println("Dodat actor " + actor + ": " + actorId);
+				else
+					System.out.println("Actor " + actor +  " nije dodat");
+			}			
+			
+			//add movie to database
+			int movieId = MovieDAO.insert(movieInsert);
+			if (movieId > 0){
+				System.out.println("Successful add movie " + movieInsert.getTitle());
+				
+				//add relations betwean movie and actors of the same movie
+				Map<String, ActorDTO> mapOfAllActors = MovieDAO.getAllActorsNameMap();
+				for(String actor : actors){
+					int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
+					if (movieHasActorRowCount > 0)
+						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
+					else
+						System.out.println("Unsuccessful save relation actor " + actor + " to movie " + movieInsert.getTitle());
+				}
+			} else
+				System.out.println("Not added movie " + movieInsert.getTitle());
+
+			movieInsert = new MovieDTO();
+
+			
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,8 +130,6 @@ public class MovieBean implements Serializable{
 		}
 		
 		//addNonExistingActorsFromStringOfActors();
-		//MovieDAO.insertMovie(movieInsert);
-		//movieInsert = null;
 	}
 
 
@@ -203,19 +230,16 @@ public class MovieBean implements Serializable{
 	 * Get actors from SOAP WS Actor
 	 * @return
 	 */
-	public List<String> getActors(){
-		//Map<Integer, ActorDTO> actors = MovieDAO.getAllActorsMap();
-		//System.out.println(actors.get(1).getName());
-		
+	public List<String> getActors(){		
 		List<String> actors = new ArrayList<>();
+		//Soap
 		Actor a;
 		
 		try {
-			
 			a = new ActorServiceLocator().getActor();
 
 			JSONArray jArray = new JSONArray(a.getActors(null));
-			System.out.println("received jArray: " + jArray.toString());
+			//System.out.println("received jArray: " + jArray.toString());
 			for(int i = 0; i < jArray.length(); i++){
 				JSONObject jObj = jArray.getJSONObject(i);
 				actors.add(jObj.getString("name"));
@@ -245,23 +269,12 @@ public class MovieBean implements Serializable{
 		String retVal = "";
 		List<String> a = getActors();
 		JSONArray jArr = new JSONArray(a);
-		//JSONObject jObj = new JSONObject(a);
-//		for(String aS : a){
-//			try {
-//				jObj.pu;
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			//retVal += "\"" + aS + "\"" + ",";
-//			
-//		}
 
-		System.out.println("jArr: " + jArr.toString());
+		//System.out.println("jArr: " + jArr.toString());
 		if(retVal.length() > 0)
 			actorsString = retVal.substring(0, retVal.length() - 1);
 		actorsString = jArr.toString();
-		System.out.println("actorString: " + actorsString);
+		//System.out.println("actorString: " + actorsString);
 		return actorsString;
 	}
 

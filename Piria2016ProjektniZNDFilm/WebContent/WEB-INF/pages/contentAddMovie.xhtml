@@ -14,7 +14,8 @@
 		
 		function allActors(a) {
 			$('#addMovieForm\\:actorName').tagit({
-				availableTags: a
+				availableTags: a,
+				allowSpaces: true
 			});
 		}
 		
@@ -24,7 +25,7 @@
 		
 		<h:panelGrid columns="3">
 			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:"></h:outputLabel>
-	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}"/>
+	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}" required="true" />
 	        <h:message for="movieTitle"></h:message>
 			
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
