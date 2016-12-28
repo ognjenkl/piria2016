@@ -19,56 +19,51 @@
 			});
 		}
 		
-		function allGenres(g) {
-			$('#addMovieForm\\:movieGenres').tagit({
-				availableTags: g
-			});
-		}
-		
 	</script>
 	
 	<h:form id="addMovieForm">
 		
 		<h:panelGrid columns="3">
-			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:"></h:outputLabel>
-	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}" required="true" />
-	        <h:message for="movieTitle"></h:message>
+			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:" />
+	        <h:inputText id="movieTitle" value="#{movie.movieInsert.title}" 
+	        				required="true" requiredMessage="#{msg.movieTitleError}" />
+	        <h:message for="movieTitle" style="color: red"/>
 	        
-	        <h:outputLabel for="movieReleaseDate"  value="#{msg.movieReleaseDate}:"></h:outputLabel>
+	        <h:outputLabel for="movieReleaseDate"  value="#{msg.movieReleaseDate}:" />
 	        <h:inputText id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}">
 	        	<f:convertDateTime pattern="dd.MM.yyyy" />
 	        </h:inputText>
-	        <h:message for="movieReleaseDate"></h:message>
+	        <h:message for="movieReleaseDate" />
 
-			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>
-			<h:inputText id="actorName" value="#{movie.actorName}" onfocus='allActors(#{movie.actorsString})'></h:inputText>
-			<h:message for="actorName"></h:message>
+			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" />
+			<h:inputText id="actorName" value="#{movie.actorName}" 
+							onfocus="allActors(#{movie.actorsString})" 
+							required="true" requiredMessage="#{msg.movieActorsError}" />
+			<h:message for="actorName" style="color: red"></h:message>
 			
-			<h:outputLabel for="movieStoryline"  value="#{msg.movieStoryline}:"></h:outputLabel>
+			<h:outputLabel for="movieStoryline"  value="#{msg.movieStoryline}:" />
 	        <h:inputText id="movieStoryline" value="#{movie.movieInsert.storyline}" />
 	        <h:message for="movieStoryline"></h:message>
 			
-			<h:outputLabel for="movieGenres"  value="#{msg.movieGenres}:"></h:outputLabel>
-	        <h:inputText id="movieGenres" value="#{movie.genresStringFromInput}" onfocus='allGenres(#{movie.genresStringToShowOnForm})'/>
-	        <h:message for="movieGenres"></h:message>
-			
-			<h:selectManyListbox value="#{movie.selectedGenres}">
-				<f:selectItem value="#{null}" itemLabel="-- select --"></f:selectItem>
+			<h:outputLabel for="movieGenres"  value="#{msg.movieGenres}:" />
+			<h:selectManyListbox id="movieGenres"  value="#{movie.selectedGenres}">
+				<f:selectItem itemValue="#{null}" itemLabel="-- select --"></f:selectItem>
 				<f:selectItems value="#{movie.genreValues.entrySet()}" var="entry" 
 								itemValue="#{entry.key}" itemLabel="#{entry.value}"></f:selectItems>
 			</h:selectManyListbox>
+	        <h:message for="movieGenres"></h:message>
 			
-			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:"></h:outputLabel>
+			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:" />
 	        <h:inputText id="movieTrailer" value="#{movie.movieInsert.trailerLocation}" />
-	        <h:message for="movieTrailer"></h:message>
+	        <h:message for="movieTrailer" />
 			
-			<h:outputLabel for="movieRuntime"  value="#{msg.movieRuntime}:"></h:outputLabel>
+			<h:outputLabel for="movieRuntime"  value="#{msg.movieRuntime}:" />
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
-	        <h:message for="movieRuntime"></h:message>
+	        <h:message for="movieRuntime" />
 			
 			
 			
-			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}"></h:commandButton>
+			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
 	    </h:panelGrid>
 	</h:form>
 

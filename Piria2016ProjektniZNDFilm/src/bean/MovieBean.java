@@ -23,6 +23,7 @@ import actor.ActorServiceLocator;
 import dao.GenreDAO;
 import dao.MovieDAO;
 import dao.MovieHasActorDAO;
+import dao.MovieHasGenreDAO;
 import dto.ActorDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
@@ -59,7 +60,7 @@ public class MovieBean implements Serializable{
 	//used in JavaScript on form
 	String genresStringToShowOnForm;
 	
-	String[] selectedGenres;
+	Integer[] selectedGenres;
 	Map<Integer, String> genreValues;
 	
 	private static final long serialVersionUID = -6851375545924053833L;
@@ -85,7 +86,6 @@ public class MovieBean implements Serializable{
 		}
 		
 	}
-	
 	
 	
 	public String search(){
@@ -115,40 +115,48 @@ public class MovieBean implements Serializable{
 	public void addMovie(){
 		try {
 			
-			//array of actors strings from form
+			//array of actors out of string from form
 			String[] actors = actorName.split(",");
+			//clear actors string for the subsequent use
 			actorName = "";
 			
-			//insert all actors that haven't existed in database through Soap ws
+			//insert all actors who haven't existed in database through Soap ws
 			//Soap
 			Actor a = new ActorServiceLocator().getActor();
 			for(String actor : actors){
 				int actorId = a.insertActor(actor);
-				if (actorId > 0)
-					System.out.println("Dodat actor " + actor + ": " + actorId);
-				else
-					System.out.println("Actor " + actor +  " nije dodat");
+//				if (actorId > 0)
+//					System.out.println("Dodat actor " + actor + ": " + actorId);
+//				else
+//					System.out.println("Actor " + actor +  " nije dodat");
 			}			
-			
-			//TODO movie_has_genres
 			
 			//add movie to database
 			int movieId = MovieDAO.insert(movieInsert);
 			if (movieId > 0){
 				System.out.println("Successful add movie " + movieInsert.getTitle());
+
+				//add relations between movie and gneres
+				//form creates array with first null element if "select" is chosen
+				if(selectedGenres != null && selectedGenres[0] != null)
+					for(Integer genreId : selectedGenres)
+						MovieHasGenreDAO.insert(movieId, genreId);
+				//clear genre property for the subsequent use
+				selectedGenres = null;
 				
-				//add relations betwean movie and actors of the same movie
+				//add relations between movie and actors
 				Map<String, ActorDTO> mapOfAllActors = MovieDAO.getAllActorsNameMap();
 				for(String actor : actors){
 					int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
-					if (movieHasActorRowCount > 0)
-						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
-					else
-						System.out.println("Unsuccessful save relation actor " + actor + " to movie " + movieInsert.getTitle());
+//					if (movieHasActorRowCount > 0)
+//						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
+//					else
+//						System.out.println("Unsuccessful save relation actor " + actor + " to movie " + movieInsert.getTitle());
 				}
 			} else
 				System.out.println("Not added movie " + movieInsert.getTitle());
 
+			//clear movie property for the subsequent use
 			movieInsert = new MovieDTO();
 
 			
@@ -160,51 +168,8 @@ public class MovieBean implements Serializable{
 			e.printStackTrace();
 		}
 		
-		//addNonExistingActorsFromStringOfActors();
 	}
 
-
-//	//add nonexistent actors
-//	public void addNonExistingActorsFromStringOfActors(){
-//		try {
-//			//Actor a = new ActorProxy();
-//			System.out.println("actor name: " + actorName);
-//			Actor a = new ActorServiceLocator().getActor();
-//			String[] actors = actorName.split(",");
-//			System.out.println("addActor actorString: " + actorsString);
-//			System.out.println("addActor actorName: " + actorName);
-//
-//			//loop through all actors statad in the addMovieForm form
-//			//check if any actor does not exist and insert it in db through soap ws
-//			//id of inserted acotr is returned
-//			for(String actor : actors){
-//				if(!actorsString.contains("\"" + actor + "\"")){
-//					System.out.println("actorrrrrrrr: " + actor);
-//					int actorId = a.insertActor(actor);
-//					System.out.println("actor inserted keyyyy: " + actorId);
-//
-//				}
-//					
-//			}
-//			//a.addActor(actorName);
-//
-////			List<ActorDTO> listOfActors = new ArrayList<>();
-////			for(Object o : objs)
-////				listOfActors.add((ActorDTO) o);
-//			
-//				
-////			for(int i = 0; i < listOfActors.size(); i++)
-////				System.out.println(i + ". " + listOfActors.get(i).getName());
-//		
-//		} catch (ServiceException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-	
 
 	public String getKeyWord() {
 		return keyWord;
@@ -237,14 +202,6 @@ public class MovieBean implements Serializable{
 	public void setMovieInsert(MovieDTO movieInsert) {
 		this.movieInsert = movieInsert;
 	}
-
-//	public List<ActorDTO> getSelectedActors() {
-//		return selectedActors;
-//	}
-//
-//	public void setSelectedActors(List<ActorDTO> selectedActors) {
-//		this.selectedActors = selectedActors;
-//	}
 
 	public String getActorName() {
 		return actorName;
@@ -332,14 +289,13 @@ public class MovieBean implements Serializable{
 		this.genresStringToShowOnForm = genersStringToShowOnForm;
 	}
 
-	public String[] getSelectedGenres() {
+	public Integer[] getSelectedGenres() {
 		return selectedGenres;
 	}
 
-	public void setSelectedGenres(String[] selectedGenres) {
+	public void setSelectedGenres(Integer[] selectedGenres) {
 		this.selectedGenres = selectedGenres;
 	}
-
 
 	public Map<Integer, String> getGenreValues() {
 		return genreValues;

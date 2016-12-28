@@ -51,7 +51,7 @@ public class AccessControlFilter implements Filter{
 		boolean guestRequest = req.getRequestURI().startsWith(homeURL);
 		boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
 		//to do temp added movie
-		if(loggedIn || guestRequest || resourceRequest || req.getRequestURI().startsWith(req.getContextPath() + "/addMovie.xhtml")){
+		if(loggedIn || guestRequest || resourceRequest) {
 			if(!resourceRequest){ // Prevent browser from caching restricted resources.
 				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
