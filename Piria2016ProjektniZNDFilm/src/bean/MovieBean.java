@@ -3,9 +3,12 @@ package bean;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -56,6 +59,8 @@ public class MovieBean implements Serializable{
 	//used in JavaScript on form
 	String genresStringToShowOnForm;
 	
+	String[] selectedGenres;
+	Map<Integer, String> genreValues;
 	
 	private static final long serialVersionUID = -6851375545924053833L;
 
@@ -65,8 +70,24 @@ public class MovieBean implements Serializable{
 		movieSelected = null;
 		movieInsert = new MovieDTO();
 		//selectedActors = new ArrayList<>();
+		
 	}
 
+	@PostConstruct
+	public void init(){
+		setActorsString(getActorsString());
+
+		genreValues = new LinkedHashMap<>();
+		List<GenreDTO> gens = GenreDAO.getAll();
+		for (GenreDTO g : gens) {
+			//System.out.print(g.getName());
+			genreValues.put(g.getId(), g.getName().toString());
+		}
+		
+	}
+	
+	
+	
 	public String search(){
 		foundMoviesList = MovieDAO.search(keyWord);
 		
@@ -93,6 +114,7 @@ public class MovieBean implements Serializable{
 	
 	public void addMovie(){
 		try {
+			
 			//array of actors strings from form
 			String[] actors = actorName.split(",");
 			actorName = "";
@@ -183,10 +205,7 @@ public class MovieBean implements Serializable{
 //		}
 //	}
 	
-	public void init(){
-		setActorsString(getActorsString());
-	}
-	
+
 	public String getKeyWord() {
 		return keyWord;
 	}
@@ -312,7 +331,27 @@ public class MovieBean implements Serializable{
 	public void setGenresStringToShowOnForm(String genersStringToShowOnForm) {
 		this.genresStringToShowOnForm = genersStringToShowOnForm;
 	}
-	
+
+	public String[] getSelectedGenres() {
+		return selectedGenres;
+	}
+
+	public void setSelectedGenres(String[] selectedGenres) {
+		this.selectedGenres = selectedGenres;
+	}
+
+
+	public Map<Integer, String> getGenreValues() {
+		return genreValues;
+	}
+
+	public void setGenreValues(Map<Integer, String> genreValues) {
+		this.genreValues = genreValues;
+	}
+
+
+
+
 	
 	
 	

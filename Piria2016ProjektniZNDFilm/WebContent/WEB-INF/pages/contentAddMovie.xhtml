@@ -52,6 +52,12 @@
 	        <h:inputText id="movieGenres" value="#{movie.genresStringFromInput}" onfocus='allGenres(#{movie.genresStringToShowOnForm})'/>
 	        <h:message for="movieGenres"></h:message>
 			
+			<h:selectManyListbox value="#{movie.selectedGenres}">
+				<f:selectItem value="#{null}" itemLabel="-- select --"></f:selectItem>
+				<f:selectItems value="#{movie.genreValues.entrySet()}" var="entry" 
+								itemValue="#{entry.key}" itemLabel="#{entry.value}"></f:selectItems>
+			</h:selectManyListbox>
+			
 			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:"></h:outputLabel>
 	        <h:inputText id="movieTrailer" value="#{movie.movieInsert.trailerLocation}" />
 	        <h:message for="movieTrailer"></h:message>
