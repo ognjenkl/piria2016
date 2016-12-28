@@ -6,14 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.print.attribute.ResolutionSyntax;
 
 import com.mysql.jdbc.Statement;
 
-import dto.ActorDTO;
 import dto.GenreDTO;
 
 public class GenreDAO {
@@ -84,11 +79,5 @@ public class GenreDAO {
 
 	}
 	
-	public static void main(String[] args) {
-		List<GenreDTO> lista = GenreDAO.getAll();
-		for (GenreDTO g : lista) {
-			System.out.println(g.getId() + " " + g.getName());
-		}
-	}
 
 }

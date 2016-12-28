@@ -1,6 +1,8 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,9 +23,11 @@ public class GenreBean implements Serializable{
 	
 	private static final long serialVersionUID = -3470442255313603101L;
 	GenreDTO genre;	
-		
+	List<GenreDTO> genreList;
+	
 	public GenreBean() {
 		genre = new GenreDTO();
+		genreList = new ArrayList<>();
 	}
 	
 	public void addGenre() {
@@ -35,7 +39,7 @@ public class GenreBean implements Serializable{
 			FacesContext.getCurrentInstance().addMessage("genreForm", new FacesMessage(JSFUtil.getLangMessage("genreAddError")));
 		}
 	}
-
+	
 	
 	
 	
@@ -45,6 +49,15 @@ public class GenreBean implements Serializable{
 
 	public void setGenre(GenreDTO genre) {
 		this.genre = genre;
+	}
+
+	public List<GenreDTO> getGenreList() {
+		genreList = GenreDAO.getAll();
+		return genreList;
+	}
+
+	public void setGenreList(List<GenreDTO> genreList) {
+		this.genreList = genreList;
 	}
 	
 	

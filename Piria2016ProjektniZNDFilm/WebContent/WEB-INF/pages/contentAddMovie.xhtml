@@ -19,6 +19,12 @@
 			});
 		}
 		
+		function allGenres(g) {
+			$('#addMovieForm\\:movieGenres').tagit({
+				availableTags: g
+			});
+		}
+		
 	</script>
 	
 	<h:form id="addMovieForm">
@@ -43,7 +49,7 @@
 	        <h:message for="movieStoryline"></h:message>
 			
 			<h:outputLabel for="movieGenres"  value="#{msg.movieGenres}:"></h:outputLabel>
-	        <h:inputText id="movieGenres" value="#{movie.movieInsert.genres}" />
+	        <h:inputText id="movieGenres" value="#{movie.genresStringFromInput}" onfocus='allGenres(#{movie.genresStringToShowOnForm})'/>
 	        <h:message for="movieGenres"></h:message>
 			
 			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:"></h:outputLabel>
