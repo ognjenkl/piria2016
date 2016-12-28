@@ -1,24 +1,26 @@
 package dto;
 
-import java.util.Calendar;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author ognjen
  *
  */
-public class UserDTO {
+public class UserDTO implements Serializable {
 	
-	int id;
-	String firstName;
-	String lastName;
-	String socialNo;
-	String email;
-	String picture;
-	String username;
-	String password;
-	int privilege;
-	Calendar registered;
-	boolean active;
+	private static final long serialVersionUID = -8723339387148306344L;
+	private int id;
+	private String firstName;
+	private String lastName;
+	private String socialNo;
+	private String email;
+	private String picture;
+	private String username;
+	private String password;
+	private int privilege;
+	private Date registered;
+	private boolean active;
 	
 	boolean editable;
 	
@@ -141,14 +143,12 @@ public class UserDTO {
 		this.active = active;
 	}
 
-
-
-	public Calendar getRegistered() {
+	public Date getRegistered() {
 		return registered;
 	}
 
 
-	public void setRegistered(Calendar registered) {
+	public void setRegistered(Date registered) {
 		this.registered = registered;
 	}
 

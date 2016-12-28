@@ -29,7 +29,9 @@
 	        <h:message for="movieTitle"></h:message>
 	        
 	        <h:outputLabel for="movieReleaseDate"  value="#{msg.movieReleaseDate}:"></h:outputLabel>
-	        <h:inputText id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}" />
+	        <h:inputText id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}">
+	        	<f:convertDateTime pattern="dd.MM.yyyy" />
+	        </h:inputText>
 	        <h:message for="movieReleaseDate"></h:message>
 
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:"></h:outputLabel>

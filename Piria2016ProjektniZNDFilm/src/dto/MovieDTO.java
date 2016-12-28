@@ -1,6 +1,7 @@
 package dto;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,20 +11,21 @@ import java.util.List;
  * @author ognjen
  *
  */
-public class MovieDTO {
+public class MovieDTO implements Serializable {
 
-	int id;
-	String title;
-	Date releaseDate;
-	List<String> actors;
-	String storyline;
-	List<String> genres;
-	String trailerLocation;
-	Integer runtimeMinutes;
-	Integer rate;
-	String movieLocation;
-	Date addedDate;
-	boolean active;
+	private static final long serialVersionUID = 2153049650204486652L;
+	private int id;
+	private String title;
+	private Date releaseDate;
+	private List<String> actors;
+	private String storyline;
+	private List<String> genres;
+	private String trailerLocation;
+	private Integer runtimeMinutes;
+	private Integer rate;
+	private String movieLocation;
+	private Date addedDate;
+	private boolean active;
 	
 	
 	public MovieDTO() {

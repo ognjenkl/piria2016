@@ -8,8 +8,9 @@
 package dto;
 
 public class ActorDTO  implements java.io.Serializable {
-    private int id;
 
+	private static final long serialVersionUID = -1685159847387136035L;
+	private int id;
     private java.lang.String name;
 
     public ActorDTO() {

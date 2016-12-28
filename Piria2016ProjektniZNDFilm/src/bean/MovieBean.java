@@ -1,10 +1,8 @@
 package bean;
 
-import java.awt.JobAttributes;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
