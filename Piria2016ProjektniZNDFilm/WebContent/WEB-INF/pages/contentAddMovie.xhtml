@@ -61,6 +61,11 @@
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
 	        <h:message for="movieRuntime" />
 			
+			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
+	        <h:inputText id="movieLocation" value="#{movie.movieInsert.movieLocation}" />
+	        <h:message for="movieLocation" />
+	        <h:commandButton value="#{msg.upload}" action></h:commandButton>
+			
 			
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
