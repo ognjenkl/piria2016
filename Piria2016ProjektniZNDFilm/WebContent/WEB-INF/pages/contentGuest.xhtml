@@ -93,10 +93,13 @@
 			<h:commandButton value="#{msg.register}" action="#{login.register}"></h:commandButton>
 			<h:message for="registerForm"></h:message>
 	    </h:panelGrid>
-	    
-    </h:form id="uploadForm" enctype="multipart/form-data">
-		<h:commandButton value="Upload" action="uploader"></h:commandButton>
-	<h:form>
-	
 	</h:form>
+	
+    <h:form id="uploadForm" enctype="multipart/form-data">
+    	<h:inputFile value="#{movie.moviePart}"></h:inputFile>
+    	<h:commandButton value="#{msg.upload}" action="#{movie.uploadMovie}"></h:commandButton>
+    	
+	</h:form>
+	
+	
 </ui:composition>

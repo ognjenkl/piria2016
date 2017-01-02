@@ -1,9 +1,12 @@
 package bean;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
 import org.json.JSONArray;
@@ -36,6 +40,7 @@ import dto.MovieDTO;
 @SessionScoped
 public class MovieBean implements Serializable{
 	
+	private static final long serialVersionUID = -6851375545924053833L;
 	String keyWord;
 	//lista filmova trazenih u pretrazi
 	List<MovieDTO> foundMoviesList;
@@ -63,7 +68,7 @@ public class MovieBean implements Serializable{
 	Integer[] selectedGenres;
 	Map<Integer, String> genreValues;
 	
-	private static final long serialVersionUID = -6851375545924053833L;
+	Part moviePart;
 
 	public MovieBean() {
 		keyWord = null;
@@ -124,7 +129,8 @@ public class MovieBean implements Serializable{
 			//Soap
 			Actor a = new ActorServiceLocator().getActor();
 			for(String actor : actors){
-				int actorId = a.insertActor(actor);
+				a.insertActor(actor);
+				//int actorId = a.insertActor(actor);
 //				if (actorId > 0)
 //					System.out.println("Dodat actor " + actor + ": " + actorId);
 //				else
@@ -147,7 +153,8 @@ public class MovieBean implements Serializable{
 				//add relations between movie and actors
 				Map<String, ActorDTO> mapOfAllActors = MovieDAO.getAllActorsNameMap();
 				for(String actor : actors){
-					int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
+					MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
+					//int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
 //					if (movieHasActorRowCount > 0)
 //						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
 //					else
@@ -168,6 +175,16 @@ public class MovieBean implements Serializable{
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void uploadMovie() {
+		System.out.println("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		try(InputStream in = moviePart.getInputStream()) {
+			Files.copy(in, new File("G:\\ognjen\\filmUplaod\\upload.mp4").toPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -303,6 +320,14 @@ public class MovieBean implements Serializable{
 
 	public void setGenreValues(Map<Integer, String> genreValues) {
 		this.genreValues = genreValues;
+	}
+
+	public Part getMoviePart() {
+		return moviePart;
+	}
+
+	public void setMoviePart(Part moviePart) {
+		this.moviePart = moviePart;
 	}
 
 
