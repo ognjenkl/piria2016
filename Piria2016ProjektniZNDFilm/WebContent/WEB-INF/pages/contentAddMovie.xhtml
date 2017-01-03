@@ -21,7 +21,7 @@
 		
 	</script>
 	
-	<h:form id="addMovieForm">
+	<h:form id="addMovieForm" enctype="multipart/form-data">
 		
 		<h:panelGrid columns="3">
 			<h:outputLabel for="movieTitle"  value="#{msg.movieTitle}:" />
@@ -62,13 +62,10 @@
 	        <h:message for="movieRuntime" />
 			
 			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
-	        <h:inputText id="movieLocation" value="#{movie.movieInsert.movieLocation}" />
-	        <h:message for="movieLocation" />
-			
-			<h:inputFile value="#{msg.upload}" action="uploaderServlet"></h:inputFile>
-			<video width="400" autoplay="autoplay" controls="controls" >
-				<source src="video.mp4" type="video/mp4" />
-			</video>
+			<h:inputFile value="#{movie.moviePart}">
+				<f:ajax listener="#{movie.uploadMovie}"></f:ajax>
+			</h:inputFile>
+			<h:message for="movieLocation"></h:message>
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
 	    </h:panelGrid>

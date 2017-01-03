@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -69,7 +70,9 @@ public class MovieBean implements Serializable{
 	Map<Integer, String> genreValues;
 	
 	Part moviePart;
-
+	
+	Properties prop;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -77,6 +80,13 @@ public class MovieBean implements Serializable{
 		movieInsert = new MovieDTO();
 		//selectedActors = new ArrayList<>();
 		
+		prop = new Properties();
+		try {
+			prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@PostConstruct
@@ -177,16 +187,52 @@ public class MovieBean implements Serializable{
 		
 	}
 	
-	public void uploadMovie() {
-		System.out.println("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	/*
+	 * Returns string path of the uploaded movie.
+	 */
+	public String uploadMovie() {
+		System.out.println("bio");
 		try(InputStream in = moviePart.getInputStream()) {
-			Files.copy(in, new File("G:\\ognjen\\filmUplaod\\upload.mp4").toPath());
+			String dirPath = prop.getProperty("upload.location");
+			File dir = new File(dirPath);
+			if(dir.exists()) {
+				String fileName = getFilename(moviePart);
+				if(fileName.endsWith(".mp4") || fileName.endsWith(".MP4")) {
+					String filePath = dirPath + File.separator + fileName;
+					Files.copy(in, new File(filePath).toPath());
+					movieInsert.setMovieLocation(filePath);
+					System.out.println("Uploaded file: " + filePath);
+					
+					return filePath;
+					
+				} else {
+					System.out.println("Wrong file format!");
+					return null;
+				}
+	
+			} else {
+				System.out.println("Directory \"" + dirPath + "\" does not exist");
+				return null;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 
+    private static String getFilename(Part part) {
+        // courtesy of BalusC : http://stackoverflow.com/a/2424824/281545
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String filename = cd.substring(cd.indexOf('=') + 1).trim()
+                        .replace("\"", "");
+                return filename.substring(filename.lastIndexOf('/') + 1)
+                        .substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
 
 	public String getKeyWord() {
 		return keyWord;
