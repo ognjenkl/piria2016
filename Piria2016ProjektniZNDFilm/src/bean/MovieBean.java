@@ -148,6 +148,8 @@ public class MovieBean implements Serializable{
 //					System.out.println("Actor " + actor +  " nije dodat");
 			}			
 			
+			if(moviePart != null)
+				movieInsert.setMovieLocation(uploadMovie());
 			//add movie to database
 			int movieId = MovieDAO.insert(movieInsert);
 			if (movieId > 0){
@@ -170,6 +172,8 @@ public class MovieBean implements Serializable{
 //						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
 //					else
 //						System.out.println("Unsuccessful save relation actor " + actor + " to movie " + movieInsert.getTitle());
+					
+						
 				}
 			} else
 				System.out.println("Not added movie " + movieInsert.getTitle());
@@ -191,33 +195,33 @@ public class MovieBean implements Serializable{
 	/*
 	 * Returns string path of the uploaded movie.
 	 */
-	public String uploadMovie(AjaxBehaviorEvent event) {
+	public String uploadMovie() {
 		try(InputStream in = moviePart.getInputStream()) {
 			String dirPath = prop.getProperty("upload.location");
 			File dir = new File(dirPath);
 			if(dir.exists()) {
 				String fileName = getFilename(moviePart);
+				System.out.println("naziv filma: " + fileName);
 				if(fileName.endsWith(".mp4") || fileName.endsWith(".MP4")) {
 					String filePath = dirPath + File.separator + fileName;
 					File f = new File(filePath);
 					if (!f.exists()) {
 						Files.copy(in, new File(filePath).toPath());
-						movieInsert.setMovieLocation(filePath);
 						System.out.println("Uploaded file: " + filePath);
 						
 						return filePath;
 					} else {
-						System.out.println("File \"" + fileName + "\" already exists");
-						return "guest";
+						System.out.println("Upload file \"" + fileName + "\" already exists");
+						return filePath;
 					}
 					
 				} else {
-					System.out.println("Wrong file format!");
+					System.out.println("Wrong upload file format!");
 					return null;
 				}
 	
 			} else {
-				System.out.println("Directory \"" + dirPath + "\" does not exist");
+				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
 				return null;
 			}
 		} catch (IOException e) {

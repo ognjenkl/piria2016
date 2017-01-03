@@ -64,9 +64,7 @@
 			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
 			<h:inputText id="movieLocation" value="#{movie.movieInsert.movieLocation}"  rendered="#{login.user.privilege eq 3}" />
 			
-			<h:inputFile id="movieUpload" value="#{movie.moviePart}" rendered="#{login.user.privilege lt 3}">
-				<f:ajax listener="#{movie.uploadMovie}"></f:ajax>
-			</h:inputFile>
+			<h:inputFile id="movieUpload" value="#{movie.moviePart}" rendered="#{login.user.privilege lt 3}"></h:inputFile>
 			<h:message for="movieLocation" />
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
