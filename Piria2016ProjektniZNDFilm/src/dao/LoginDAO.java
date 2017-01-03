@@ -130,7 +130,6 @@ public class LoginDAO {
 				retUser = new UserDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("social_no"),
 									rs.getString("email"), rs.getString("picture"), rs.getString("username"), rs.getString("password"),
 									rs.getInt("privilege"), rs.getBoolean("active"), rs.getBoolean("editable"));
-				System.out.println("get user:  " + retUser.toString());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

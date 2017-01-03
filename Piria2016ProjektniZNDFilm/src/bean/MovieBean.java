@@ -192,7 +192,6 @@ public class MovieBean implements Serializable{
 	 * Returns string path of the uploaded movie.
 	 */
 	public String uploadMovie(AjaxBehaviorEvent event) {
-		System.out.println("bio");
 		try(InputStream in = moviePart.getInputStream()) {
 			String dirPath = prop.getProperty("upload.location");
 			File dir = new File(dirPath);
@@ -203,7 +202,7 @@ public class MovieBean implements Serializable{
 					File f = new File(filePath);
 					if (!f.exists()) {
 						Files.copy(in, new File(filePath).toPath());
-						//movieInsert.setMovieLocation(filePath);
+						movieInsert.setMovieLocation(filePath);
 						System.out.println("Uploaded file: " + filePath);
 						
 						return filePath;
