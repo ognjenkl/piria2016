@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
@@ -190,7 +191,7 @@ public class MovieBean implements Serializable{
 	/*
 	 * Returns string path of the uploaded movie.
 	 */
-	public String uploadMovie() {
+	public String uploadMovie(AjaxBehaviorEvent event) {
 		System.out.println("bio");
 		try(InputStream in = moviePart.getInputStream()) {
 			String dirPath = prop.getProperty("upload.location");
@@ -199,11 +200,17 @@ public class MovieBean implements Serializable{
 				String fileName = getFilename(moviePart);
 				if(fileName.endsWith(".mp4") || fileName.endsWith(".MP4")) {
 					String filePath = dirPath + File.separator + fileName;
-					Files.copy(in, new File(filePath).toPath());
-					movieInsert.setMovieLocation(filePath);
-					System.out.println("Uploaded file: " + filePath);
-					
-					return filePath;
+					File f = new File(filePath);
+					if (!f.exists()) {
+						Files.copy(in, new File(filePath).toPath());
+						//movieInsert.setMovieLocation(filePath);
+						System.out.println("Uploaded file: " + filePath);
+						
+						return filePath;
+					} else {
+						System.out.println("File \"" + fileName + "\" already exists");
+						return "guest";
+					}
 					
 				} else {
 					System.out.println("Wrong file format!");

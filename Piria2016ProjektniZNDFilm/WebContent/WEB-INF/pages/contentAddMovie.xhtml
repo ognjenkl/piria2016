@@ -61,11 +61,11 @@
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
 	        <h:message for="movieRuntime" />
 			
-			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
-			<h:inputFile value="#{movie.moviePart}">
+			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" rendered="#{login.user.privilege lt 3}" />
+			<h:inputFile id="movieLocation" value="#{movie.moviePart}" rendered="#{login.user.privilege lt 3}">
 				<f:ajax listener="#{movie.uploadMovie}"></f:ajax>
 			</h:inputFile>
-			<h:message for="movieLocation"></h:message>
+			<h:message for="movieLocation"  rendered="#{login.user.privilege lt 3}"></h:message>
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
 	    </h:panelGrid>
