@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import dao.LoginDAO;
+import dao.UserDAO;
 import dto.UserDTO;
 
 /**
@@ -28,7 +28,7 @@ public class ManageAccountsBean {
 
 	@PostConstruct
 	public void init(){
-		usersList = LoginDAO.getAllUsersList();
+		usersList = UserDAO.getAll();
 	}
 
 	public LoginBean getLoginBean() {

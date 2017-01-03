@@ -153,7 +153,7 @@ public class MovieBean implements Serializable{
 			//add movie to database
 			int movieId = MovieDAO.insert(movieInsert);
 			if (movieId > 0){
-				System.out.println("Successful add movie " + movieInsert.getTitle());
+				System.out.println("Successfully added movie " + movieInsert.getTitle());
 
 				//add relations between movie and gneres
 				//form creates array with first null element if "select" is chosen

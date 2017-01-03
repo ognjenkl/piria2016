@@ -15,53 +15,15 @@ import dto.UserDTO;
  * @author ognjen
  *
  */
-public class LoginDAO {
+public class UserDAO {
 
-//	static Map <String, UserDTO> usersMap = new HashMap<>();
-//	static{
-//		UserDTO userTemp = null;
-//		
-//		userTemp = new UserDTO();
-//		userTemp.setFirstName("Administrator");
-//		userTemp.setLastName("Admin");
-//		userTemp.setSocialNo("1234");
-//		userTemp.setEmail("ognjenkl@gmail.com");
-//		userTemp.setPrivilege(1);
-//		userTemp.setPicture("n/a");
-//		userTemp.setUsername("a");
-//		userTemp.setPassword("a");
-//		userTemp.setActive(true);
-//		usersMap.put(userTemp.getUsername(),userTemp);
-//
-//		userTemp = new UserDTO();
-//		userTemp.setFirstName("Superuser");
-//		userTemp.setLastName("Super");
-//		userTemp.setSocialNo("2222");
-//		userTemp.setEmail("ognjenkl@gmail.com");
-//		userTemp.setPrivilege(2);
-//		userTemp.setPicture("n/a");
-//		userTemp.setUsername("s");
-//		userTemp.setPassword("s");
-//		userTemp.setActive(true);
-//		usersMap.put(userTemp.getUsername(),userTemp);
-//
-//		userTemp = new UserDTO();
-//		userTemp.setFirstName("User");
-//		userTemp.setLastName("User");
-//		userTemp.setSocialNo("3333");
-//		userTemp.setEmail("ognjenkl@gmail.com");
-//		userTemp.setPrivilege(3);
-//		userTemp.setPicture("n/a");
-//		userTemp.setUsername("u");
-//		userTemp.setPassword("u");
-//		userTemp.setActive(true);
-//		usersMap.put(userTemp.getUsername(),userTemp);
-//
-//	}
-	
+	static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
+	static final String SQL_GET_BY_USERNAME = "SELECT * FROM zndfilm.users where username = ?;";
+	static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
+
 	public static UserDTO login(String username, String password){
 		//UserDTO user = usersMap.get(username);
-		UserDTO user = getUser(username);
+		UserDTO user = getByUsername(username);
 		if(user != null && user.getPassword().equals(password) && user.getUsername().equals(username) && user.isActive()){
 			System.out.println("login user:  " + user.toString());
 			return user;
@@ -71,17 +33,16 @@ public class LoginDAO {
 
 	}
 	
-	public static boolean register(UserDTO userRegister){
+	public static boolean insert(UserDTO userRegister){
 		userRegister.setPrivilege(3);
 		//usersMap.put(userRegister.getUsername(), userRegister);
 		boolean retVal = false;
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ppst = null;
-		String sql = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			ppst = conn.prepareStatement(sql);
+			ppst = conn.prepareStatement(SQL_INSERT);
 			ppst.setString(1, userRegister.getUsername());
 			ppst.setString(2, userRegister.getPassword());
 			ppst.setString(3, userRegister.getFirstName());
@@ -113,7 +74,7 @@ public class LoginDAO {
 		return retVal;
 	}
 	
-	public static UserDTO getUser(String username){
+	public static UserDTO getByUsername(String username){
 		UserDTO retUser = null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -121,8 +82,7 @@ public class LoginDAO {
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			String sql = "SELECT * FROM zndfilm.users where username = ?;";
-			ppst = conn.prepareStatement(sql);
+			ppst = conn.prepareStatement(SQL_GET_BY_USERNAME);
 			ppst.setString(1, username);
 			rs = ppst.executeQuery();
 		
@@ -146,19 +106,12 @@ public class LoginDAO {
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
 		
-		
 		return retUser;
-		
-		//return usersMap.get(username);
 	}
 	
-//	public static Map<String, UserDTO> getAllUsersMap(){
-//		return usersMap;
-//	}
+
 	
-	public static List<UserDTO> getAllUsersList(){
-		//List<UserDTO> list = new ArrayList<UserDTO>(usersMap.values());
-		
+	public static List<UserDTO> getAll(){		
 		Connection conn = null;
 		ResultSet rs = null;
 		List<UserDTO> users = new ArrayList<>();
@@ -166,8 +119,7 @@ public class LoginDAO {
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			String sql = "SELECT * FROM zndfilm.users;";
-			ppst = conn.prepareStatement(sql);
+			ppst = conn.prepareStatement(SQL_ALL);
 			rs = ppst.executeQuery();
 
 			while(rs.next())
@@ -190,7 +142,6 @@ public class LoginDAO {
 		}
 	
 		return users;
-//		return list;
 	}
 	
 	/**

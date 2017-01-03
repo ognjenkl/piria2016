@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
-import dao.LoginDAO;
+import dao.UserDAO;
 import dto.UserDTO;
 import util.JSFUtil;
 
@@ -117,7 +117,7 @@ public class LoginBean {
 	 * 
 	 */
 	public void login(){
-		UserDTO loggedUser = LoginDAO.login(username, password);
+		UserDTO loggedUser = UserDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
 			loggedIn = true;
@@ -132,7 +132,7 @@ public class LoginBean {
 	 * 
 	 */
 	public void login(UserDTO userReg){
-		UserDTO loggedUser = LoginDAO.login(userReg.getUsername(), userReg.getPassword());
+		UserDTO loggedUser = UserDAO.login(userReg.getUsername(), userReg.getPassword());
 		if(loggedUser != null){
 			user = loggedUser;
 			userReg = new UserDTO();
@@ -153,7 +153,7 @@ public class LoginBean {
 	}
 	
 	public String register(){
-		if(LoginDAO.register(userRegister)){
+		if(UserDAO.insert(userRegister)){
 			userRegister = new UserDTO();
 			FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
 		}
@@ -224,13 +224,13 @@ public class LoginBean {
 	 * Admin accounts update, not for self-account update use.
 	 */
 	public boolean updateUser(UserDTO user){
-		return LoginDAO.updateUser(user);
+		return UserDAO.updateUser(user);
 		//this.user = user;
 	}
 	
 	public boolean updateUserWithoutPasswordAndPrivilege(UserDTO user){
-		if(LoginDAO.updateUserWithoutPasswordAndPrivilege(user)){
-			this.user = LoginDAO.getUser(user.getUsername());
+		if(UserDAO.updateUserWithoutPasswordAndPrivilege(user)){
+			this.user = UserDAO.getByUsername(user.getUsername());
 			return true;
 		}
 		
@@ -238,8 +238,8 @@ public class LoginBean {
 	}
 	
 	public boolean updateUserWithoutPrivilege(UserDTO user){
-		if(LoginDAO.updateUserWithoutPrivilege(user)){
-			this.user = LoginDAO.getUser(user.getUsername());
+		if(UserDAO.updateUserWithoutPrivilege(user)){
+			this.user = UserDAO.getByUsername(user.getUsername());
 			return true;
 		}
 		
@@ -325,7 +325,7 @@ public class LoginBean {
 
 	public List<UserDTO> getUsersAll() {
 		if(user.getPrivilege() < 2)
-			usersAll = LoginDAO.getAllUsersList();
+			usersAll = UserDAO.getAll();
 		else{
 			usersAll = new ArrayList<UserDTO>();
 			usersAll.add(user);
