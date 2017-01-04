@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+
 import com.mysql.jdbc.Statement;
 
 import dto.ActorDTO;
@@ -29,64 +31,101 @@ public class MovieDAO {
 	static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location, runtime_minutes, movie_location) VALUES (?, ?, ?, ?, ?, ?);";
 	static final String SQL_SELECT_ALL_ACTORS = "SELECT * FROM zndfilm.actors;";
 	static final String SQL_INSERT_ACTOR = "INSERT INTO actors (name) VALUES (?);";
-
-	public static List<MovieDTO> search(String keyWorkd){
+	static final String SQL_GET_BY_TITLE = "SELECT * FROM movies WHERE active = 1 AND title LIKE ?;";
+	
+	
+//	public static List<MovieDTO> search(String keyWorkd){
+//		
+//		if(list == null){
+//			list= new ArrayList<>();
+//			list.add(new MovieDTO("The Fast and the Furious", Date.from(new GregorianCalendar(2001, 06, 22).toInstant()), 
+//					Arrays.asList(new String[]{ 
+//							"Vin Diesel", 
+//							"Paul Walker",
+//							"Michelle Rodriguez",
+//							"Jordana Brewster",
+//							"Rick Yune",
+//							"Chad Lindberg",
+//							"Johnny Strong",
+//							"Ted Levine",
+//							"Matt Schulze"}),
+//					"Los Angeles street racer Dominic Toretto falls under the suspicion of the LAPD as a string of high-speed electronics truck robberies rocks the area. Brian O'Connor, an officer of the LAPD, joins the ranks of Toretto's highly skilled racing crew undercover to convict Toretto. However, O'Connor finds himself both enamored with this new world and in love with Toretto's sister, Mia. As a rival racing crew gains strength, O'Connor must decide where his loyalties really lie.", 
+//					Arrays.asList(new String[]{ "Action", "Crime", "Thriller"}), 
+//					"https://www.youtube.com/watch?v=ZsJz2TJAPjw", 
+//					106, -1, null));
+//			list.add(new MovieDTO("The Matrix", Date.from(new GregorianCalendar(1999, 03, 31).toInstant()),
+//					Arrays.asList(new String[]{ 
+//							"Keanu Reeves",
+//							"Laurence Fishburne",
+//							"Carrie-Anne Moss",
+//							"Hugo Weaving",
+//							"Joe Pantoliano"}),
+//					"Thomas A. Anderson is a man living two lives. By day he is an average computer programmer and by night a hacker known as Neo. Neo has always questioned his reality, but the truth is far beyond his imagination. Neo finds himself targeted by the police when he is contacted by Morpheus, a legendary computer hacker branded a terrorist by the government. Morpheus awakens Neo to the real world, a ravaged wasteland where most of humanity have been captured by a race of machines that live off of the humans' body heat and electrochemical energy and who imprison their minds within an artificial reality known as the Matrix. As a rebel against the machines, Neo must return to the Matrix and confront the agents: super-powerful computer programs devoted to snuffing out Neo and the entire human rebellion.",
+//					Arrays.asList(new String[]{ "Action", "Sci-Fi"}), 
+//					"https://www.youtube.com/watch?v=m8e-FF8MsqU", 
+//					136, -1, null));
+//			list.add(new MovieDTO("Ko to tamo peva", Date.from(new GregorianCalendar(1980, 01, 01).toInstant()),
+//					Arrays.asList(new String[]{ 
+//							"Pavle Vujisić",
+//							"Dragan Nikolić",
+//							"Bata Stojković",
+//							"Aleksandar Berček",
+//							"Mića Tomić",
+//							"Taško Načić",
+//							"Boro Stjepanović",
+//							"Slavko Štimac",
+//							"Neda Arnerić"}),
+//					"On April 5, 1941, a date Serbs will recognize, men on a country road board Krstic's bus for Belgrade: two Gypsies who occasionally sing about misery, an aging war vet, a Nazi sympathizer, a dapper singer, a consumptive, and a man with a shotgun. Krstic is a world-weary cynic, out for a buck; the driver is his son, the simple, cheerful Misko. En route they pick up a priest and young newlyweds going to the seaside. Along the way, mis-adventure strikes: a flat tire, a rickety bridge, a farmer who's plowed the road, a funeral, two feuding families, an army detail, and a lost wallet slow the bus and expose rifts among the travelers. On April 6, amid rumors of war, they reach Belgrade...",
+//					Arrays.asList(new String[]{ "Adventure", "Comedy", "Drama"}), 
+//					null, 
+//					83, -1, 
+//					"https://www.youtube.com/watch?v=ZwozSLas8DM"));
+//		}
+//
+//		return list;
+//	}
+	
+	
+	public static List<MovieDTO> getByTitle(String title){
+		List<MovieDTO> movieList = new ArrayList<>();
 		
-		if(list == null){
-			list= new ArrayList<>();
-			list.add(new MovieDTO("The Fast and the Furious", Date.from(new GregorianCalendar(2001, 06, 22).toInstant()), 
-					Arrays.asList(new String[]{ 
-							"Vin Diesel", 
-							"Paul Walker",
-							"Michelle Rodriguez",
-							"Jordana Brewster",
-							"Rick Yune",
-							"Chad Lindberg",
-							"Johnny Strong",
-							"Ted Levine",
-							"Matt Schulze"}),
-					"Los Angeles street racer Dominic Toretto falls under the suspicion of the LAPD as a string of high-speed electronics truck robberies rocks the area. Brian O'Connor, an officer of the LAPD, joins the ranks of Toretto's highly skilled racing crew undercover to convict Toretto. However, O'Connor finds himself both enamored with this new world and in love with Toretto's sister, Mia. As a rival racing crew gains strength, O'Connor must decide where his loyalties really lie.", 
-					Arrays.asList(new String[]{ "Action", "Crime", "Thriller"}), 
-					"https://www.youtube.com/watch?v=ZsJz2TJAPjw", 
-					106, -1, null));
-			list.add(new MovieDTO("The Matrix", Date.from(new GregorianCalendar(1999, 03, 31).toInstant()),
-					Arrays.asList(new String[]{ 
-							"Keanu Reeves",
-							"Laurence Fishburne",
-							"Carrie-Anne Moss",
-							"Hugo Weaving",
-							"Joe Pantoliano"}),
-					"Thomas A. Anderson is a man living two lives. By day he is an average computer programmer and by night a hacker known as Neo. Neo has always questioned his reality, but the truth is far beyond his imagination. Neo finds himself targeted by the police when he is contacted by Morpheus, a legendary computer hacker branded a terrorist by the government. Morpheus awakens Neo to the real world, a ravaged wasteland where most of humanity have been captured by a race of machines that live off of the humans' body heat and electrochemical energy and who imprison their minds within an artificial reality known as the Matrix. As a rebel against the machines, Neo must return to the Matrix and confront the agents: super-powerful computer programs devoted to snuffing out Neo and the entire human rebellion.",
-					Arrays.asList(new String[]{ "Action", "Sci-Fi"}), 
-					"https://www.youtube.com/watch?v=m8e-FF8MsqU", 
-					136, -1, null));
-			list.add(new MovieDTO("Ko to tamo peva", Date.from(new GregorianCalendar(1980, 01, 01).toInstant()),
-					Arrays.asList(new String[]{ 
-							"Pavle Vujisić",
-							"Dragan Nikolić",
-							"Bata Stojković",
-							"Aleksandar Berček",
-							"Mića Tomić",
-							"Taško Načić",
-							"Boro Stjepanović",
-							"Slavko Štimac",
-							"Neda Arnerić"}),
-					"On April 5, 1941, a date Serbs will recognize, men on a country road board Krstic's bus for Belgrade: two Gypsies who occasionally sing about misery, an aging war vet, a Nazi sympathizer, a dapper singer, a consumptive, and a man with a shotgun. Krstic is a world-weary cynic, out for a buck; the driver is his son, the simple, cheerful Misko. En route they pick up a priest and young newlyweds going to the seaside. Along the way, mis-adventure strikes: a flat tire, a rickety bridge, a farmer who's plowed the road, a funeral, two feuding families, an army detail, and a lost wallet slow the bus and expose rifts among the travelers. On April 6, amid rumors of war, they reach Belgrade...",
-					Arrays.asList(new String[]{ "Adventure", "Comedy", "Drama"}), 
-					null, 
-					83, -1, 
-					"https://www.youtube.com/watch?v=ZwozSLas8DM"));
-		}
+		Connection conn = null;
+		ResultSet resultSet = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BY_TITLE);
+			ppst.setString(1, "%" + title + "%");
+			resultSet = ppst.executeQuery();
+			
+			while(resultSet.next()){
+				MovieDTO movie = new MovieDTO();
+				movie.setId(resultSet.getInt(1));
+				movie.setTitle(resultSet.getString(2));
+				movie.setReleaseDate(resultSet.getDate(3));
+				movie.setStoryline(resultSet.getString(4));
+				movie.setTrailerLocation(resultSet.getString(5));
+				movie.setRuntimeMinutes(resultSet.getInt(6));
+				movie.setRate(resultSet.getInt(7));
+				movie.setMovieLocation(resultSet.getString(8));
+				movieList.add(movie);
+			}
+			
+			ppst.close();
 
-		return list;
-	}
-	
-	
-	public static MovieDTO getByTitle(String title){
-		for(MovieDTO m : list)
-			if(m.getTitle().equals(title))
-				return m;
-		return null;
+			if(movieList.size() > 0)
+				return movieList;
+			else 
+				return null;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
 	}
 
 

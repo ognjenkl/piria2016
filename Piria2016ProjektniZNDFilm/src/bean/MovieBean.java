@@ -105,21 +105,22 @@ public class MovieBean implements Serializable{
 	
 	
 	public String search(){
-		foundMoviesList = MovieDAO.search(keyWord);
+//		foundMoviesList = MovieDAO.search(keyWord);
+		foundMoviesList = MovieDAO.getByTitle(keyWord);
 		
 		//return "guest.xhtml?faces-redirect=true";
 		return null;
 	}
 	
-	public String details(){
-		
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String movie = params.get("selectedMovie");
-		movieSelected = MovieDAO.getByTitle(movie);
-		System.out.println("Film: " + movieSelected.getTitle());
-		
-		return "movie?faces-redirect=true";
-	}
+//	public String details(){
+//		
+//		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//		String movie = params.get("selectedMovie");
+//		movieSelected = MovieDAO.getByTitle(movie);
+//		System.out.println("Film: " + movieSelected.getTitle());
+//		
+//		return "movie?faces-redirect=true";
+//	}
 	
 	public String details2(MovieDTO movie){
 		movieSelected = movie;
