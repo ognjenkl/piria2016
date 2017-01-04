@@ -28,10 +28,9 @@
 		</ui:repeat>
 			
 		#{msg.movieTrailer}:
-		<h:outputLink value="#{login.movie.movieSelected.trailerLocation}">Trailer</h:outputLink>
-		<video controls="controls">
-			<source src="#{login.movie.movieSelected.trailerLocation}" type="video/mp4" />
-		</video>
+		<h:outputLink value="#{login.movie.movieSelected.trailerLocation}">
+			<h:outputText value="#{msg.movieTrailerWatch}" /> 
+		</h:outputLink>
 		
 		#{msg.movieRuntime}:
 		<h:outputText value="#{login.movie.movieSelected.runtimeMinutes}"></h:outputText>
@@ -46,7 +45,10 @@
 			<source src="/movies/#{login.movie.movieSelected.movieLocation}" type="video/mp4" />
 		</video>
 		
-		<h:outputLink value="#{login.movie.movieSelected.movieLocation}" rendered="#{login.movie.movieSelected.movieLocationType == 2}">Full moive</h:outputLink>
+		<h:outputLink value="#{login.movie.movieSelected.movieLocation}" 
+					rendered="#{login.movie.movieSelected.movieLocationType == 2}">
+			<h:outputText value="#{msg.movieWatch}" />
+		</h:outputLink>
 		
 	</h:panelGrid>	
 	
