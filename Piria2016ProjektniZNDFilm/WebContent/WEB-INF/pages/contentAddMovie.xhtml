@@ -42,7 +42,7 @@
 			<h:message for="actorName" style="color: red"></h:message>
 			
 			<h:outputLabel for="movieStoryline"  value="#{msg.movieStoryline}:" />
-	        <h:inputText id="movieStoryline" value="#{movie.movieInsert.storyline}" />
+	        <h:inputTextarea cols="30" rows="10" style="resize: none"  id="movieStoryline" value="#{movie.movieInsert.storyline}" />
 	        <h:message for="movieStoryline"></h:message>
 			
 			<h:outputLabel for="movieGenres"  value="#{msg.movieGenres}:" />
@@ -60,7 +60,14 @@
 			<h:outputLabel for="movieRuntime"  value="#{msg.movieRuntime}:" />
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
 	        <h:message for="movieRuntime" />
-						
+				
+			<h:outputLabel for="radioLocationType" value="#{msg.movieLocationType}"></h:outputLabel>		
+			<h:selectOneRadio id="radioLocationType" value="#{movie.movieInsert.movieLocationType}">
+				<f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
+				<f:selectItem itemValue="2" itemLabel="Youtube"></f:selectItem>
+			</h:selectOneRadio>
+			<h:message for="rodioLocationType" />
+			
 			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
 			<h:inputText id="movieLocation" value="#{movie.movieInsert.movieLocation}"  rendered="#{login.user.privilege eq 3}" />
 			

@@ -2,7 +2,6 @@ package dto;
 
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class MovieDTO implements Serializable {
 	private String trailerLocation;
 	private Integer runtimeMinutes;
 	private Integer rate;
+	private Integer movieLocationType;
 	private String movieLocation;
 	private Date addedDate;
 	private boolean active;
@@ -170,6 +170,14 @@ public class MovieDTO implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Integer getMovieLocationType() {
+		return movieLocationType;
+	}
+
+	public void setMovieLocationType(Integer movieLocationType) {
+		this.movieLocationType = movieLocationType;
 	}
 	
 	

@@ -19,7 +19,7 @@
 			#{actor} &#160;
 		</ui:repeat>
 
-		#{msg.movieStroyline}:
+		#{msg.movieStoryline}:
 		<h:outputText value="#{login.movie.movieSelected.storyline}"></h:outputText>
 
 		#{msg.movieGenres}:
@@ -29,15 +29,24 @@
 			
 		#{msg.movieTrailer}:
 		<h:outputLink value="#{login.movie.movieSelected.trailerLocation}">Trailer</h:outputLink>
-
+		<video controls="controls">
+			<source src="#{login.movie.movieSelected.trailerLocation}" type="video/mp4" />
+		</video>
+		
 		#{msg.movieRuntime}:
 		<h:outputText value="#{login.movie.movieSelected.runtimeMinutes}"></h:outputText>
 
 		#{msg.movieRate}:
 		<h:outputText value="#{login.movie.movieSelected.rate}"></h:outputText>
 
+		
+		
 		#{msg.movieMovie}:
-		<h:outputText value="#{login.movie.movieSelected.movieLocation}"></h:outputText>
+		<video controls="controls">
+			<source src="/movies/#{login.movie.movieSelected.movieLocation}" type="video/mp4" />
+		</video>
+		
+		<iframe src="/movies/#{login.movie.movieSelected.movieLocation}"></iframe>
 		
 	</h:panelGrid>	
 	

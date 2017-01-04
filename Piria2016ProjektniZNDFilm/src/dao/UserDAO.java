@@ -17,9 +17,9 @@ import dto.UserDTO;
  */
 public class UserDAO {
 
-	static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
-	static final String SQL_GET_BY_USERNAME = "SELECT * FROM zndfilm.users where username = ?;";
-	static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
+	private static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
+	private static final String SQL_GET_BY_USERNAME = "SELECT * FROM zndfilm.users where username = ?;";
+	private static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
 
 	public static UserDTO login(String username, String password){
 		//UserDTO user = usersMap.get(username);

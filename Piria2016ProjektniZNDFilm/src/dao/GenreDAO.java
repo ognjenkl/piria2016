@@ -13,8 +13,8 @@ import dto.GenreDTO;
 
 public class GenreDAO {
 
-	static final String SQL_ALL = "SELECT * FROM genres;";
-	static final String SQL_INSERT = "INSERT INTO genres (name) VALUES (?);";
+	private static final String SQL_ALL = "SELECT * FROM genres;";
+	private static final String SQL_INSERT = "INSERT INTO genres (name) VALUES (?);";
 
 	public GenreDAO() {
 		// TODO Auto-generated constructor stub

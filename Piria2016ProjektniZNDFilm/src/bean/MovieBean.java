@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import actor.Actor;
 import actor.ActorServiceLocator;
+import dao.ActorDAO;
 import dao.GenreDAO;
 import dao.MovieDAO;
 import dao.MovieHasActorDAO;
@@ -39,12 +41,13 @@ import dto.MovieDTO;
  *
  */
 @ManagedBean (name="movie")
-@SessionScoped
+@SessionScoped //zbog login bean-a, ne moze biti manji skope nego u login
 public class MovieBean implements Serializable{
 	
 	private static final long serialVersionUID = -6851375545924053833L;
 	String keyWord;
 	//lista filmova trazenih u pretrazi
+	//koristi se       	<Context docBase="G:\filmUpload" path="/movies/" /> na Tomcat serveru u server.xml
 	List<MovieDTO> foundMoviesList;
 	//film koji ce biti prikazan na stranici movie.xhtml zasebno
 	MovieDTO movieSelected;
@@ -107,7 +110,6 @@ public class MovieBean implements Serializable{
 	public String search(){
 //		foundMoviesList = MovieDAO.search(keyWord);
 		foundMoviesList = MovieDAO.getByTitle(keyWord);
-		
 		//return "guest.xhtml?faces-redirect=true";
 		return null;
 	}
@@ -165,7 +167,7 @@ public class MovieBean implements Serializable{
 				selectedGenres = null;
 				
 				//add relations between movie and actors
-				Map<String, ActorDTO> mapOfAllActors = MovieDAO.getAllActorsNameMap();
+				Map<String, ActorDTO> mapOfAllActors = ActorDAO.getAllActorsNameMap();
 				for(String actor : actors){
 					MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
 					//int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
