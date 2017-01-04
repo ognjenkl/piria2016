@@ -61,10 +61,10 @@
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
 	        <h:message for="movieRuntime" />
 				
-			<h:outputLabel for="radioLocationType" value="#{msg.movieLocationType}"></h:outputLabel>		
+			<h:outputLabel for="radioLocationType" value="#{msg.movieLocationType}:"></h:outputLabel>		
 			<h:selectOneRadio id="radioLocationType" value="#{movie.movieInsert.movieLocationType}">
-				<f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
-				<f:selectItem itemValue="2" itemLabel="Youtube"></f:selectItem>
+				<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
+				<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
 			</h:selectOneRadio>
 			<h:message for="rodioLocationType" />
 			

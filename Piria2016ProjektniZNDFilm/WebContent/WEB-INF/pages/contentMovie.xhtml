@@ -42,11 +42,11 @@
 		
 		
 		#{msg.movieMovie}:
-		<video controls="controls">
+		<video controls="controls"  style="display:#{(login.movie.movieSelected.movieLocationType == 1)?'block':'none'}" >
 			<source src="/movies/#{login.movie.movieSelected.movieLocation}" type="video/mp4" />
 		</video>
 		
-		<iframe src="/movies/#{login.movie.movieSelected.movieLocation}"></iframe>
+		<h:outputLink value="#{login.movie.movieSelected.movieLocation}" rendered="#{login.movie.movieSelected.movieLocationType == 2}">Full moive</h:outputLink>
 		
 	</h:panelGrid>	
 	
