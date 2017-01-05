@@ -41,6 +41,7 @@
 		#{msg.movieRate}:
 		<h:outputText value="#{login.movie.movieSelected.rate}"></h:outputText>		
 		
+		<h:commandButton value="#{msg.delete}" action="#{login.movie.delete()}" />
 	</h:panelGrid>	
 	
 </ui:composition>

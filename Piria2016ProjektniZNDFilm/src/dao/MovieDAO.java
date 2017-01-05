@@ -30,6 +30,7 @@ public class MovieDAO {
 	
 	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_GET_BY_TITLE = "SELECT * FROM movies WHERE active = 1 AND title LIKE ?;";
+	private static final String SQL_DELETE = "UPDATE movies SET active=0 WHERE id=?";
 	
 	
 
@@ -130,5 +131,30 @@ public class MovieDAO {
 	}
 	
 
+	public static int delete(MovieDTO movie){
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		int retVal = -1;
+		ResultSet resultSet = null;
+		
+		try{
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_DELETE);
+			ppst.setInt(1, movie.getId());
+			
+			retVal = ppst.executeUpdate();
+			
+			
+			ppst.close();
+			return retVal;
+		} catch (Exception e){
+			//TODO log
+			return retVal;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	}
+	
+	
 
 }

@@ -116,7 +116,7 @@ public class MovieBean implements Serializable{
 		return "movie.xhtml?faces-redirect=true";
 	}
 	
-	public void addMovie(){
+	public String addMovie(){
 		try {
 			
 			//array of actors out of string from form
@@ -158,15 +158,17 @@ public class MovieBean implements Serializable{
 			//clear movie property for the subsequent use
 			movieInsert = new MovieDTO();
 
-			
+			return null;
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			movieInsert = new MovieDTO();
+			return null;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			movieInsert = new MovieDTO();
+			return null;
 		}
 		
 	}
@@ -188,10 +190,10 @@ public class MovieBean implements Serializable{
 						Files.copy(in, new File(filePath).toPath());
 						System.out.println("Uploaded file: " + filePath);
 						
-						return filePath;
+						return fileName;
 					} else {
 						System.out.println("Upload file \"" + fileName + "\" already exists");
-						return filePath;
+						return fileName;
 					}
 					
 				} else {
@@ -223,6 +225,29 @@ public class MovieBean implements Serializable{
         return null;
     }
 
+    public String delete() {
+    	String retVal = "guest?faces-redirect=true";
+    	if(MovieDAO.delete(movieSelected) > 0) {
+    		retVal = "guest?faces-redirect=true";
+    	} else 
+    		retVal = null;
+    	
+    	return retVal;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	public String getKeyWord() {
 		return keyWord;
 	}
