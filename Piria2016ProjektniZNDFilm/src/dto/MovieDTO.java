@@ -2,6 +2,7 @@ package dto;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,17 +19,19 @@ public class MovieDTO implements Serializable {
 	private Date releaseDate;
 	private List<String> actors;
 	private String storyline;
+	private Integer trailerLocationType;
 	private List<String> genres;
 	private String trailerLocation;
 	private Integer runtimeMinutes;
 	private Integer rate;
-	private Integer trailerLocationType;
 	private Date addedDate;
 	private boolean active;
 	
 	
 	public MovieDTO() {
-		trailerLocationType = 1;
+		trailerLocationType = 2;
+		genres = new ArrayList<>();
+		actors = new ArrayList<>();
 	}
 	
 //	public MovieDTO(String title, Date releaseDate, List<String> actors, String storyline,

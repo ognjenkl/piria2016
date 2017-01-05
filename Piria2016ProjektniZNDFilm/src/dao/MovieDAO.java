@@ -28,7 +28,7 @@ public class MovieDAO {
 
 	static List<MovieDTO> list = null;
 	
-	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location, runtime_minutes, movie_location_type, movie_location) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_GET_BY_TITLE = "SELECT * FROM movies WHERE active = 1 AND title LIKE ?;";
 	
 	

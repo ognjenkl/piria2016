@@ -21,6 +21,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
+import org.eclipse.jdt.internal.compiler.ast.InstanceOfExpression;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,8 +130,10 @@ public class MovieBean implements Serializable{
 			for(String actor : actors)
 				a.insertActor(actor);
 			
-			if(moviePart != null)
+			
+			if(movieInsert.getTrailerLocationType() == 1)
 				movieInsert.setTrailerLocation(uploadMovie());
+
 			//add movie to database
 			int movieId = MovieDAO.insert(movieInsert);
 			if (movieId > 0){
@@ -159,9 +162,11 @@ public class MovieBean implements Serializable{
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			movieInsert = new MovieDTO();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			movieInsert = new MovieDTO();
 		}
 		
 	}
