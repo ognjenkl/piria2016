@@ -82,7 +82,6 @@ public class MovieBean implements Serializable{
 		foundMoviesList = null;
 		movieSelected = null;
 		movieInsert = new MovieDTO();
-		//selectedActors = new ArrayList<>();
 		
 		prop = new Properties();
 		try {
@@ -99,35 +98,20 @@ public class MovieBean implements Serializable{
 
 		genreValues = new LinkedHashMap<>();
 		List<GenreDTO> gens = GenreDAO.getAll();
-		for (GenreDTO g : gens) {
-			//System.out.print(g.getName());
+		for (GenreDTO g : gens) 
 			genreValues.put(g.getId(), g.getName().toString());
-		}
 		
 	}
 	
 	
 	public String search(){
-//		foundMoviesList = MovieDAO.search(keyWord);
 		foundMoviesList = MovieDAO.getByTitle(keyWord);
-		//return "guest.xhtml?faces-redirect=true";
 		return null;
 	}
 	
-//	public String details(){
-//		
-//		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//		String movie = params.get("selectedMovie");
-//		movieSelected = MovieDAO.getByTitle(movie);
-//		System.out.println("Film: " + movieSelected.getTitle());
-//		
-//		return "movie?faces-redirect=true";
-//	}
 	
 	public String details2(MovieDTO movie){
 		movieSelected = movie;
-		
-		//return "pages/movie.xhtml?faces-redirect=true";
 		return "movie.xhtml?faces-redirect=true";
 	}
 	
@@ -142,17 +126,11 @@ public class MovieBean implements Serializable{
 			//insert all actors who haven't existed in database through Soap ws
 			//Soap
 			Actor a = new ActorServiceLocator().getActor();
-			for(String actor : actors){
+			for(String actor : actors)
 				a.insertActor(actor);
-				//int actorId = a.insertActor(actor);
-//				if (actorId > 0)
-//					System.out.println("Dodat actor " + actor + ": " + actorId);
-//				else
-//					System.out.println("Actor " + actor +  " nije dodat");
-			}			
 			
 			if(moviePart != null)
-				movieInsert.setMovieLocation(uploadMovie());
+				movieInsert.setTrailerLocation(uploadMovie());
 			//add movie to database
 			int movieId = MovieDAO.insert(movieInsert);
 			if (movieId > 0){
@@ -170,13 +148,6 @@ public class MovieBean implements Serializable{
 				Map<String, ActorDTO> mapOfAllActors = ActorDAO.getAllActorsNameMap();
 				for(String actor : actors){
 					MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
-					//int movieHasActorRowCount = MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
-//					if (movieHasActorRowCount > 0)
-//						System.out.println("Successful save relation actor " + actor + " to movie " + movieInsert.getTitle());
-//					else
-//						System.out.println("Unsuccessful save relation actor " + actor + " to movie " + movieInsert.getTitle());
-					
-						
 				}
 			} else
 				System.out.println("Not added movie " + movieInsert.getTitle());

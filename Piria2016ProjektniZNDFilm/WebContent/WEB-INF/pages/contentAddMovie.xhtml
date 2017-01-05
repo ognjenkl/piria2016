@@ -19,6 +19,33 @@
 			});
 		}
 		
+		
+		$(document).on("change","input[type=radio]", function(){
+			var rad=$('[name="addMovieForm:radioLocationType"]:checked').val();
+			switch (rad){
+				case '1':
+					$('[name="addMovieForm:movieTrailer"]').hide();
+					$('[name="addMovieForm:movieUpload"]').show();
+					break;
+				case '2':
+					$('[name="addMovieForm:movieTrailer"]').show();
+					$('[name="addMovieForm:movieUpload"]').hide();
+					break;
+			}
+		});
+		
+		$(document).ready(function(){
+			var rad=$('[name="addMovieForm:radioLocationType"]:checked').val();
+			switch (rad){
+				case '1':
+					$('[name="addMovieForm:movieTrailer"]').hide();
+					break;
+				case '2':
+					$('[name="addMovieForm:movieUpload"]').hide();
+					break;
+			}
+		});
+		
 	</script>
 	
 	<h:form id="addMovieForm" enctype="multipart/form-data">
@@ -53,28 +80,23 @@
 			</h:selectManyListbox>
 	        <h:message for="movieGenres"></h:message>
 			
-			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:" />
-	        <h:inputText id="movieTrailer" value="#{movie.movieInsert.trailerLocation}" />
-	        <h:message for="movieTrailer" />
+			<h:outputLabel for="radioLocationType" value="#{msg.movieLocationType}:" rendered="#{login.user.privilege lt 3}"></h:outputLabel>		
+			<h:selectOneRadio id="radioLocationType" value="#{movie.movieInsert.trailerLocationType}" rendered="#{login.user.privilege lt 3}">
+				<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
+				<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
+			</h:selectOneRadio>
+			
+			<h:message for="rodioLocationType"  rendered="#{login.user.privilege lt 3}"/>
+			
+			<h:outputLabel for="movieTrailer"  value="#{msg.movieTrailer}:"></h:outputLabel>
+			<h:inputText id="movieTrailer" value="#{movie.movieInsert.trailerLocation}" />
+			<h:inputFile id="movieUpload" value="#{movie.moviePart}"  rendered="#{login.user.privilege lt 3}" />
 			
 			<h:outputLabel for="movieRuntime"  value="#{msg.movieRuntime}:" />
 	        <h:inputText id="movieRuntime" value="#{movie.movieInsert.runtimeMinutes}" />
 	        <h:message for="movieRuntime" />
-				
-			<h:outputLabel for="radioLocationType" value="#{msg.movieLocationType}:"></h:outputLabel>		
-			<h:selectOneRadio id="radioLocationType" value="#{movie.movieInsert.movieLocationType}">
-				<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
-				<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
-			</h:selectOneRadio>
-			<h:message for="rodioLocationType" />
 			
-			<h:outputLabel for="movieLocation"  value="#{msg.movieMovie}:" />
-			<h:inputText id="movieLocation" value="#{movie.movieInsert.movieLocation}"  rendered="#{login.user.privilege eq 3}" />
-			
-			<h:inputFile id="movieUpload" value="#{movie.moviePart}" rendered="#{login.user.privilege lt 3}"></h:inputFile>
-			<h:message for="movieLocation" />
-			
-			<h:commandButton value="#{msg.add}" action="#{movie.addMovie()}" />
+			<h:commandButton value="#{msg.add}" action="#{movie.addMovie}" />
 	    </h:panelGrid>
 	</h:form>
 

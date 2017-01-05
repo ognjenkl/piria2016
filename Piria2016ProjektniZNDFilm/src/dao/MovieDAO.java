@@ -53,11 +53,10 @@ public class MovieDAO {
 				movie.setTitle(resultSet.getString(2));
 				movie.setReleaseDate(resultSet.getDate(3));
 				movie.setStoryline(resultSet.getString(4));
-				movie.setTrailerLocation(resultSet.getString(5));
-				movie.setRuntimeMinutes(resultSet.getInt(6));
-				movie.setRate(resultSet.getInt(7));
-				movie.setMovieLocationType(resultSet.getInt(8));
-				movie.setMovieLocation(resultSet.getString(9));
+				movie.setTrailerLocationType(resultSet.getInt(5));
+				movie.setTrailerLocation(resultSet.getString(6));
+				movie.setRuntimeMinutes(resultSet.getInt(7));
+				movie.setRate(resultSet.getInt(8));
 				
 				movie.setActors(MovieHasActorDAO.getActorsByMovieId(movie.getId()));
 				movie.setGenres(MovieHasGenreDAO.getGenresByMovieId(movie.getId()));
@@ -100,22 +99,19 @@ public class MovieDAO {
 				ppst.setString(3, movie.getStoryline());
 			else
 				ppst.setNull(3, Types.NULL);
-			if (movie.getTrailerLocation() != null)
-				ppst.setString(4, movie.getTrailerLocation());
+			if (movie.getTrailerLocationType() != null)
+				ppst.setInt(4, movie.getTrailerLocationType());
 			else
 				ppst.setNull(4, Types.NULL);
-			if (movie.getRuntimeMinutes() != null)
-				ppst.setInt(5, movie.getRuntimeMinutes());
+			if (movie.getTrailerLocation() != null)
+				ppst.setString(5, movie.getTrailerLocation());
 			else
 				ppst.setNull(5, Types.NULL);
-			if (movie.getMovieLocationType() != null)
-				ppst.setInt(6, movie.getMovieLocationType());
+			if (movie.getRuntimeMinutes() != null)
+				ppst.setInt(6, movie.getRuntimeMinutes());
 			else
 				ppst.setNull(6, Types.NULL);
-			if (movie.getMovieLocation() != null)
-				ppst.setString(7, movie.getMovieLocation());
-			else
-				ppst.setNull(7, Types.NULL);
+			
 			
 			int rowCount = ppst.executeUpdate();
 			resultSet = ppst.getGeneratedKeys();

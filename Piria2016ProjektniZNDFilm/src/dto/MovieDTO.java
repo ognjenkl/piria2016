@@ -22,29 +22,27 @@ public class MovieDTO implements Serializable {
 	private String trailerLocation;
 	private Integer runtimeMinutes;
 	private Integer rate;
-	private Integer movieLocationType;
-	private String movieLocation;
+	private Integer trailerLocationType;
 	private Date addedDate;
 	private boolean active;
 	
 	
 	public MovieDTO() {
-		
+		trailerLocationType = 1;
 	}
 	
-	public MovieDTO(String title, Date releaseDate, List<String> actors, String storyline,
-			List<String> genres, String trailerLocation, Integer runtimeMinutes, Integer rate, String movieLocation){
-		this.title = title;
-		this.releaseDate = releaseDate;
-		this.actors = actors;
-		this.storyline = storyline;
-		this.genres = genres;
-		this.trailerLocation = trailerLocation;
-		this.runtimeMinutes = runtimeMinutes;
-		this.rate = rate;
-		this.movieLocation = movieLocation;
-			
-	}
+//	public MovieDTO(String title, Date releaseDate, List<String> actors, String storyline,
+//			List<String> genres, String trailerLocation, Integer runtimeMinutes, Integer rate, String movieLocation){
+//		this.title = title;
+//		this.releaseDate = releaseDate;
+//		this.actors = actors;
+//		this.storyline = storyline;
+//		this.genres = genres;
+//		this.trailerLocation = trailerLocation;
+//		this.runtimeMinutes = runtimeMinutes;
+//		this.rate = rate;
+//			
+//	}
 
 	
 
@@ -143,16 +141,6 @@ public class MovieDTO implements Serializable {
 	}
 
 
-	public String getMovieLocation() {
-		return movieLocation;
-	}
-
-
-	public void setMovieLocation(String movieLocation) {
-		this.movieLocation = movieLocation;
-	}
-
-
 	public Date getAddedDate() {
 		return addedDate;
 	}
@@ -172,12 +160,12 @@ public class MovieDTO implements Serializable {
 		this.active = active;
 	}
 
-	public Integer getMovieLocationType() {
-		return movieLocationType;
+	public Integer getTrailerLocationType() {
+		return trailerLocationType;
 	}
 
-	public void setMovieLocationType(Integer movieLocationType) {
-		this.movieLocationType = movieLocationType;
+	public void setTrailerLocationType(Integer trailerLocationType) {
+		this.trailerLocationType = trailerLocationType;
 	}
 	
 	
