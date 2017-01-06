@@ -45,6 +45,7 @@ import dto.MovieDTO;
 @ManagedBean (name="movie")
 //@SessionScoped //zbog login bean-a, ne moze biti manji skope nego u login
 @ViewScoped
+//@RequestScoped
 public class MovieBean implements Serializable{
 	
 	private static final long serialVersionUID = -6851375545924053833L;
@@ -83,11 +84,14 @@ public class MovieBean implements Serializable{
 	//for movie edit
 	boolean editable;
 	
+	MovieDTO movieEdit;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
 		movieSelected = null;
 		movieInsert = new MovieDTO();
+		
 		
 		prop = new Properties();
 		try {
@@ -98,6 +102,8 @@ public class MovieBean implements Serializable{
 		}
 		
 		editable = false;
+		movieEdit = new MovieDTO();
+		
 	}
 
 	@PostConstruct
@@ -110,6 +116,16 @@ public class MovieBean implements Serializable{
 			genreValues.put(g.getId(), g.getName().toString());
 		
 		movieSelected = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movie");
+		if(movieSelected != null)
+			System.out.println("DA vidimoooooooooooooooooo initttttttttttttttttttt selected " + movieSelected.getTitle());
+
+		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
+		if (movieEdit != null)
+			System.out.println("DA vidimoooooooooooooooooo inittttttttttttttttttttt edit " + movieEdit.getTitle());
+		
+		Object e = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("editable");
+		if( e != null)
+			editable = (boolean) e;
 	}
 	
 	
@@ -119,10 +135,18 @@ public class MovieBean implements Serializable{
 	}
 	
 	
+	public String details(MovieDTO movie) {
+		System.out.println("details ");
+		
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
+		return "movie?faces-redirect=true";
+	}
+	
 	public String details2(MovieDTO movie){
 		//movieSelected = movie;
+		System.out.println("details 2");
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
-		return "movie.xhtml?faces-redirect=true";
+		return "movie?faces-redirect=true";
 		
 	}
 	
@@ -236,6 +260,8 @@ public class MovieBean implements Serializable{
     }
 
     public String delete() {
+		System.out.println("delete");
+
     	String retVal = "guest?faces-redirect=true";
     	if(MovieDAO.delete(movieSelected) > 0) {
     		retVal = "guest?faces-redirect=true";
@@ -246,20 +272,45 @@ public class MovieBean implements Serializable{
     }
     
     public String edit() {
+		System.out.println("edit " + movieSelected.getTitle());
+
     	editable = true;
-    	return null;
+    	try {
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", (MovieDTO) movieSelected.clone());
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);
+    
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
+
+    	return "movie?faces-redirect=true";
+    	//return null;
     }
     
     public String save() {
+		System.out.println("save");
+
     	editable = false;
+    	
     	//#{&#160;} za space
-    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);
-    	return null;
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieEdit);
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
+    	return "movie?faces-redirect=true";
+
+    	//return null;
     }
     
     public String cancel() {
+		System.out.println("cancel");
+
     	editable = false;
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
+
     	return "movie?faces-redirect=true";
     }
     
@@ -422,6 +473,14 @@ public class MovieBean implements Serializable{
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public MovieDTO getMovieEdit() {
+		return movieEdit;
+	}
+
+	public void setMovieEdit(MovieDTO movieEdit) {
+		this.movieEdit = movieEdit;
 	}
 
 

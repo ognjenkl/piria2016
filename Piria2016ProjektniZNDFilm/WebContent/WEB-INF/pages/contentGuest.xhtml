@@ -30,8 +30,7 @@
 				</h:outputText>					
 			</h:column>
 			<h:column rendered="#{login.user.privilege lt 4}">
-				<h:commandLink value="#{msg.details}" action="#{movie.details2(m)}">
-				</h:commandLink>
+				<h:commandLink value="#{msg.details}" action="#{movie.details(m)}" />
 			</h:column>
 		
 		</h:dataTable>

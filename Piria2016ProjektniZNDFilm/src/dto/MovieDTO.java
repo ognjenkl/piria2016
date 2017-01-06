@@ -11,7 +11,7 @@ import java.util.List;
  * @author ognjen
  *
  */
-public class MovieDTO implements Serializable {
+public class MovieDTO implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 2153049650204486652L;
 	private int id;
@@ -48,7 +48,9 @@ public class MovieDTO implements Serializable {
 //	}
 
 	
-
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 
 
 	

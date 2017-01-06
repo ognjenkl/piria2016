@@ -8,22 +8,27 @@
 		<h:panelGrid columns="1" width="600">
 			#{msg.movieTitle}:
 			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
-			<h:inputText value="#{movie.movieSelected.title}" rendered="#{movie.editable}" />
+			<h:inputText value="#{movie.movieEdit.title}" rendered="#{movie.editable}" />
 			
 			#{msg.movieReleaseDate}:
 			<h:outputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{not movie.editable}">
 				<f:convertDateTime type="date" dateStyle="long" />
 			</h:outputText>
-			<h:inputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{movie.editable}">
+			<h:inputText value="#{movie.movieEdit.releaseDate}" rendered="#{movie.editable}">
 				<f:convertDateTime type="date" dateStyle="long" />
 			</h:inputText>
 			
 			#{msg.movieActors}:
 			<ui:repeat value="#{movie.movieSelected.actors}" var="actor">
 				<h:outputText value="#{actor}" rendered="#{not movie.editable}" />
+				<h:outputText value=" | " />
+			</ui:repeat>
+			
+			<ui:repeat value="#{movie.movieEdit.actors}" var="actor">
 				<h:inputText value="#{actor}" rendered="#{movie.editable}" />
 				<h:outputText value=" | " />
 			</ui:repeat>
+			
 	
 			#{msg.movieStoryline}:
 			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>
