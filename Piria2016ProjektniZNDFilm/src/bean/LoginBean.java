@@ -60,8 +60,8 @@ public class LoginBean {
 	Properties prop;
 	
 	//movie bean
-	@ManagedProperty(value="#{movie}")
-	MovieBean movie;
+//	@ManagedProperty(value="#{movie}")
+//	MovieBean movie;
 	
 	
 	
@@ -307,13 +307,13 @@ public class LoginBean {
 		this.availableItems = availableItems;
 	}
 
-	public MovieBean getMovie() {
-		return movie;
-	}
-
-	public void setMovie(MovieBean movie) {
-		this.movie = movie;
-	}
+//	public MovieBean getMovie() {
+//		return movie;
+//	}
+//
+//	public void setMovie(MovieBean movie) {
+//		this.movie = movie;
+//	}
 
 	public ResourceBundle getMsgResourceBundle() {
 		return msgResourceBundle;

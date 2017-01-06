@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
@@ -42,7 +43,8 @@ import dto.MovieDTO;
  *
  */
 @ManagedBean (name="movie")
-@SessionScoped //zbog login bean-a, ne moze biti manji skope nego u login
+//@SessionScoped //zbog login bean-a, ne moze biti manji skope nego u login
+@ViewScoped
 public class MovieBean implements Serializable{
 	
 	private static final long serialVersionUID = -6851375545924053833L;
@@ -78,6 +80,9 @@ public class MovieBean implements Serializable{
 	
 	Properties prop;
 	
+	//for movie edit
+	boolean editable;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -91,6 +96,8 @@ public class MovieBean implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		editable = false;
 	}
 
 	@PostConstruct
@@ -102,6 +109,7 @@ public class MovieBean implements Serializable{
 		for (GenreDTO g : gens) 
 			genreValues.put(g.getId(), g.getName().toString());
 		
+		movieSelected = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movie");
 	}
 	
 	
@@ -112,8 +120,10 @@ public class MovieBean implements Serializable{
 	
 	
 	public String details2(MovieDTO movie){
-		movieSelected = movie;
+		//movieSelected = movie;
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
 		return "movie.xhtml?faces-redirect=true";
+		
 	}
 	
 	public String addMovie(){
@@ -231,11 +241,27 @@ public class MovieBean implements Serializable{
     		retVal = "guest?faces-redirect=true";
     	} else 
     		retVal = null;
-    	
+
     	return retVal;
     }
     
+    public String edit() {
+    	editable = true;
+    	return null;
+    }
     
+    public String save() {
+    	editable = false;
+    	//#{&#160;} za space
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);
+    	return null;
+    }
+    
+    public String cancel() {
+    	editable = false;
+    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);
+    	return "movie?faces-redirect=true";
+    }
     
     
     
@@ -388,6 +414,14 @@ public class MovieBean implements Serializable{
 
 	public void setMoviePart(Part moviePart) {
 		this.moviePart = moviePart;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 
 

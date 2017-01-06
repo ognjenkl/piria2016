@@ -4,44 +4,53 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-
-	<h:panelGrid columns="1" width="600">
-		#{msg.movieTitle}:
-		<h:outputText value="#{login.movie.movieSelected.title}"></h:outputText>
-		
-		#{msg.movieReleaseDate}:
-		<h:outputText value="#{login.movie.movieSelected.releaseDate.time}">
-			<f:convertDateTime type="date" dateStyle="long" />
-		</h:outputText>
-		
-		#{msg.movieActors}:
-		<ui:repeat value="#{login.movie.movieSelected.actors}" var="actor">
-			#{actor} &#160;
-		</ui:repeat>
-
-		#{msg.movieStoryline}:
-		<h:outputText value="#{login.movie.movieSelected.storyline}"></h:outputText>
-
-		#{msg.movieGenres}:
-		<ui:repeat var="genre" value="#{login.movie.movieSelected.genres}">
-			#{genre} &#160;
-		</ui:repeat>
+	<h:form id="movieForm">
+		<h:panelGrid columns="1" width="600">
+			#{msg.movieTitle}:
+			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
+			<h:inputText value="#{movie.movieSelected.title}" rendered="#{movie.editable}" />
 			
-		#{msg.movieTrailer}:
-		<h:outputLink value="#{login.movie.movieSelected.trailerLocation}" rendered="#{login.movie.movieSelected.trailerLocationType == 2 and login.movie.movieSelected.trailerLocation != null}">
-			<h:outputText value="#{msg.movieTrailerWatch}" /> 
-		</h:outputLink>
-		<video controls="controls"  style="display:#{(login.movie.movieSelected.trailerLocationType == 1)?'block':'none'}" >
-			<source src="/trailers/#{login.movie.movieSelected.trailerLocation}" type="video/mp4" />
-		</video>
-		
-		#{msg.movieRuntime}:
-		<h:outputText value="#{login.movie.movieSelected.runtimeMinutes}"></h:outputText>
-
-		#{msg.movieRate}:
-		<h:outputText value="#{login.movie.movieSelected.rate}"></h:outputText>		
-		
-		<h:commandButton value="#{msg.delete}" action="#{login.movie.delete()}" />
-	</h:panelGrid>	
+			#{msg.movieReleaseDate}:
+			<h:outputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{not movie.editable}">
+				<f:convertDateTime type="date" dateStyle="long" />
+			</h:outputText>
+			<h:inputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{movie.editable}">
+				<f:convertDateTime type="date" dateStyle="long" />
+			</h:inputText>
+			
+			#{msg.movieActors}:
+			<ui:repeat value="#{movie.movieSelected.actors}" var="actor">
+				<h:outputText value="#{actor}" rendered="#{not movie.editable}" />
+				<h:inputText value="#{actor}" rendered="#{movie.editable}" />
+				<h:outputText value=" | " />
+			</ui:repeat>
 	
+			#{msg.movieStoryline}:
+			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>
+	
+			#{msg.movieGenres}:
+			<ui:repeat var="genre" value="#{movie.movieSelected.genres}">
+				#{genre} &#160;
+			</ui:repeat>
+				
+			#{msg.movieTrailer}:
+			<h:outputLink value="#{movie.movieSelected.trailerLocation}" rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null}">
+				<h:outputText value="#{msg.movieTrailerWatch}" /> 
+			</h:outputLink>
+			<video controls="controls"  style="display:#{(movie.movieSelected.trailerLocationType == 1)?'block':'none'}" >
+				<source src="/trailers/#{movie.movieSelected.trailerLocation}" type="video/mp4" />
+			</video>
+			
+			#{msg.movieRuntime}:
+			<h:outputText value="#{movie.movieSelected.runtimeMinutes}"></h:outputText>
+	
+			#{msg.movieRate}:
+			<h:outputText value="#{movie.movieSelected.rate}"></h:outputText>		
+			
+			<h:commandButton value="#{msg.delete}" action="#{movie.delete()}" rendered="#{not movie.editable}"/>
+			<h:commandButton value="#{msg.edit}" action="#{movie.edit()}" rendered="#{not movie.editable}"/>
+			<h:commandButton value="#{msg.save}" action="#{movie.save()}" rendered="#{movie.editable}" />
+			<h:commandButton value="#{msg.cancel}" action="#{movie.cancel()}" rendered="#{movie.editable}" />
+		</h:panelGrid>	
+	</h:form>	
 </ui:composition>
