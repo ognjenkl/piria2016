@@ -136,7 +136,6 @@ public class MovieDAO {
 		Connection conn = null;
 		PreparedStatement ppst = null;
 		int retVal = -1;
-		ResultSet resultSet = null;
 		
 		try{
 			conn = ConnectionPool.getConnectionPool().checkOut();
@@ -156,6 +155,35 @@ public class MovieDAO {
 		}
 	}
 	
+	
+	public static int update(MovieDTO movie){
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		int retVal = -1;
+		
+		try{
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_UPDATE);
+			ppst.setString(1, movie.getTitle());
+			ppst.setDate(2, new java.sql.Date(movie.getReleaseDate().getTime()));
+			ppst.setString(3, movie.getStoryline());
+			ppst.setInt(4, movie.getTrailerLocationType());
+			ppst.setString(5, movie.getTrailerLocation());
+			ppst.setInt(6, movie.getRuntimeMinutes());
+			ppst.setInt(7, movie.getId());
+			
+			retVal = ppst.executeUpdate();
+			
+			
+			ppst.close();
+			return retVal;
+		} catch (Exception e){
+			//TODO log
+			return retVal;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	}
 	
 
 }

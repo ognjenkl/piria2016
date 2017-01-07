@@ -16,7 +16,7 @@ public class MovieHasActorDAO {
 
 	private static final String SQL_INSERT = "INSERT INTO movies_has_actors (movies_id, actors_id) VALUES (?, ?);";
 	private static final String SQL_GET_ALL_ACTORS_BY_MOVIE_ID = "SELECT a.name FROM movies_has_actors ma JOIN actors a ON a.id = ma.actors_id WHERE ma.movies_id = ?;";
-
+	private static final String SQL_DELETE = "DELETE mha FROM movies_has_actors mha JOIN actors a ON a.id = mha.actors_id WHERE movies_id=? and a.name=?;";
 	
 	public static int insert(int movieId, int actorId){
 		Connection conn = null;
@@ -72,6 +72,33 @@ public class MovieHasActorDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	}
+	
+	
+	public static int delete(int movieId, String actor){
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		int retVal = -1;
+		
+		try{
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_DELETE);
+			ppst.setInt(1, movieId);
+			ppst.setString(2, actor);
+			
+			int rowCount = ppst.executeUpdate();
+			if (rowCount > 0)
+				retVal = rowCount;
+			
+			
+			ppst.close();
+			return retVal;
+		} catch (Exception e){
+			//TODO log
+			return retVal;
 		} finally {
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}

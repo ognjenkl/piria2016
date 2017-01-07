@@ -87,7 +87,7 @@ public class MovieBean implements Serializable{
 	
 	MovieDTO movieEdit;
 	
-	//List<String> actorsToDeleteOnSaveList;
+	List<String> actorsToDeleteOnSaveList;
 	
 	public MovieBean() {
 		keyWord = null;
@@ -106,14 +106,12 @@ public class MovieBean implements Serializable{
 		
 		editable = false;
 		movieEdit = new MovieDTO();
-		//actorsToDeleteOnSaveList = new ArrayList<>();
+		actorsToDeleteOnSaveList = new ArrayList<>();
 		
 	}
 
 	@PostConstruct
 	public void init(){
-		setActorsString(getActorsString());
-
 		genreValues = new LinkedHashMap<>();
 		List<GenreDTO> gens = GenreDAO.getAll();
 		for (GenreDTO g : gens) 
@@ -130,6 +128,10 @@ public class MovieBean implements Serializable{
 		Object e = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("editable");
 		if( e != null)
 			editable = (boolean) e;
+		
+		setActorsString(getActorsString());
+		System.out.println("actors init: " + getActorsString());
+
 	}
 	
 	
@@ -277,6 +279,7 @@ public class MovieBean implements Serializable{
     
     public String edit() {
 		System.out.println("edit " + movieSelected.getTitle());
+		setActorsString(getActorsString());
 
     	editable = true;
     	try {
@@ -298,17 +301,16 @@ public class MovieBean implements Serializable{
 
     	editable = false;
     	
-//    	for(String a : actorsToDeleteOnSaveList) {
-//    		movieEdit.getActors().remove(a);
-//    		//TODO db update
-//    	}
+    	for(String a : actorsToDeleteOnSaveList) {
+    		MovieHasActorDAO.delete(movieEdit.getId(), a);
+    	}
     	
     	//#{&#160;} za space
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieEdit);
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
     	
-    	//actorsToDeleteOnSaveList = new ArrayList<>();
+    	actorsToDeleteOnSaveList = new ArrayList<>();
     	return "movie?faces-redirect=true";
 
     	//return null;
@@ -322,15 +324,15 @@ public class MovieBean implements Serializable{
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
 
-    	//actorsToDeleteOnSaveList = new ArrayList<>();
+    	actorsToDeleteOnSaveList = new ArrayList<>();
     	
     	return "movie?faces-redirect=true";
     }
     
     public String deleteActor(String actor) {
     	movieEdit.getActors().remove(actor);
-		
-    	//actorsToDeleteOnSaveList.add(actor);
+    	actorsToDeleteOnSaveList.add(actor);
+
     	return null;
     }
     

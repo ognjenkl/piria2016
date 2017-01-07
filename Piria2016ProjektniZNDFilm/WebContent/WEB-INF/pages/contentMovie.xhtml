@@ -4,6 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+	
+
 	<h:form id="movieForm">
 		<h:panelGrid columns="1" width="600">
 			#{msg.movieTitle}:
@@ -24,10 +26,6 @@
 				<h:outputText value=" | " rendered="#{not movie.editable}" />
 			</ui:repeat>
 			
-			<ui:repeat value="#{movie.movieEdit.actors}" var="actor">
-				<h:inputText value="#{actor}" rendered="#{movie.editable}" />
-				<h:outputText value=" | " rendered="#{movie.editable}" />
-			</ui:repeat>
 			<h:dataTable border="1" value="#{movie.movieEdit.actors}" var="a" 
 						rendered="#{movie.editable}">
 				<h:column>
@@ -38,6 +36,7 @@
 				</h:column>
 			</h:dataTable>
 	
+			
 			#{msg.movieStoryline}:
 			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>
 	
