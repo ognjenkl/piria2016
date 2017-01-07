@@ -4,7 +4,19 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+	<h:outputScript library="js" name="tag-it.js"></h:outputScript>
+	<h:outputStylesheet library="css" name="jquery.tagit.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="tagit.ui-zendesk.css"></h:outputStylesheet>
 	
+	<script>
+		
+		function allActors(a) {
+			$('#movieForm\\:actorName').tagit({
+				availableTags: a,
+				allowSpaces: true
+			});
+		}
+	</script>
 
 	<h:form id="movieForm">
 		<h:panelGrid columns="1" width="600">
@@ -36,6 +48,10 @@
 				</h:column>
 			</h:dataTable>
 	
+			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" />
+			<h:inputText id="actorName" value="#{movie.actorName}" 
+							onfocus="allActors(#{movie.actorsString})" />
+			<h:message for="actorName" style="color: red"></h:message>
 			
 			#{msg.movieStoryline}:
 			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>

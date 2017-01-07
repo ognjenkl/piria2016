@@ -160,14 +160,14 @@ public class MovieBean implements Serializable{
 		try {
 			
 			//array of actors out of string from form
-			String[] actors = actorName.split(",");
+			String[] actorsToAddWhileAddingMovie = actorName.split(",");
 			//clear actors string for the subsequent use
 			actorName = "";
 			
 			//insert all actors who haven't existed in database through Soap ws
 			//Soap
 			Actor a = new ActorServiceLocator().getActor();
-			for(String actor : actors)
+			for(String actor : actorsToAddWhileAddingMovie)
 				a.insertActor(actor);
 			
 			
@@ -189,7 +189,7 @@ public class MovieBean implements Serializable{
 				
 				//add relations between movie and actors
 				Map<String, ActorDTO> mapOfAllActors = ActorDAO.getAllActorsNameMap();
-				for(String actor : actors){
+				for(String actor : actorsToAddWhileAddingMovie){
 					MovieHasActorDAO.insert(movieId, mapOfAllActors.get(actor).getId());
 				}
 			} else
@@ -305,6 +305,36 @@ public class MovieBean implements Serializable{
     		MovieHasActorDAO.delete(movieEdit.getId(), a);
     	}
     	
+    	//array of actors out of string from form
+		String[] actorsToAddList = actorName.split(",");
+		//clear actors string for the subsequent use
+		actorName = "";
+    	
+		//insert all actors who haven't existed in database through Soap ws
+		//Soap
+		Actor a;
+		try {
+			a = new ActorServiceLocator().getActor();
+			for(String actor : actorsToAddList)
+				a.insertActor(actor);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//add relations between movie and actors
+		Map<String, ActorDTO> mapOfAllActors = ActorDAO.getAllActorsNameMap();
+		for(String actor : actorsToAddList){
+			MovieHasActorDAO.insert(movieEdit.getId(), mapOfAllActors.get(actor).getId());
+			if(!movieEdit.getActors().contains(actor))
+				movieEdit.getActors().add(actor);
+		}
+		
+		
+		
     	//#{&#160;} za space
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieEdit);
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());

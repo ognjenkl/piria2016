@@ -11,7 +11,7 @@ public class MovieHasGenreDAO {
 
 	private static final String SQL_INSERT = "INSERT INTO movies_has_genres (movies_id, genres_id) VALUES (?, ?);";
 	private static final String SQL_GET_ALL_GENRES_BY_MOVIE_ID = "SELECT g.name FROM movies_has_genres mg JOIN genres g ON g.id = mg.genres_id WHERE mg.movies_id = ?;";
-	
+
 	public static int insert(int movieId, int genreId){
 		Connection conn = null;
 		PreparedStatement ppst = null;
