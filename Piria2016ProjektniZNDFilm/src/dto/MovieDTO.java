@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
+
 
 /**
  * @author ognjen
@@ -49,7 +51,12 @@ public class MovieDTO implements Serializable, Cloneable {
 
 	
 	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+		MovieDTO movie = (MovieDTO) super.clone();
+		movie.setActors(new ArrayList<>());
+		movie.setGenres(new ArrayList<>());
+		movie.getActors().addAll(actors);
+		movie.getGenres().addAll(genres);
+		return movie;
 	}
 
 

@@ -21,14 +21,22 @@
 			#{msg.movieActors}:
 			<ui:repeat value="#{movie.movieSelected.actors}" var="actor">
 				<h:outputText value="#{actor}" rendered="#{not movie.editable}" />
-				<h:outputText value=" | " />
+				<h:outputText value=" | " rendered="#{not movie.editable}" />
 			</ui:repeat>
 			
 			<ui:repeat value="#{movie.movieEdit.actors}" var="actor">
 				<h:inputText value="#{actor}" rendered="#{movie.editable}" />
-				<h:outputText value=" | " />
+				<h:outputText value=" | " rendered="#{movie.editable}" />
 			</ui:repeat>
-			
+			<h:dataTable border="1" value="#{movie.movieEdit.actors}" var="a" 
+						rendered="#{movie.editable}">
+				<h:column>
+					<h:outputText value="#{a}" />
+				</h:column>
+				<h:column>
+					<h:commandLink value="#{msg.delete}" action="#{movie.deleteActor(a)}" />
+				</h:column>
+			</h:dataTable>
 	
 			#{msg.movieStoryline}:
 			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>

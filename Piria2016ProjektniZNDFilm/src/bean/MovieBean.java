@@ -22,6 +22,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
+import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
 import org.eclipse.jdt.internal.compiler.ast.InstanceOfExpression;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +87,8 @@ public class MovieBean implements Serializable{
 	
 	MovieDTO movieEdit;
 	
+	//List<String> actorsToDeleteOnSaveList;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -103,6 +106,7 @@ public class MovieBean implements Serializable{
 		
 		editable = false;
 		movieEdit = new MovieDTO();
+		//actorsToDeleteOnSaveList = new ArrayList<>();
 		
 	}
 
@@ -294,10 +298,17 @@ public class MovieBean implements Serializable{
 
     	editable = false;
     	
+//    	for(String a : actorsToDeleteOnSaveList) {
+//    		movieEdit.getActors().remove(a);
+//    		//TODO db update
+//    	}
+    	
     	//#{&#160;} za space
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieEdit);
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
+    	
+    	//actorsToDeleteOnSaveList = new ArrayList<>();
     	return "movie?faces-redirect=true";
 
     	//return null;
@@ -311,10 +322,17 @@ public class MovieBean implements Serializable{
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
 
+    	//actorsToDeleteOnSaveList = new ArrayList<>();
+    	
     	return "movie?faces-redirect=true";
     }
     
-    
+    public String deleteActor(String actor) {
+    	movieEdit.getActors().remove(actor);
+		
+    	//actorsToDeleteOnSaveList.add(actor);
+    	return null;
+    }
     
     
     

@@ -31,8 +31,9 @@ public class MovieDAO {
 	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_GET_BY_TITLE = "SELECT * FROM movies WHERE active = 1 AND title LIKE ?;";
 	private static final String SQL_DELETE = "UPDATE movies SET active=0 WHERE id=?";
+	private static final String SQL_UPDATE = "UPDATE movies SET title=?, release_date=? , storyline=?, trailer_location_type=?, trailer_location=?, runtime_minutes=? WHERE id=?";
 	
-	
+	//actors, genres
 
 	
 	public static List<MovieDTO> getByTitle(String title){
