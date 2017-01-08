@@ -48,18 +48,27 @@
 				</h:column>
 			</h:dataTable>
 	
-			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" />
+			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" rendered="#{movie.editable}" />
 			<h:inputText id="actorName" value="#{movie.actorName}" 
-							onfocus="allActors(#{movie.actorsString})" />
-			<h:message for="actorName" style="color: red"></h:message>
+							onfocus="allActors(#{movie.actorsString})" rendered="#{movie.editable}" />
+			<h:message for="actorName" style="color: red" rendered="#{movie.editable}" />
 			
 			#{msg.movieStoryline}:
-			<h:outputText value="#{movie.movieSelected.storyline}"></h:outputText>
+			<h:outputText value="#{movie.movieSelected.storyline}" rendered="#{not movie.editable}" />
+			<h:inputText value="#{movie.movieEdit.storyline}" rendered="#{movie.editable}" />
 	
 			#{msg.movieGenres}:
 			<ui:repeat var="genre" value="#{movie.movieSelected.genres}">
-				#{genre} &#160;
+				<h:outputText value="#{genre}" rendered="#{not movie.editable}" />
+				<h:outputText value=" | " rendered="#{not movie.editable}" />
 			</ui:repeat>
+			
+			<h:selectManyListbox id="movieGenres"  value="#{movie.selectedGenres}" rendered="#{movie.editable}">
+				<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
+				<f:selectItems value="#{movie.genresAllList}" var="g" 
+								itemValue="#{g.id}" itemLabel="#{g.name}" />
+			</h:selectManyListbox>
+	        <h:message for="movieGenres" rendered="#{movie.editable}" />
 				
 			#{msg.movieTrailer}:
 			<h:outputLink value="#{movie.movieSelected.trailerLocation}" rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null}">
