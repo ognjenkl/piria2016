@@ -79,7 +79,8 @@
 			</video>
 			
 			#{msg.movieRuntime}:
-			<h:outputText value="#{movie.movieSelected.runtimeMinutes}"></h:outputText>
+			<h:outputText value="#{movie.movieSelected.runtimeMinutes}" rendered="#{not movie.editable}" />
+			<h:inputText value="#{movie.movieEdit.runtimeMinutes}" rendered="#{movie.editable}" />
 	
 			#{msg.movieRate}:
 			<h:outputText value="#{movie.movieSelected.rate}"></h:outputText>		
