@@ -122,28 +122,29 @@ public class MovieBean implements Serializable{
 		
 		movieSelected = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movie");
 		if(movieSelected != null) {
-			System.out.println("DA vidimoooooooooooooooooo initttttttttttttttttttt selected " + movieSelected.getTitle());
+			System.out.println("init selected, movieSelected.title: " + movieSelected.getTitle());
 			selectedGenres = MovieHasGenreDAO.getGenreIdListByMovieId(movieSelected.getId());
 		}
 		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
 		if (movieEdit != null)
-			System.out.println("DA vidimoooooooooooooooooo inittttttttttttttttttttt edit " + movieEdit.getTitle());
+			System.out.println("init edit, movieEdit.title:  " + movieEdit.getTitle());
 		
 		Object e = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("editable");
 		if( e != null)
 			editable = (boolean) e;
 		
 		setActorsString(getActorsString());
-		System.out.println("actors init: " + getActorsString());
+//		System.out.println("actors init: " + getActorsString());
 		
 		genresAllList = GenreDAO.getAll();
 		
-		
-		System.out.println("geners and all list");
-		if (selectedGenres != null && selectedGenres[0] != null)
-			System.out.println("init selected genres: " + selectedGenres[0]);
-    	if (genresAllList != null && genresAllList.get(0) != null)
-    		System.out.println("init genres all list: " + genresAllList.get(0).getId());
+//		moviePart = (Part) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("multiPart");
+
+//		System.out.println("geners and all list");
+//		if (selectedGenres != null && selectedGenres[0] != null)
+//			System.out.println("init selected genres: " + selectedGenres[0]);
+//    	if (genresAllList != null && genresAllList.get(0) != null)
+//    		System.out.println("init genres all list: " + genresAllList.get(0).getId());
 
 	}
 	
@@ -183,7 +184,7 @@ public class MovieBean implements Serializable{
 			for(String actor : actorsToAddWhileAddingMovie)
 				a.insertActor(actor);
 			
-			
+			//uplaod movie
 			if(movieInsert.getTrailerLocationType() == 1)
 				movieInsert.setTrailerLocation(uploadMovie());
 
@@ -230,7 +231,10 @@ public class MovieBean implements Serializable{
 	 * Returns string path of the uploaded movie.
 	 */
 	public String uploadMovie() {
+		System.out.println("null pointeereeeeeer exceptionneeeee: " + moviePart);
+		
 		try(InputStream in = moviePart.getInputStream()) {
+			System.out.println("null pointeereeeeeer exceptionnfffffffffffffffffffffffffff");
 			String dirPath = prop.getProperty("upload.location");
 			File dir = new File(dirPath);
 			if(dir.exists()) {
@@ -259,10 +263,14 @@ public class MovieBean implements Serializable{
 				return null;
 			}
 		} catch (IOException e) {
+			System.out.println("null pointeereeeeeer exceptionngggggggggggggggggggggggggggggg");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.print("Something with moviePart: ");
+			System.out.println(moviePart);
 			return null;
 		}
+	
 	}
 
     private static String getFilename(Part part) {
@@ -314,8 +322,7 @@ public class MovieBean implements Serializable{
     public String save() {
 		System.out.println("save");
 		
-		//update movie i table movies
-		MovieDAO.update(movieEdit);
+		
 		
 		//set editable to false to disable editable fields on view
     	editable = false;
@@ -347,7 +354,7 @@ public class MovieBean implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//add relations between movie and actors
 		Map<String, ActorDTO> mapOfAllActors = ActorDAO.getAllActorsNameMap();
 		if(actorsToAddList != null)
@@ -357,16 +364,26 @@ public class MovieBean implements Serializable{
 					movieEdit.getActors().add(actor);
 			}
 		
-		
+
 		MovieHasGenreDAO.deleteByMovieId(movieEdit.getId());
 		for(Integer genreId : selectedGenres)
 			MovieHasGenreDAO.insert(movieEdit.getId(), genreId);
 		movieEdit.setGenres(MovieHasGenreDAO.getGenresByMovieId(movieEdit.getId()));
-		
+
+		//upload movie
+		if(moviePart != null && movieEdit.getTrailerLocationType() == 1){
+			movieEdit.setTrailerLocation(uploadMovie());
+		}
+
+		//update movie i table movies
+		MovieDAO.update(movieEdit);
+				
     	//#{&#160;} za space
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieEdit);
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movieEdit", new MovieDTO());
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("editable", editable);
+//    	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("multiPart", moviePart);
+
     	
     	actorsToDeleteOnSaveList = new ArrayList<>();
     	selectedGenres = null;

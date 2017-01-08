@@ -16,9 +16,35 @@
 				allowSpaces: true
 			});
 		}
+		
+		$(document).on("change","input[type=radio]", function(){
+			var rad=$('[name="movieForm:radioLocationType"]:checked').val();
+			switch (rad){
+				case '1':
+					$('[name="movieForm:movieTrailer"]').hide();
+					$('[name="movieForm:movieUpload"]').show();
+					break;
+				case '2':
+					$('[name="movieForm:movieTrailer"]').show();
+					$('[name="movieForm:movieUpload"]').hide();
+					break;
+			}
+		});
+		
+		$(document).ready(function(){
+			var rad=$('[name="movieForm:radioLocationType"]:checked').val();
+			switch (rad){
+				case '1':
+					$('[name="movieForm:movieTrailer"]').hide();
+					break;
+				case '2':
+					$('[name="movieForm:movieUpload"]').hide();
+					break;
+			}
+		});
 	</script>
 
-	<h:form id="movieForm">
+	<h:form id="movieForm" enctype="multipart/form-data">
 		<h:panelGrid columns="1" width="600">
 			#{msg.movieTitle}:
 			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
@@ -70,13 +96,32 @@
 			</h:selectManyListbox>
 	        <h:message for="movieGenres" rendered="#{movie.editable}" />
 				
-			#{msg.movieTrailer}:
-			<h:outputLink value="#{movie.movieSelected.trailerLocation}" rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null}">
+				
+				
+			<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{not movie.editable}"/>
+			<h:outputLink value="#{movie.movieSelected.trailerLocation}" target="_blank" 
+							rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null and !movie.editable}">
 				<h:outputText value="#{msg.movieTrailerWatch}" /> 
 			</h:outputLink>
-			<video controls="controls"  style="display:#{(movie.movieSelected.trailerLocationType == 1)?'block':'none'}" >
+			<video controls="controls"  style="display:#{(movie.movieSelected.trailerLocationType == 1 and !movie.editable)?'block':'none'}">
 				<source src="/trailers/#{movie.movieSelected.trailerLocation}" type="video/mp4" />
 			</video>
+			
+			
+			<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{login.user.privilege lt 3 and movie.editable}"/>
+			<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
+				<h:selectOneRadio id="radioLocationType" value="#{movie.movieEdit.trailerLocationType}" rendered="#{login.user.privilege lt 3}">
+					<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
+					<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
+				</h:selectOneRadio>
+			</h:panelGroup> 
+			<h:message for="rodioLocationType" rendered="#{login.user.privilege lt 3 and movie.editable}" />
+			<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
+				<h:inputText id="movieTrailer" value="#{movie.movieEdit.trailerLocation}" />
+				<h:inputFile id="movieUpload" value="#{movie.moviePart}"  rendered="#{login.user.privilege lt 3}" />
+			</h:panelGroup>
+			<h:message for="movieTrailer" rendered="#{movie.editable}" />
+					
 			
 			#{msg.movieRuntime}:
 			<h:outputText value="#{movie.movieSelected.runtimeMinutes}" rendered="#{not movie.editable}" />
