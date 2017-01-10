@@ -414,7 +414,13 @@ public class MovieBean implements Serializable{
     	return null;
     }
     
-    
+    public String cancleAddMovie() {
+//    	actorName = "";
+//    	selectedGenres = null;
+//    	movieInsert = new MovieDTO();
+
+    	return "guest?faces-redirect=true";
+    }
     
     
     

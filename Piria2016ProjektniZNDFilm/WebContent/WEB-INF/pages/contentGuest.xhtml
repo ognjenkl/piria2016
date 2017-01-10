@@ -23,10 +23,10 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="#{msg.movieReleaseDate}"/>
+					<h:outputText value="#{msg.movieReleaseDate}" />
 				</f:facet>
 				<h:outputText value="#{m.releaseDate.time}">
-					<f:convertDateTime type="date" dateStyle="long" />
+					<f:convertDateTime type="date" dateStyle="long" pattern="dd.MM.yyyy." />
 				</h:outputText>					
 			</h:column>
 			<h:column rendered="#{login.user.privilege lt 4}">

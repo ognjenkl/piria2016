@@ -2,7 +2,8 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 	
 	
 	<h:outputScript library="js" name="tag-it.js"></h:outputScript>
@@ -56,9 +57,8 @@
 	        <h:message for="movieTitle" style="color: red"/>
 	        
 	        <h:outputLabel for="movieReleaseDate"  value="#{msg.movieReleaseDate}:" />
-	        <h:inputText id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}">
-	        	<f:convertDateTime pattern="dd.MM.yyyy" />
-	        </h:inputText>
+	        <p:calendar id="movieReleaseDate" value="#{movie.movieInsert.releaseDate}"
+	        				pattern="dd.MM.yyyy." showOn="button" navigator="true" />
 	        <h:message for="movieReleaseDate" />
 
 			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" />
@@ -100,6 +100,7 @@
 	        <h:message for="movieRuntime" />
 			
 			<h:commandButton value="#{msg.add}" action="#{movie.addMovie}" />
+			<h:commandButton value="#{msg.cancel}" action="#{movie.cancleAddMovie}" immediate="true" />
 	    </h:panelGrid>
 	</h:form>
 
