@@ -116,7 +116,7 @@ public class LoginBean {
 	 * Login with loginBean's properties username i password, which are afterwards set to empty
 	 * 
 	 */
-	public void login(){
+	public String login(){
 		UserDTO loggedUser = UserDAO.login(username, password);
 		if(loggedUser != null){
 			user = loggedUser;
@@ -125,6 +125,8 @@ public class LoginBean {
 			loggedIn = false;
 			FacesContext.getCurrentInstance().addMessage( "loginForm", new FacesMessage(JSFUtil.getLangMessage("loginErrorMessage")));
 		}
+		
+		return null;
 	}
 	
 	/*
@@ -153,10 +155,11 @@ public class LoginBean {
 	}
 	
 	public String register(){
-		if(UserDAO.insert(userRegister)){
-			userRegister = new UserDTO();
-			FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
-		}
+		if(UserDAO.getByUsername(userRegister.getUsername()) == null)
+			if(UserDAO.insert(userRegister)){
+				userRegister = new UserDTO();
+				FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
+			}
 
 		FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerUnsuccessful")));
 		return null;

@@ -287,7 +287,7 @@ public class MovieBean implements Serializable{
     }
 
     public String delete() {
-		System.out.println("delete");
+//		System.out.println("delete");
 
     	String retVal = "guest?faces-redirect=true";
     	if(MovieDAO.delete(movieSelected) > 0) {
@@ -299,7 +299,7 @@ public class MovieBean implements Serializable{
     }
     
     public String edit() {
-		System.out.println("edit " + movieSelected.getTitle());
+//		System.out.println("edit " + movieSelected.getTitle());
 		
 		editable = true;
     	
@@ -320,7 +320,7 @@ public class MovieBean implements Serializable{
     }
     
     public String save() {
-		System.out.println("save");
+//		System.out.println("save");
 		
 		
 		
@@ -394,7 +394,7 @@ public class MovieBean implements Serializable{
     }
     
     public String cancel() {
-		System.out.println("cancel");
+//		System.out.println("cancel");
 
     	editable = false;
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movieSelected);

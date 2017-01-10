@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dto.UserDTO;
 
@@ -18,16 +16,16 @@ import dto.UserDTO;
 public class UserDAO {
 
 	private static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
-	private static final String SQL_GET_BY_USERNAME = "SELECT * FROM zndfilm.users where username = ?;";
-	private static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );";
+	private static final String SQL_GET_BY_USERNAME = "SELECT * FROM users WHERE username=?;";
+	private static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, MD5(?), ?, ?, ?, ?, ?, ?, ?, ? );";
+	private static final String SQL_GET_BY_USERNAME_AND_PASSWORD = "SELECT * FROM zndfilm.users where username=? AND password=MD5(?) and active=1;";
+	private static final String SQL_UPDATE_USER_WITHOUT_PRIVILEGE = "UPDATE users SET password=MD5(?), first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
+	private static final String SQL_UPDATE_USER_WITHOUT_PASSWORD_AND_PRIVILEGE = "UPDATE users SET     first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
 
 	public static UserDTO login(String username, String password){
-		//UserDTO user = usersMap.get(username);
-		UserDTO user = getByUsername(username);
-		if(user != null && user.getPassword().equals(password) && user.getUsername().equals(username) && user.isActive()){
-			System.out.println("login user:  " + user.toString());
+		UserDTO user = getByUsernameAndPassword(username, password);
+		if (user != null)
 			return user;
-		}
 		else
 			return null;
 
@@ -38,7 +36,6 @@ public class UserDAO {
 		//usersMap.put(userRegister.getUsername(), userRegister);
 		boolean retVal = false;
 		Connection conn = null;
-		ResultSet rs = null;
 		PreparedStatement ppst = null;
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
@@ -85,7 +82,8 @@ public class UserDAO {
 			ppst = conn.prepareStatement(SQL_GET_BY_USERNAME);
 			ppst.setString(1, username);
 			rs = ppst.executeQuery();
-		
+
+
 			if(rs.next()){
 				retUser = new UserDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("social_no"),
 									rs.getString("email"), rs.getString("picture"), rs.getString("username"), rs.getString("password"),
@@ -231,13 +229,12 @@ public class UserDAO {
 		boolean retVal = false;
 		Connection conn = null;
 		PreparedStatement ppst = null;
-		String sql = "UPDATE users SET first_name=?, last_name=?, social_no=?, "
-				+ "email=?, picture=? WHERE username=?;";
+//		String sql = "UPDATE users SET first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
 
 		if(username != null && !username.equals("")){
 			try{
 				conn = ConnectionPool.getConnectionPool().checkOut();
-				ppst = conn.prepareStatement(sql);
+				ppst = conn.prepareStatement(SQL_UPDATE_USER_WITHOUT_PASSWORD_AND_PRIVILEGE);
 				ppst.setString(1, firstName != null ? firstName : null);
 				ppst.setString(2, lastName != null ? lastName : null);
 				ppst.setString(3, socialNo != null ? socialNo : null);
@@ -292,13 +289,13 @@ public class UserDAO {
 		boolean retVal = false;
 		Connection conn = null;
 		PreparedStatement ppst = null;
-		String sql = "UPDATE users SET password=?, first_name=?, last_name=?, social_no=?, "
-				+ "email=?, picture=? WHERE username=?;";
+//		String sql = "UPDATE users SET password=?, first_name=?, last_name=?, social_no=?, "
+//				+ "email=?, picture=? WHERE username=?;";
 
 		if(username != null && !username.equals("")){
 			try{
 				conn = ConnectionPool.getConnectionPool().checkOut();
-				ppst = conn.prepareStatement(sql);
+				ppst = conn.prepareStatement(SQL_UPDATE_USER_WITHOUT_PRIVILEGE);
 				ppst.setString(1, password != null ? password : null);
 				ppst.setString(2, firstName != null ? firstName : null);
 				ppst.setString(3, lastName != null ? lastName : null);
@@ -347,6 +344,53 @@ public class UserDAO {
 	public static boolean updateUserWithoutPrivilege(UserDTO user){
 		return updateUserWithoutPrivilege(user.getUsername(), user.getFirstName(), user.getLastName(), user.getSocialNo(), user.getEmail(), 
 				user.getPassword(), user.getPicture());
+	}
+	
+	
+	public static UserDTO getByUsernameAndPassword(String username, String password) {
+		Connection conn = null;
+		ResultSet resultSet = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BY_USERNAME_AND_PASSWORD);
+			ppst.setString(1, username);
+			ppst.setString(2, password);
+			resultSet = ppst.executeQuery();
+		
+			if(resultSet.next()){
+				UserDTO user = new UserDTO();
+				user.setId(resultSet.getInt("id"));
+				user.setFirstName(resultSet.getString("first_name"));
+				user.setLastName(resultSet.getString("last_name"));
+				user.setSocialNo(resultSet.getString("social_no"));
+				user.setEmail(resultSet.getString("email"));
+				user.setPicture(resultSet.getString("picture"));
+				user.setUsername(resultSet.getString("username"));
+				user.setPassword(resultSet.getString("password"));
+				user.setPrivilege(resultSet.getInt("privilege"));
+				user.setActive(resultSet.getBoolean("active"));
+				user.setEditable(resultSet.getBoolean("editable"));
+				return user;
+
+			} else
+				return null;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ppst != null)
+				try {
+					ppst.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
 	}
 	
 	
