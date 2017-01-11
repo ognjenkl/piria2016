@@ -268,6 +268,11 @@ public class LoginBean {
 	/*
 	 * Returns string path of the uploaded profile picture.
 	 */
+	/**
+	 * Uploads profile picture on server.
+	 * @param profilePicName name of the profile picture to be saved as.
+	 * @return profile picture name with extension.
+	 */
 	public String uploadProfilePic(String profilePicName) {
 		try(InputStream in = profilePicPart.getInputStream()) {
 			String dirPath = prop.getProperty("upload.profile.location");
@@ -278,7 +283,7 @@ public class LoginBean {
 				if(JSFUtil.getFilename(profilePicPart).equals("")){
 					fileName = defaultProfilePic;
 					System.out.println("naziv profilne slike: " + fileName);
-					return dirPath + File.separator + fileName;
+					return fileName;
 				}
 				
 				System.out.println("naziv profilne slike: " + fileName);

@@ -13,8 +13,9 @@ import dto.GenreDTO;
 
 public class GenreDAO {
 
-	private static final String SQL_ALL = "SELECT * FROM genres;";
+	private static final String SQL_ALL = "SELECT * FROM genres WHERE active=1;";
 	private static final String SQL_INSERT = "INSERT INTO genres (name) VALUES (?);";
+	private static final String SQL_DELETE = "UPDATE genres SET	active=0 WHERE id=?";
 
 	public GenreDAO() {
 		// TODO Auto-generated constructor stub
@@ -77,6 +78,37 @@ public class GenreDAO {
 			return retVal;
 		}
 
+	}
+	
+	/**
+	 * Deletes a genre by id.
+	 * 
+	 * @param genreId id of genre to delete
+	 * @return id of deleted genre
+	 */
+	public static int delete(int genreId) {
+		Connection conn = null;
+		int retVal = -1;
+		PreparedStatement ppst = null;
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_DELETE);
+			ppst.setInt(1, genreId);
+
+			int rowCount = ppst.executeUpdate();
+			
+			if(rowCount > 0)
+				retVal = genreId;
+			
+			ppst.close();
+			
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return retVal;
+		}
 	}
 	
 

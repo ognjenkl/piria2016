@@ -73,9 +73,9 @@ public class MovieBean implements Serializable{
 	String actorsString;
 	
 	//from input field on form
-	String genresStringFromInput;
+//	String genresStringFromInput;
 	//used in JavaScript on form
-	String genresStringToShowOnForm;
+//	String genresStringToShowOnForm;
 	
 	Integer[] selectedGenres;
 	Map<Integer, String> genreValues;
@@ -237,7 +237,7 @@ public class MovieBean implements Serializable{
 			File dir = new File(dirPath);
 			if(dir.exists()) {
 				String fileName = JSFUtil.getFilename(moviePart);
-				System.out.println("naziv filma: |" + fileName + "|");
+				System.out.println("naziv trailera: |" + fileName + "|");
 				if(fileName.endsWith(".mp4") || fileName.endsWith(".MP4")) {
 					String filePath = dirPath + File.separator + fileName;
 					File f = new File(filePath);
@@ -512,27 +512,27 @@ public class MovieBean implements Serializable{
 		this.actorsString = actorsString;
 	}
 
-	public String getGenresStringFromInput() {
-		return genresStringFromInput;
-	}
+//	public String getGenresStringFromInput() {
+//		return genresStringFromInput;
+//	}
+//
+//	public void setGenresStringFromInput(String genersStringFromInput) {
+//		this.genresStringFromInput = genersStringFromInput;
+//	}
 
-	public void setGenresStringFromInput(String genersStringFromInput) {
-		this.genresStringFromInput = genersStringFromInput;
-	}
+//	public String getGenresStringToShowOnForm() {
+//		List<GenreDTO> genreDTOList = GenreDAO.getAll();
+//		List<String> stringList = new ArrayList<>();
+//		for(GenreDTO g : genreDTOList)
+//			stringList.add(g.getName());
+//		JSONArray jArr = new JSONArray(stringList);
+//		genresStringToShowOnForm = jArr.toString();
+//		return genresStringToShowOnForm;
+//	}
 
-	public String getGenresStringToShowOnForm() {
-		List<GenreDTO> genreDTOList = GenreDAO.getAll();
-		List<String> stringList = new ArrayList<>();
-		for(GenreDTO g : genreDTOList)
-			stringList.add(g.getName());
-		JSONArray jArr = new JSONArray(stringList);
-		genresStringToShowOnForm = jArr.toString();
-		return genresStringToShowOnForm;
-	}
-
-	public void setGenresStringToShowOnForm(String genersStringToShowOnForm) {
-		this.genresStringToShowOnForm = genersStringToShowOnForm;
-	}
+//	public void setGenresStringToShowOnForm(String genersStringToShowOnForm) {
+//		this.genresStringToShowOnForm = genersStringToShowOnForm;
+//	}
 
 	public Integer[] getSelectedGenres() {
 		return selectedGenres;

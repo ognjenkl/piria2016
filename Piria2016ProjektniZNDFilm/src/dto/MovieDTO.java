@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
-
 
 /**
  * @author ognjen
@@ -22,7 +20,7 @@ public class MovieDTO implements Serializable, Cloneable {
 	private List<String> actors;
 	private String storyline;
 	private Integer trailerLocationType;
-	private List<String> genres;
+	private List<GenreDTO> genres;
 	private String trailerLocation;
 	private Integer runtimeMinutes;
 	private Integer rate;
@@ -112,16 +110,13 @@ public class MovieDTO implements Serializable, Cloneable {
 		this.storyline = storyline;
 	}
 
-
-	public List<String> getGenres() {
+	public List<GenreDTO> getGenres() {
 		return genres;
 	}
 
-
-	public void setGenres(List<String> genres) {
+	public void setGenres(List<GenreDTO> genres) {
 		this.genres = genres;
 	}
-
 
 	public String getTrailerLocation() {
 		return trailerLocation;

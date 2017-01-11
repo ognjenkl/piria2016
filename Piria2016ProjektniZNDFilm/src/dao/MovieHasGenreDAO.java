@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.GenreDTO;
+
 public class MovieHasGenreDAO {
 
 	private static final String SQL_INSERT = "INSERT INTO movies_has_genres (movies_id, genres_id) VALUES (?, ?);";
-	private static final String SQL_GET_ALL_GENRES_BY_MOVIE_ID = "SELECT g.name FROM movies_has_genres mg JOIN genres g ON g.id = mg.genres_id WHERE mg.movies_id = ?;";
+	private static final String SQL_GET_ALL_GENRES_BY_MOVIE_ID = "SELECT g.id, g.name FROM movies_has_genres mg JOIN genres g ON g.id = mg.genres_id WHERE mg.movies_id = ?;";
 	private static final String SQL_DELETE = "DELETE mhg FROM movies_has_genres mhg JOIN genres g ON g.id = mhg.genres_id WHERE movies_id=? and g.name=?;";
 	private static final String SQL_BY_MOVIE_ID = "SELECT * FROM movies_has_genres WHERE movies_id=?;";
 	private static final String SQL_DELETE_BY_MOVIE_ID = "DELETE FROM movies_has_genres WHERE movies_id=?;";
@@ -43,8 +45,8 @@ public class MovieHasGenreDAO {
 	}
 	
 	
-	public static List<String> getGenresByMovieId(int movieId){
-		List<String> genresList = new ArrayList<>();
+	public static List<GenreDTO> getGenresByMovieId(int movieId){
+		List<GenreDTO> genresList = new ArrayList<>();
 		
 		Connection conn = null;
 		ResultSet resultSet = null;
@@ -57,7 +59,10 @@ public class MovieHasGenreDAO {
 			resultSet = ppst.executeQuery();
 			
 			while(resultSet.next()){
-				genresList.add(resultSet.getString(1));
+				GenreDTO genre = new GenreDTO();
+				genre.setId(resultSet.getInt(1));
+				genre.setName(resultSet.getString(2));
+				genresList.add(genre);
 			}
 			
 			ppst.close();

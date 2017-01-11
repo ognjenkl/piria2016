@@ -5,7 +5,20 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 	
 	
-	<h:form id="genreForm">
+	<h:form id="genreFormDelete">
+		<h:dataTable border="1" value="#{genre.genreList}" var="g">
+			<h:column>
+				<h:outputText value="#{g.id}"/>
+			</h:column>
+			<h:column>
+				<h:outputText value="#{g.name}" />
+			</h:column>
+			<h:column>
+				<h:commandLink value="#{msg.delete}" action="#{genre.delete(g)}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+	<h:form id="genreFormAdd">
 		<h:panelGrid columns="3">
 			<h:outputLabel for="genreName"  value="#{msg.genreName}:"></h:outputLabel>
 	        <h:inputText id="genreName" value="#{genre.genre.name}" required="true" requiredMessage="#{msg.genreNameError}"/>

@@ -1,12 +1,11 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import dao.GenreDAO;
@@ -18,7 +17,7 @@ import util.JSFUtil;
  *
  */
 @ManagedBean (name="genre")
-@RequestScoped
+@ViewScoped
 public class GenreBean implements Serializable{
 	
 	private static final long serialVersionUID = -3470442255313603101L;
@@ -27,7 +26,7 @@ public class GenreBean implements Serializable{
 	
 	public GenreBean() {
 		genre = new GenreDTO();
-		genreList = new ArrayList<>();
+		genreList = GenreDAO.getAll();
 	}
 	
 	public void addGenre() {
@@ -38,6 +37,11 @@ public class GenreBean implements Serializable{
 		} else {
 			FacesContext.getCurrentInstance().addMessage("genreForm", new FacesMessage(JSFUtil.getLangMessage("genreAddError")));
 		}
+	}
+	
+	public String delete(GenreDTO genre) {
+		GenreDAO.delete(genre.getId());
+		return null;
 	}
 	
 	

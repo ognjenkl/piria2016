@@ -84,8 +84,8 @@
 			<h:inputText value="#{movie.movieEdit.storyline}" rendered="#{movie.editable}" />
 	
 			#{msg.movieGenres}:
-			<ui:repeat var="genre" value="#{movie.movieSelected.genres}">
-				<h:outputText value="#{genre}" rendered="#{not movie.editable}" />
+			<ui:repeat value="#{movie.movieSelected.genres}" var="gen">
+				<h:outputText value="#{gen.name}" rendered="#{not movie.editable}" />
 				<h:outputText value=" | " rendered="#{not movie.editable}" />
 			</ui:repeat>
 			
