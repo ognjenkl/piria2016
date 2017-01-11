@@ -39,6 +39,7 @@ import dao.MovieHasGenreDAO;
 import dto.ActorDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
+import util.JSFUtil;
 
 /**
  * @author ognjen
@@ -231,15 +232,12 @@ public class MovieBean implements Serializable{
 	 * Returns string path of the uploaded movie.
 	 */
 	public String uploadMovie() {
-		System.out.println("null pointeereeeeeer exceptionneeeee: " + moviePart);
-		
 		try(InputStream in = moviePart.getInputStream()) {
-			System.out.println("null pointeereeeeeer exceptionnfffffffffffffffffffffffffff");
-			String dirPath = prop.getProperty("upload.location");
+			String dirPath = prop.getProperty("upload.trailer.location");
 			File dir = new File(dirPath);
 			if(dir.exists()) {
-				String fileName = getFilename(moviePart);
-				System.out.println("naziv filma: " + fileName);
+				String fileName = JSFUtil.getFilename(moviePart);
+				System.out.println("naziv filma: |" + fileName + "|");
 				if(fileName.endsWith(".mp4") || fileName.endsWith(".MP4")) {
 					String filePath = dirPath + File.separator + fileName;
 					File f = new File(filePath);
@@ -263,7 +261,7 @@ public class MovieBean implements Serializable{
 				return null;
 			}
 		} catch (IOException e) {
-			System.out.println("null pointeereeeeeer exceptionngggggggggggggggggggggggggggggg");
+//			System.out.println("null pointeereeeeeer exceptionngggggggggggggggggggggggggggggg");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.print("Something with moviePart: ");
@@ -273,18 +271,7 @@ public class MovieBean implements Serializable{
 	
 	}
 
-    private static String getFilename(Part part) {
-        // courtesy of BalusC : http://stackoverflow.com/a/2424824/281545
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String filename = cd.substring(cd.indexOf('=') + 1).trim()
-                        .replace("\"", "");
-                return filename.substring(filename.lastIndexOf('/') + 1)
-                        .substring(filename.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
-    }
+    
 
     public String delete() {
 //		System.out.println("delete");

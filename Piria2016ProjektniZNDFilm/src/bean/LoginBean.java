@@ -1,9 +1,12 @@
 package bean;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -22,6 +25,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import dao.UserDAO;
 import dto.UserDTO;
@@ -34,6 +38,7 @@ import util.JSFUtil;
 @SessionScoped
 @ManagedBean (name="login", eager=true)
 public class LoginBean {
+	
 	
 	//login: user is set if logged in
 	UserDTO user;
@@ -63,10 +68,13 @@ public class LoginBean {
 //	@ManagedProperty(value="#{movie}")
 //	MovieBean movie;
 	
-	
-	
 	//admin
 	List<UserDTO> usersAll;
+	
+	Part profilePicPart;
+	String defaultProfilePic;
+	
+	
 	
 	//consturctor
 	public LoginBean(){
@@ -89,6 +97,7 @@ public class LoginBean {
 			e.printStackTrace();
 		}
 		
+		defaultProfilePic = prop.getProperty("upload.profile.default.name");
 		
 	}
 
@@ -129,20 +138,20 @@ public class LoginBean {
 		return null;
 	}
 	
-	/*
-	 * Login with userRegister properties, which is afterwards set to default UserDTO object
-	 * 
-	 */
-	public void login(UserDTO userReg){
-		UserDTO loggedUser = UserDAO.login(userReg.getUsername(), userReg.getPassword());
-		if(loggedUser != null){
-			user = loggedUser;
-			userReg = new UserDTO();
-			loggedIn = true;
-		} else
-			loggedIn = false;
-	}
-	
+//	/*
+//	 * Login with userRegister properties, which is afterwards set to default UserDTO object
+//	 * 
+//	 */
+//	public void login(UserDTO userReg){
+//		UserDTO loggedUser = UserDAO.login(userReg.getUsername(), userReg.getPassword());
+//		if(loggedUser != null){
+//			user = loggedUser;
+//			userReg = new UserDTO();
+//			loggedIn = true;
+//		} else
+//			loggedIn = false;
+//	}
+//	
 	public String logout(){
 		String retVal = "guest?faces-redirect=true";
 		
@@ -155,13 +164,20 @@ public class LoginBean {
 	}
 	
 	public String register(){
-		if(UserDAO.getByUsername(userRegister.getUsername()) == null)
-			if(UserDAO.insert(userRegister)){
-				userRegister = new UserDTO();
-				FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
-			}
-
-		FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerUnsuccessful")));
+		if(UserDAO.getByUsername(userRegister.getUsername()) == null){
+			String filePath = uploadProfilePic(userRegister.getUsername());
+			if( filePath != null) {
+				userRegister.setPicture(filePath);
+				if(UserDAO.insert(userRegister)){
+					userRegister = new UserDTO();
+					FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerSuccessful")));
+				} else
+					FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerUnsuccessful")));				
+			} else
+				FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerProfilePic")));				
+		} else
+			FacesContext.getCurrentInstance().addMessage("registerForm", new FacesMessage(JSFUtil.getLangMessage("registerAlreadyExist")));
+		
 		return null;
 	}
 	
@@ -249,11 +265,63 @@ public class LoginBean {
 		return false;
 	}	
 	
+	/*
+	 * Returns string path of the uploaded profile picture.
+	 */
+	public String uploadProfilePic(String profilePicName) {
+		try(InputStream in = profilePicPart.getInputStream()) {
+			String dirPath = prop.getProperty("upload.profile.location");
+			File dir = new File(dirPath);
+			if(dir.exists()) {
+				String fileName = profilePicName + ".png";
+				//if no profile pic is specified
+				if(JSFUtil.getFilename(profilePicPart).equals("")){
+					fileName = defaultProfilePic;
+					System.out.println("naziv profilne slike: " + fileName);
+					return dirPath + File.separator + fileName;
+				}
+				
+				System.out.println("naziv profilne slike: " + fileName);
+				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+					String filePath = dirPath + File.separator + fileName;
+					File f = new File(filePath);
+					if (!f.exists()) {
+						Files.copy(in, new File(filePath).toPath());
+						System.out.println("Uploaded profile file: " + filePath);
+						return fileName;
+					} else {
+						System.out.println("Upload file \"" + fileName + "\" already exists");
+						return fileName;
+					}
+				} else {
+					System.out.println("Wrong upload file format!");
+					return null;
+				}
+			} else {
+				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print("Something is wrong with moviePart: ");
+			System.out.println(profilePicName);
+			return null;
+		}
+	
+	}
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////// getters and setters /////////////////////////////
 	public UserDTO getUser() {
 		return user;
 	}
@@ -338,6 +406,14 @@ public class LoginBean {
 
 	public void setUsersAll(List<UserDTO> usersAll) {
 		this.usersAll = usersAll;
+	}
+
+	public Part getProfilePicPart() {
+		return profilePicPart;
+	}
+
+	public void setProfilePicPart(Part profilePicPart) {
+		this.profilePicPart = profilePicPart;
 	}
 
 	

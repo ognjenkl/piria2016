@@ -8,6 +8,7 @@
 		
 	<h:outputText  value="#{msg.welcome} #{login.user.firstName}"></h:outputText>
 	<h:outputText value=""></h:outputText>
+	<h:graphicImage value="/profile/t.png" />
 
 	<h:form id="searchForm">
 		<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
@@ -49,7 +50,7 @@
 		<div></div>
 		<h:message for="loginForm" style="color: red"></h:message>
     </h:form>
-    <h:form id="registerForm">
+    <h:form id="registerForm" enctype="multipart/form-data">
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 			<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
 	        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
@@ -68,7 +69,7 @@
 	        <h:message for="email"></h:message>
 			
 			<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
-	        <h:inputText id="picture" value="#{login.userRegister.picture}"/>
+	        <h:inputFile id="picture" value="#{login.profilePicPart}" />
 	        <h:message for="picture"></h:message>
 	       
 	        <h:outputLabel for="usernameRegister"  value="#{msg.username}:"></h:outputLabel>

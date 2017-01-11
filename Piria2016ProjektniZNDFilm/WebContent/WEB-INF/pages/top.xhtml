@@ -15,7 +15,11 @@
     		<h:link outcome="#{msg.pageAddMovie}" value="#{msg.pageAddMovieLinkName}" rendered="#{login.user.privilege lt 4}" />
     		<h:link outcome="#{msg.pageGenre}" value="#{msg.pageGenreLinkName}" rendered="#{login.user.privilege lt 2}" />
     		
-    		<h:commandLink value="#{msg.logout}" action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}" />
+    		<h:commandLink action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}">
+	    		<img src="/profile/#{login.user.picture}" style="display:#{(login.loggedIn)?'block':'none'}" width="30px" height="40px"/>
+				<h:outputText value="#{msg.logout}" />
+    		</h:commandLink>
+    		
     		<h:selectOneMenu id="langMenu" value="#{login.language}" onchange="submit()">
     			<f:selectItems value="#{login.availableItems.entrySet()}" var="entry"
     							itemValue="#{entry.key}" itemLabel="#{entry.value}" >
