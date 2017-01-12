@@ -47,6 +47,10 @@
 
 	<h:form id="movieForm" enctype="multipart/form-data">
 		<h:panelGrid columns="1" width="600">
+			<p:rating stars="10" rendered="#{movie.userHasMovie.rate == null}">
+				<f:ajax event="rate" listener="#{movie.onRate}"  />
+			</p:rating>
+			
 			#{msg.movieTitle}:
 			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
 			<h:inputText value="#{movie.movieEdit.title}" rendered="#{movie.editable}" />

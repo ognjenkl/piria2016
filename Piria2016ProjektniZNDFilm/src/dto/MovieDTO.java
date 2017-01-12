@@ -137,16 +137,13 @@ public class MovieDTO implements Serializable, Cloneable {
 		this.runtimeMinutes = runtimeMinutes;
 	}
 
-
 	public Integer getRate() {
 		return rate;
 	}
 
-
 	public void setRate(Integer rate) {
 		this.rate = rate;
 	}
-
 
 	public Date getAddedDate() {
 		return addedDate;

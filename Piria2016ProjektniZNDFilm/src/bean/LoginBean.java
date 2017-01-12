@@ -287,7 +287,8 @@ public class LoginBean {
 				}
 				
 				System.out.println("naziv profilne slike: " + fileName);
-				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
+						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
 					String filePath = dirPath + File.separator + fileName;
 					File f = new File(filePath);
 					if (!f.exists()) {

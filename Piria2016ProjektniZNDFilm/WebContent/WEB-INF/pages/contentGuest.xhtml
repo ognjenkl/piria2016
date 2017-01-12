@@ -3,9 +3,11 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
 
 
-		
+
+
 	<h:outputText  value="#{msg.welcome} #{login.user.firstName}"></h:outputText>
 	<h:outputText value=""></h:outputText>
 
@@ -30,7 +32,7 @@
 				</h:outputText>					
 			</h:column>
 			<h:column rendered="#{login.user.privilege lt 4}">
-				<h:commandLink value="#{msg.details}" action="#{movie.details(m)}" />
+				<h:commandLink value="#{msg.details}" action="#{movie.details(login.user.id,m)}" />
 			</h:column>
 		
 		</h:dataTable>

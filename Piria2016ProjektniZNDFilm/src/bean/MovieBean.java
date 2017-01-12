@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,19 +14,15 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
-import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
-import org.eclipse.jdt.internal.compiler.ast.InstanceOfExpression;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.primefaces.event.RateEvent;
 
 import actor.Actor;
 import actor.ActorServiceLocator;
@@ -36,9 +31,11 @@ import dao.GenreDAO;
 import dao.MovieDAO;
 import dao.MovieHasActorDAO;
 import dao.MovieHasGenreDAO;
+import dao.UserHasMovieDAO;
 import dto.ActorDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
+import dto.UserHasMovieDTO;
 import util.JSFUtil;
 
 /**
@@ -93,6 +90,12 @@ public class MovieBean implements Serializable{
 	
 	List<GenreDTO> genresAllList;
 	
+	Double movieRate;
+	
+	Integer userId;
+	
+	UserHasMovieDTO userHasMovie;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -121,14 +124,19 @@ public class MovieBean implements Serializable{
 		for (GenreDTO g : gens) 
 			genreValues.put(g.getId(), g.getName().toString());
 		
+		userId = (Integer) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("userId");
+
 		movieSelected = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movie");
 		if(movieSelected != null) {
-			System.out.println("init selected, movieSelected.title: " + movieSelected.getTitle());
+//			System.out.println("init selected, movieSelected.title: " + movieSelected.getTitle());
 			selectedGenres = MovieHasGenreDAO.getGenreIdListByMovieId(movieSelected.getId());
+			userHasMovie = UserHasMovieDAO.getById(userId, movieSelected.getId());
+			if(userHasMovie == null)
+				userHasMovie = new UserHasMovieDTO();
 		}
 		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
-		if (movieEdit != null)
-			System.out.println("init edit, movieEdit.title:  " + movieEdit.getTitle());
+//		if (movieEdit != null)
+//			System.out.println("init edit, movieEdit.title:  " + movieEdit.getTitle());
 		
 		Object e = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("editable");
 		if( e != null)
@@ -146,7 +154,11 @@ public class MovieBean implements Serializable{
 //			System.out.println("init selected genres: " + selectedGenres[0]);
 //    	if (genresAllList != null && genresAllList.get(0) != null)
 //    		System.out.println("init genres all list: " + genresAllList.get(0).getId());
-
+//		System.out.println(UserHasMovieDAO.getFavorite(28, 40));
+//		System.out.println(UserHasMovieDAO.getRate(28, 40));
+//		System.out.println(UserHasMovieDAO.getRateSum(40));
+		
+		
 	}
 	
 	
@@ -156,20 +168,20 @@ public class MovieBean implements Serializable{
 	}
 	
 	
-	public String details(MovieDTO movie) {
-		System.out.println("details ");
-		
+	public String details(int userId, MovieDTO movie) {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
+		//UserHasMovieDTO uhm = UserHasMovieDAO.getById(userId, movie.getId());
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("userId", userId);
 		return "movie?faces-redirect=true";
 	}
 	
-	public String details2(MovieDTO movie){
-		//movieSelected = movie;
-		System.out.println("details 2");
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
-		return "movie?faces-redirect=true";
-		
-	}
+//	public String details2(MovieDTO movie){
+//		//movieSelected = movie;
+//		System.out.println("details 2");
+//		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
+//		return "movie?faces-redirect=true";
+//		
+//	}
 	
 	public String addMovie(){
 		try {
@@ -409,7 +421,22 @@ public class MovieBean implements Serializable{
     	return "guest?faces-redirect=true";
     }
     
-    
+    public void onRate(RateEvent rateEvent) {
+    	Integer rate = Integer.valueOf((String)rateEvent.getRating());
+    	System.out.println("rate: " + rate);
+    	UserHasMovieDTO userHasMovieDTO = UserHasMovieDAO.getById(userId, movieSelected.getId());
+    	if(userHasMovieDTO == null){
+    		userHasMovieDTO = new UserHasMovieDTO();
+    		userHasMovieDTO.setUserId(userId);
+    		userHasMovieDTO.setMovieId(movieSelected.getId());
+    		userHasMovieDTO.setRate(rate);
+    		userHasMovieDTO.setFavorite(null);
+    		UserHasMovieDAO.insert(userHasMovieDTO);
+    	}
+    	else{
+    		UserHasMovieDAO.updateRate(userHasMovieDTO);
+    	}
+    }
     
     
     
@@ -580,6 +607,30 @@ public class MovieBean implements Serializable{
 
 	public void setGenresAllList(List<GenreDTO> genresAllList) {
 		this.genresAllList = genresAllList;
+	}
+
+	public Double getMovieRate() {
+		return movieRate;
+	}
+
+	public void setMovieRate(Double movieRate) {
+		this.movieRate = movieRate;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public UserHasMovieDTO getUserHasMovie() {
+		return userHasMovie;
+	}
+
+	public void setUserHasMovie(UserHasMovieDTO userHasMovie) {
+		this.userHasMovie = userHasMovie;
 	}
 
 
