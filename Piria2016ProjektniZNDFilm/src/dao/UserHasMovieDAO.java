@@ -15,8 +15,8 @@ public class UserHasMovieDAO {
 	private static final String SQL_GET_FAVORITE = "SELECT favorite FROM users_has_movies WHERE users_id=? AND movies_id=?;";
 	private static final String SQL_GET_RATE = "SELECT rate FROM users_has_movies WHERE users_id=? AND movies_id=?;";
 	private static final String SQL_INSERT = "INSERT INTO users_has_movies (users_id, movies_id, favorite, rate) VALUES (?, ?, ?, ?);";
-	private static final String SQL_UPDATE_RATE = "UPDATE SET rate=? WHERE users_id=? AND movies_id=?;";
-	private static final String SQL_UPDATE_FAVORITE = "UPDATE SET favorite=? WHERE users_id=? AND movies_id=?;";
+	private static final String SQL_UPDATE_RATE = "UPDATE users_has_movies SET rate=? WHERE users_id=? AND movies_id=?;";
+	private static final String SQL_UPDATE_FAVORITE = "UPDATE users_has_movies SET favorite=? WHERE users_id=? AND movies_id=?;";
 	
 	
 	public static UserHasMovieDTO getById(int userId, int movieId) {

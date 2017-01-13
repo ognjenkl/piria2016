@@ -50,7 +50,7 @@ public class MovieDAO {
 				movie.setTrailerLocationType(resultSet.getInt(5));
 				movie.setTrailerLocation(resultSet.getString(6));
 				movie.setRuntimeMinutes(resultSet.getInt(7));
-				movie.setRate(resultSet.getInt(8));
+				movie.setRate(resultSet.getDouble(8));
 				
 				movie.setActors(MovieHasActorDAO.getActorsByMovieId(movie.getId()));
 				movie.setGenres(MovieHasGenreDAO.getGenresByMovieId(movie.getId()));

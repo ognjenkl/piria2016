@@ -23,7 +23,7 @@ public class MovieDTO implements Serializable, Cloneable {
 	private List<GenreDTO> genres;
 	private String trailerLocation;
 	private Integer runtimeMinutes;
-	private Integer rate;
+	private Double rate;
 	private Date addedDate;
 	private boolean active;
 	
@@ -137,11 +137,11 @@ public class MovieDTO implements Serializable, Cloneable {
 		this.runtimeMinutes = runtimeMinutes;
 	}
 
-	public Integer getRate() {
+	public Double getRate() {
 		return rate;
 	}
 
-	public void setRate(Integer rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 

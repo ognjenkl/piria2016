@@ -131,8 +131,11 @@ public class MovieBean implements Serializable{
 //			System.out.println("init selected, movieSelected.title: " + movieSelected.getTitle());
 			selectedGenres = MovieHasGenreDAO.getGenreIdListByMovieId(movieSelected.getId());
 			userHasMovie = UserHasMovieDAO.getById(userId, movieSelected.getId());
-			if(userHasMovie == null)
+			if(userHasMovie == null) {
+//				System.out.println("init kreira default");
 				userHasMovie = new UserHasMovieDTO();
+			}
+//			System.out.println("init userhHasMovie.getRate(): " + userHasMovie.getRate());
 		}
 		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
 //		if (movieEdit != null)
@@ -169,19 +172,12 @@ public class MovieBean implements Serializable{
 	
 	
 	public String details(int userId, MovieDTO movie) {
+		movie.setRate(UserHasMovieDAO.getRateSum(movie.getId()));
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
-		//UserHasMovieDTO uhm = UserHasMovieDAO.getById(userId, movie.getId());
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("userId", userId);
 		return "movie?faces-redirect=true";
 	}
 	
-//	public String details2(MovieDTO movie){
-//		//movieSelected = movie;
-//		System.out.println("details 2");
-//		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("movie", movie);
-//		return "movie?faces-redirect=true";
-//		
-//	}
 	
 	public String addMovie(){
 		try {
@@ -423,7 +419,7 @@ public class MovieBean implements Serializable{
     
     public void onRate(RateEvent rateEvent) {
     	Integer rate = Integer.valueOf((String)rateEvent.getRating());
-    	System.out.println("rate: " + rate);
+//    	System.out.println("rate: " + rate);
     	UserHasMovieDTO userHasMovieDTO = UserHasMovieDAO.getById(userId, movieSelected.getId());
     	if(userHasMovieDTO == null){
     		userHasMovieDTO = new UserHasMovieDTO();
@@ -432,12 +428,35 @@ public class MovieBean implements Serializable{
     		userHasMovieDTO.setRate(rate);
     		userHasMovieDTO.setFavorite(null);
     		UserHasMovieDAO.insert(userHasMovieDTO);
-    	}
-    	else{
+//    		System.out.println("onRate insert");
+    	} else{
+    		userHasMovieDTO.setRate(rate);
     		UserHasMovieDAO.updateRate(userHasMovieDTO);
+//    		System.out.println("onRate update");
+
     	}
+    	userHasMovie = userHasMovieDTO;
+    	//userHasMovie = UserHasMovieDAO.getById(userId, movieSelected.getId());
+    	
+//    	System.out.println("onRate nakon get userHasMovie.rate: " + userHasMovieDTO.getRate());
     }
     
+    public void onFavorite(RateEvent rateEvent) {
+    	Integer favorite = Integer.valueOf((String) rateEvent.getRating());
+    	UserHasMovieDTO userHasMovieDTO = UserHasMovieDAO.getById(userId, movieSelected.getId());
+    	if(userHasMovieDTO == null) {
+    		userHasMovieDTO = new UserHasMovieDTO();
+    		userHasMovieDTO.setUserId(userId);
+    		userHasMovieDTO.setMovieId(movieSelected.getId());
+    		userHasMovieDTO.setRate(null);
+    		userHasMovieDTO.setFavorite(favorite);
+    		UserHasMovieDAO.insert(userHasMovieDTO);
+    	} else {
+			userHasMovieDTO.setFavorite(favorite);
+			UserHasMovieDAO.updateFavorite(userHasMovieDTO);
+		}
+    	userHasMovie = userHasMovieDTO;
+    }
     
     
     

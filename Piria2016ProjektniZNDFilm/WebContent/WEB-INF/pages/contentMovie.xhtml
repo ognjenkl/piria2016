@@ -46,10 +46,20 @@
 	</script>
 
 	<h:form id="movieForm" enctype="multipart/form-data">
-		<h:panelGrid columns="1" width="600">
-			<p:rating stars="10" rendered="#{movie.userHasMovie.rate == null}">
-				<f:ajax event="rate" listener="#{movie.onRate}"  />
+		<h:panelGrid columns="2" id="moviePanelGridRateAndFavorite">
+			<h:outputLabel value="#{msg.userHasMovieRate}:" rendered="#{movie.userHasMovie.rate == null or movie.userHasMovie.rate == 0}"/>
+			<p:rating id="movieRating" stars="10" rendered="#{movie.userHasMovie.rate == null or movie.userHasMovie.rate == 0}">
+				<p:ajax async="true" event="rate" listener="#{movie.onRate}" update=":movieForm:moviePanelGridRateAndFavorite" />
 			</p:rating>
+
+			<h:outputLabel value="#{msg.userHasMovieFavorite}:" rendered="#{movie.userHasMovie.favorite == null or movie.userHasMovie.favorite == 0}"/>
+			<p:rating id="movieFavorite" stars="1" rendered="#{movie.userHasMovie.favorite == null or movie.userHasMovie.favorite == 0}">
+				<p:ajax async="true" event="rate" listener="#{movie.onFavorite}" update=":movieForm:moviePanelGridRateAndFavorite" />
+			</p:rating>
+		</h:panelGrid>
+
+		<h:panelGrid columns="1" width="600">
+			
 			
 			#{msg.movieTitle}:
 			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />

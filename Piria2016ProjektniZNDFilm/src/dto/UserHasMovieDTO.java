@@ -8,12 +8,6 @@ public class UserHasMovieDTO {
 	private Integer favorite;
 	private Integer rate;
 	
-	public UserHasMovieDTO() {
-		userId = -1;
-		movieId = -1;
-		favorite = null;
-		rate = null;
-	}
 	
 	
 	public int getUserId() {
