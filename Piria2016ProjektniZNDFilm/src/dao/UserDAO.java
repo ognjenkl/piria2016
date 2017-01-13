@@ -16,6 +16,7 @@ import dto.UserDTO;
 public class UserDAO {
 
 	private static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
+	private static final String SQL_GET_BY_ID = "SELECT * FROM users WHERE id=?;";
 	private static final String SQL_GET_BY_USERNAME = "SELECT * FROM users WHERE username=?;";
 	private static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, MD5(?), ?, ?, ?, ?, ?, ?, ?, ? );";
 	private static final String SQL_GET_BY_USERNAME_AND_PASSWORD = "SELECT * FROM zndfilm.users where username=? AND password=MD5(?) and active=1;";
@@ -92,6 +93,51 @@ public class UserDAO {
 
 			} else
 				return null;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ppst != null)
+				try {
+					ppst.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+	public static UserDTO getById(Integer userId) {
+		UserDTO retVal = null;
+		Connection conn = null;
+		ResultSet resultSet = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BY_ID);
+			ppst.setInt(1, userId);
+			resultSet = ppst.executeQuery();
+
+			if(resultSet.next()){
+				retVal = new UserDTO();
+				retVal.setId(resultSet.getInt("id"));
+				retVal.setUsername(resultSet.getString("username"));
+				retVal.setPassword(resultSet.getString("password"));
+				retVal.setFirstName(resultSet.getString("first_name"));
+				retVal.setLastName(resultSet.getString("last_name"));
+				retVal.setSocialNo(resultSet.getString("social_no"));
+				retVal.setEmail(resultSet.getString("email"));
+				retVal.setPrivilege(resultSet.getInt("privilege"));
+				retVal.setPicture(resultSet.getString("picture"));
+			}
+			
+			ppst.close();
+			return retVal;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

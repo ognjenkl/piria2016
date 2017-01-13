@@ -31,8 +31,10 @@ import dao.GenreDAO;
 import dao.MovieDAO;
 import dao.MovieHasActorDAO;
 import dao.MovieHasGenreDAO;
+import dao.UserHasMovieCommentDAO;
 import dao.UserHasMovieDAO;
 import dto.ActorDTO;
+import dto.CommentDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
 import dto.UserHasMovieDTO;
@@ -96,6 +98,9 @@ public class MovieBean implements Serializable{
 	
 	UserHasMovieDTO userHasMovie;
 	
+	List<CommentDTO> commentsList;
+	String comment;
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -136,6 +141,8 @@ public class MovieBean implements Serializable{
 				userHasMovie = new UserHasMovieDTO();
 			}
 //			System.out.println("init userhHasMovie.getRate(): " + userHasMovie.getRate());
+			commentsList = UserHasMovieCommentDAO.getByMovieId(movieSelected.getId());
+
 		}
 		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
 //		if (movieEdit != null)
@@ -160,6 +167,7 @@ public class MovieBean implements Serializable{
 //		System.out.println(UserHasMovieDAO.getFavorite(28, 40));
 //		System.out.println(UserHasMovieDAO.getRate(28, 40));
 //		System.out.println(UserHasMovieDAO.getRateSum(40));
+		
 		
 		
 	}
@@ -458,6 +466,23 @@ public class MovieBean implements Serializable{
     	userHasMovie = userHasMovieDTO;
     }
     
+    public String addComment() {
+    	if(comment != null && !comment.equals("")){
+    		UserHasMovieCommentDAO.insert(userId, movieSelected.getId(), comment);
+        	commentsList = UserHasMovieCommentDAO.getByMovieId(movieSelected.getId());
+        	comment = null;
+    	}
+
+    	return null;
+    }
+    
+    public String deleteComment(CommentDTO c) {
+    	UserHasMovieCommentDAO.delete(c.getId());
+    	commentsList = UserHasMovieCommentDAO.getByMovieId(movieSelected.getId());
+    	return null;
+    }
+    
+    
     
     
     
@@ -652,6 +677,21 @@ public class MovieBean implements Serializable{
 		this.userHasMovie = userHasMovie;
 	}
 
+	public List<CommentDTO> getCommentsList() {
+		return commentsList;
+	}
+
+	public void setCommentsList(List<CommentDTO> commentsList) {
+		this.commentsList = commentsList;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 
 

@@ -58,7 +58,7 @@
 			</p:rating>
 		</h:panelGrid>
 
-		<h:panelGrid columns="1" width="600">
+		<h:panelGrid id="movieDetails" columns="1" width="600">
 			
 			
 			#{msg.movieTitle}:
@@ -143,11 +143,45 @@
 	
 			#{msg.movieRate}:
 			<h:outputText value="#{movie.movieSelected.rate}"></h:outputText>		
-			
+		</h:panelGrid>
+		<h:panelGrid id="buttonsMovieGrid" columns="2">	
 			<h:commandButton value="#{msg.delete}" action="#{movie.delete()}" rendered="#{not movie.editable}"/>
 			<h:commandButton value="#{msg.edit}" action="#{movie.edit()}" rendered="#{not movie.editable}"/>
 			<h:commandButton value="#{msg.save}" action="#{movie.save()}" rendered="#{movie.editable}" />
 			<h:commandButton value="#{msg.cancel}" action="#{movie.cancel()}" rendered="#{movie.editable}" />
 		</h:panelGrid>	
-	</h:form>	
+		</h:form>	
+
+		<h:form id="movieCommentsForm">
+			<h:panelGrid columns="2" id="movieAddCommentPanelGrid">
+				<h:inputTextarea value="#{movie.comment}" />
+				<h:commandButton value="#{msg.add}" action="#{movie.addComment}">
+					<p:ajax async="true" process="@form" update=":movieCommentsForm" />
+				</h:commandButton>
+			</h:panelGrid>
+
+			<h:dataTable id="commentsDataTable" border="1" value="#{movie.commentsList}" var="c">
+				<h:column>
+					<img src="/profile/#{c.user.picture}" width="30px" height="40px" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{c.user.username}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{c.comment_date}" >
+						<f:convertDateTime pattern="dd.MM.yyyy. HH:mm:ss"></f:convertDateTime>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<h:outputText value="#{c.comment}" />
+				</h:column>
+				<h:column  rendered="#{login.user.privilege lt 2}">
+					<h:commandButton value="#{msg.delete}" action="#{movie.deleteComment(c)}">
+						<p:ajax async="true" process="@form" update=":movieCommentsForm" />
+					</h:commandButton>
+				</h:column>
+			
+			</h:dataTable>
+		</h:form>
+	
 </ui:composition>

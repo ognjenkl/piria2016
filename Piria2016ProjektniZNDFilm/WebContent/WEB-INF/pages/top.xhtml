@@ -16,8 +16,8 @@
     		<h:link outcome="#{msg.pageGenre}" value="#{msg.pageGenreLinkName}" rendered="#{login.user.privilege lt 2}" />
     		
     		<h:commandLink action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}">
-	    		<img src="/profile/#{login.user.picture}" style="display:#{(login.loggedIn)?'block':'none'}" width="30px" height="40px"/>
-				<h:outputText value="#{msg.logout}" />
+	    		<img src="/profile/#{login.user.picture}" style="display:#{(login.loggedIn)?'block':'none'}" width="30px" height="40px" />
+				<h:outputText value="#{msg.logout}: #{login.user.username}" />
     		</h:commandLink>
     		
     		<h:selectOneMenu id="langMenu" value="#{login.language}" onchange="submit()">
