@@ -124,7 +124,7 @@ public class UserHasMovieCommentDAO {
 		}
 	}
 	
-	public static Integer insert (Integer userId, Integer movieId, String comment) {
+	public static Integer insert(Integer userId, Integer movieId, String comment) {
 		Integer retVal = null;
 		Connection conn = null;
 		PreparedStatement ppst = null;
@@ -188,7 +188,7 @@ public class UserHasMovieCommentDAO {
 	
 	
 	
-//	public static Integer insert (Integer userId, Integer movieId, String comment) {
+//	public static Integer insert(Integer userId, Integer movieId, String comment) {
 //		Integer retVal = null;
 //		Connection conn = null;
 //		PreparedStatement ppst = null;

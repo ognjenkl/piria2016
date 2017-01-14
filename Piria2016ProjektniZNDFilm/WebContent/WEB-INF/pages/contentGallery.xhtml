@@ -1,0 +1,22 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<h:form id="formGallery" enctype="multipart/form-data">
+		<h:panelGrid rendered="#{login.user.privilege lt 2}">
+			<h:outputLabel for="picture" value="#{msg.galleryEventPicToUpload}:" />
+			<h:inputFile id="picture" value="#{gallery.eventPicPart}" />
+			<h:message for="picture" />
+			
+			<h:commandButton value="#{msg.upload}" action="#{gallery.addEventPicture}" />
+			<h:message for="formGallery"></h:message>
+		</h:panelGrid>
+		<h:dataTable value="#{gallery.eventPicsList}" var="e">
+			<h:column>
+				<img src="/event/#{e.location}" width="500px]" height="300px]"/>
+			</h:column>
+		</h:dataTable>
+	</h:form>	
+</ui:composition>

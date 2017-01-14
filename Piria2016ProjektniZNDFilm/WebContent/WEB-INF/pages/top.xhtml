@@ -9,11 +9,9 @@
    			<h:link outcome="#{msg.pageGuest}" value="#{msg.pageGuestLinkName}" />
    			<h:link outcome="#{msg.pageAccount}" value="#{msg.pageAccountLinkName}" rendered="#{login.user.privilege lt 4}" />
    			<h:link outcome="#{msg.pageManageAccounts}" value="#{msg.pageManageAccountsLinkName}" rendered="#{login.user.privilege lt 2}" />
-   			<h:link outcome="admin" value="admin" rendered="#{login.user.privilege lt 2}" />
-   			<h:link outcome="superuser" value="superuser" rendered="#{login.user.privilege lt 3}" />
-   			<h:link outcome="user" value="user" rendered="#{login.user.privilege lt 4}" />
-    		<h:link outcome="#{msg.pageAddMovie}" value="#{msg.pageAddMovieLinkName}" rendered="#{login.user.privilege lt 4}" />
+   			<h:link outcome="#{msg.pageAddMovie}" value="#{msg.pageAddMovieLinkName}" rendered="#{login.user.privilege lt 4}" />
     		<h:link outcome="#{msg.pageGenre}" value="#{msg.pageGenreLinkName}" rendered="#{login.user.privilege lt 2}" />
+    		<h:link outcome="#{msg.pageGallery}" value="#{msg.pageGalleryLinkName}" rendered="#{login.user.privilege lt 4}" />
     		
     		<h:commandLink action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}">
 	    		<img src="/profile/#{login.user.picture}" style="display:#{(login.loggedIn)?'block':'none'}" width="30px" height="40px" />

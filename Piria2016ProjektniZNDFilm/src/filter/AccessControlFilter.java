@@ -68,6 +68,8 @@ public class AccessControlFilter implements Filter{
 				resp.sendRedirect(homeURL);
 			} else if(req.getServletPath().startsWith("/user.xhtml") && loginBean.getUser().getPrivilege() > 3){
 				resp.sendRedirect(homeURL);
+			} else if(req.getServletPath().startsWith("/gallery.xhtml") && loginBean.getUser().getPrivilege() > 3){
+				resp.sendRedirect(homeURL);
 			}//to do add add movie page
 			else{
 				//System.out.println("2");

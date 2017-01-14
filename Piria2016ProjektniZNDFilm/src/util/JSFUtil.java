@@ -1,6 +1,5 @@
 package util;
 
-import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,9 +57,12 @@ public class JSFUtil {
     }
 	
 	
+
 	/**
 	 * Uploads profile picture on server.
-	 * @param profilePicName name of the profile picture to be saved as.
+	 * @param profilePicName name of the profile picture to be saved.
+	 * @param profilePicPart javax.servlet.http.Part object with info about picture. 
+	 * @param prop Properties file with info about file location, default name etc.
 	 * @return profile picture name with extension.
 	 */
 	public static String uploadProfilePic(String profilePicName, Part profilePicPart, Properties prop) {
@@ -100,11 +102,57 @@ public class JSFUtil {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.print("Something is wrong with moviePart: ");
+			System.out.print("Something is wrong with Part file: ");
 			System.out.println(profilePicName);
+			return null;
+		}
+	}
+	
+
+	/**
+	 * Uploads event picture on server.
+	 * @param eventPicName name of the event picture to be saved.
+	 * @param eventPicPart object with info about picture. 
+	 * @param prop file with info about file location, etc.
+	 * @return event picture name with extension.
+	 */
+	public static String uploadEventPic(Part eventPicPart, Properties prop) {
+		try(InputStream in = eventPicPart.getInputStream()) {
+			String dirPath = prop.getProperty("upload.event.location");
+			File dir = new File(dirPath);
+			if(dir.exists()) {
+				String fileName = JSFUtil.getFilename(eventPicPart);	
+				System.out.println("naziv slike sa dogadaja: " + fileName);
+				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
+						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
+					String filePath = dirPath + File.separator + fileName;
+					File f = new File(filePath);
+					if (!f.exists()) {
+						Files.copy(in, new File(filePath).toPath());
+						System.out.println("Uploaded event file: " + filePath);
+						return fileName;
+					} else {
+						System.out.println("Upload file \"" + fileName + "\" already exists");
+						return fileName;
+					}
+				} else {
+					System.out.println("Wrong upload file format!");
+					return null;
+				}
+			} else {
+				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print("Something is wrong with Part object: ");
 			return null;
 		}
 	
 	}
+	
+	
+	
 
 }
