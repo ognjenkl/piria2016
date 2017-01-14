@@ -21,6 +21,7 @@ public class GalleryBean {
 
 	Part eventPicPart;
 	List<GalleryPictureDTO> eventPicsList;
+	String eventPicName;
 	
 	@PostConstruct
 	public void init() {
@@ -47,6 +48,7 @@ public class GalleryBean {
 			Integer picId = GalleryPictureDAO.insert(galleryPictureDTO);
 			if(picId > 0) {
 				galleryPictureDTO.setId(picId);
+				eventPicsList = GalleryPictureDAO.getAll();
 				FacesContext.getCurrentInstance().addMessage( "formGallery", new FacesMessage(JSFUtil.getLangMessage("galleryEventPicAddSuccesful")));
 			} else
 				FacesContext.getCurrentInstance().addMessage( "formGallery", new FacesMessage(JSFUtil.getLangMessage("galleryEventPicAddError")));

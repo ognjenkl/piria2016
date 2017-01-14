@@ -12,7 +12,7 @@ import dto.GalleryPictureDTO;
 
 public class GalleryPictureDAO {
 
-	private static final String SQL_GET_ALL = "SELECT * FROM gallery_pictures;";
+	private static final String SQL_GET_ALL = "SELECT * FROM gallery_pictures ORDER BY create_date desc;";
 	private static final String SQL_INSERT = "INSERT INTO gallery_pictures (name, location) VALUES (?,?);";
 
 	
@@ -33,6 +33,7 @@ public class GalleryPictureDAO {
 			gp.setId(resultSet.getInt(1));
 			gp.setName(resultSet.getString(2));
 			gp.setLocation(resultSet.getString(3));
+			gp.setCreateDate(resultSet.getDate(4));
 			retVal.add(gp);
 		}
 		

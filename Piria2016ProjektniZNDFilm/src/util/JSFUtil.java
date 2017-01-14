@@ -3,7 +3,9 @@ package util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -55,6 +57,13 @@ public class JSFUtil {
         }
         return null;
     }
+	
+	public static String getEventFilename(Part part) {
+		String name = getFilename(part);
+		SecureRandom random = new SecureRandom();
+		return new BigInteger(50, random).toString() + name.substring(name.length() - 4);
+
+	}
 	
 	
 
@@ -121,7 +130,7 @@ public class JSFUtil {
 			String dirPath = prop.getProperty("upload.event.location");
 			File dir = new File(dirPath);
 			if(dir.exists()) {
-				String fileName = JSFUtil.getFilename(eventPicPart);	
+				String fileName = JSFUtil.getEventFilename(eventPicPart);	
 				System.out.println("naziv slike sa dogadaja: " + fileName);
 				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
 						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
