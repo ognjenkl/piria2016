@@ -1,6 +1,12 @@
 package util;
 
+import java.beans.PropertyChangeEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -50,5 +56,55 @@ public class JSFUtil {
         }
         return null;
     }
+	
+	
+	/**
+	 * Uploads profile picture on server.
+	 * @param profilePicName name of the profile picture to be saved as.
+	 * @return profile picture name with extension.
+	 */
+	public static String uploadProfilePic(String profilePicName, Part profilePicPart, Properties prop) {
+		try(InputStream in = profilePicPart.getInputStream()) {
+			String dirPath = prop.getProperty("upload.profile.location");
+			File dir = new File(dirPath);
+			if(dir.exists()) {
+				String fileName = profilePicName + ".png";
+				//if no profile pic is specified
+				if(JSFUtil.getFilename(profilePicPart).equals("")){
+					fileName = prop.getProperty("upload.profile.default.name");
+					System.out.println("naziv profilne slike: " + fileName);
+					return fileName;
+				}
+				
+				System.out.println("naziv profilne slike: " + fileName);
+				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
+						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
+					String filePath = dirPath + File.separator + fileName;
+					File f = new File(filePath);
+					if (!f.exists()) {
+						Files.copy(in, new File(filePath).toPath());
+						System.out.println("Uploaded profile file: " + filePath);
+						return fileName;
+					} else {
+						System.out.println("Upload file \"" + fileName + "\" already exists");
+						return fileName;
+					}
+				} else {
+					System.out.println("Wrong upload file format!");
+					return null;
+				}
+			} else {
+				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.print("Something is wrong with moviePart: ");
+			System.out.println(profilePicName);
+			return null;
+		}
+	
+	}
 
 }

@@ -53,31 +53,31 @@
     </h:form>
     <h:form id="registerForm" enctype="multipart/form-data">
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
-			<h:outputLabel for="firstName"  value="#{msg.firstName}:"></h:outputLabel>
+			<h:outputLabel for="firstName"  value="#{msg.firstName}:" />
 	        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
 	        <h:message for="firstName"></h:message>
 			
-			<h:outputLabel for="lastName"  value="#{msg.lastName}:"></h:outputLabel>
+			<h:outputLabel for="lastName"  value="#{msg.lastName}:" />
 	        <h:inputText id="lastName" value="#{login.userRegister.lastName}"/>
 	        <h:message for="lastName"></h:message>
 			
-			<h:outputLabel for="socialNo"  value="#{msg.socialNo}:"></h:outputLabel>
+			<h:outputLabel for="socialNo"  value="#{msg.socialNo}:" />
 	        <h:inputText id="socialNo" value="#{login.userRegister.socialNo}"/>
 	        <h:message for="socialNo"></h:message>
 			
-			<h:outputLabel for="email"  value="#{msg.email}:"></h:outputLabel>
+			<h:outputLabel for="email"  value="#{msg.email}:" />
 	        <h:inputText id="email" value="#{login.userRegister.email}"/>
 	        <h:message for="email"></h:message>
 			
-			<h:outputLabel for="picture"  value="#{msg.picture}:"></h:outputLabel>
+			<h:outputLabel for="picture"  value="#{msg.picture}:" />
 	        <h:inputFile id="picture" value="#{login.profilePicPart}" />
 	        <h:message for="picture"></h:message>
 	       
-	        <h:outputLabel for="usernameRegister"  value="#{msg.username}:"></h:outputLabel>
+	        <h:outputLabel for="usernameRegister"  value="#{msg.username}:" />
 	        <h:inputText id="usernameRegister" value="#{login.userRegister.username}"/>
 	        <h:message for="usernameRegister"></h:message>
 	        
-	        <h:outputLabel for="passwordRegister" value="#{msg.password}:"></h:outputLabel>
+	        <h:outputLabel for="passwordRegister" value="#{msg.password}:" />
 	        <h:inputSecret id="passwordRegister" value="#{login.userRegister.password}" 
 	        				required="true" requiredMessage="#{msg.passwordRequiredMessage}">
 	        	<f:attribute name="confirmPasswordAttribute" value="#{confirmPasswordBind.submittedValue}" />

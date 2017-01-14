@@ -1,11 +1,18 @@
 package bean;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Properties;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 import dto.UserDTO;
 import util.JSFUtil;
@@ -23,6 +30,8 @@ public class AccountBean {
 	
 	UserDTO user;
 	
+	Part profilePicPart;
+	
 	/**
 	 * Used for account editing properties. 
 	 */
@@ -38,6 +47,17 @@ public class AccountBean {
 	}
 	
 	public String accountSave(){
+		Properties prop = new Properties();
+		try {
+			prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String filePath = JSFUtil.uploadProfilePic(user.getUsername(), profilePicPart, prop);
+		user.setPicture(filePath);
+		
 		if(!user.getPassword().equals(""))
 			if (loginBean.updateUserWithoutPrivilege(user))
 				FacesContext.getCurrentInstance().addMessage( "formAccount", new FacesMessage(JSFUtil.getLangMessage("saveAccountSuccessfulMessage")));
@@ -82,6 +102,9 @@ public class AccountBean {
 	
 	
 	
+	
+	
+	
 	public UserDTO getUser() {
 		return user;
 	}
@@ -96,6 +119,14 @@ public class AccountBean {
 
 	public void setLoginBean(LoginBean loginBean) {
 		this.loginBean = loginBean;
+	}
+
+	public Part getProfilePicPart() {
+		return profilePicPart;
+	}
+
+	public void setProfilePicPart(Part profilePicPart) {
+		this.profilePicPart = profilePicPart;
 	}
 	
 	

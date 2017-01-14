@@ -72,7 +72,7 @@ public class LoginBean {
 	List<UserDTO> usersAll;
 	
 	Part profilePicPart;
-	String defaultProfilePic;
+//	String defaultProfilePic;
 	
 	
 	
@@ -97,7 +97,7 @@ public class LoginBean {
 			e.printStackTrace();
 		}
 		
-		defaultProfilePic = prop.getProperty("upload.profile.default.name");
+//		defaultProfilePic = prop.getProperty("upload.profile.default.name");
 		
 	}
 
@@ -165,7 +165,9 @@ public class LoginBean {
 	
 	public String register(){
 		if(UserDAO.getByUsername(userRegister.getUsername()) == null){
-			String filePath = uploadProfilePic(userRegister.getUsername());
+//			String filePath = uploadProfilePic(userRegister.getUsername());
+			String filePath = JSFUtil.uploadProfilePic(userRegister.getUsername(), profilePicPart, prop);
+			
 			if( filePath != null) {
 				userRegister.setPicture(filePath);
 				if(UserDAO.insert(userRegister)){
@@ -265,57 +267,57 @@ public class LoginBean {
 		return false;
 	}	
 	
-	/*
-	 * Returns string path of the uploaded profile picture.
-	 */
-	/**
-	 * Uploads profile picture on server.
-	 * @param profilePicName name of the profile picture to be saved as.
-	 * @return profile picture name with extension.
-	 */
-	public String uploadProfilePic(String profilePicName) {
-		try(InputStream in = profilePicPart.getInputStream()) {
-			String dirPath = prop.getProperty("upload.profile.location");
-			File dir = new File(dirPath);
-			if(dir.exists()) {
-				String fileName = profilePicName + ".png";
-				//if no profile pic is specified
-				if(JSFUtil.getFilename(profilePicPart).equals("")){
-					fileName = defaultProfilePic;
-					System.out.println("naziv profilne slike: " + fileName);
-					return fileName;
-				}
-				
-				System.out.println("naziv profilne slike: " + fileName);
-				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
-						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
-					String filePath = dirPath + File.separator + fileName;
-					File f = new File(filePath);
-					if (!f.exists()) {
-						Files.copy(in, new File(filePath).toPath());
-						System.out.println("Uploaded profile file: " + filePath);
-						return fileName;
-					} else {
-						System.out.println("Upload file \"" + fileName + "\" already exists");
-						return fileName;
-					}
-				} else {
-					System.out.println("Wrong upload file format!");
-					return null;
-				}
-			} else {
-				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
-				return null;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.print("Something is wrong with moviePart: ");
-			System.out.println(profilePicName);
-			return null;
-		}
-	
-	}
+//	/*
+//	 * Returns string path of the uploaded profile picture.
+//	 */
+//	/**
+//	 * Uploads profile picture on server.
+//	 * @param profilePicName name of the profile picture to be saved as.
+//	 * @return profile picture name with extension.
+//	 */
+//	public String uploadProfilePic(String profilePicName) {
+//		try(InputStream in = profilePicPart.getInputStream()) {
+//			String dirPath = prop.getProperty("upload.profile.location");
+//			File dir = new File(dirPath);
+//			if(dir.exists()) {
+//				String fileName = profilePicName + ".png";
+//				//if no profile pic is specified
+//				if(JSFUtil.getFilename(profilePicPart).equals("")){
+//					fileName = prop.getProperty("upload.profile.default.name");
+//					System.out.println("naziv profilne slike: " + fileName);
+//					return fileName;
+//				}
+//				
+//				System.out.println("naziv profilne slike: " + fileName);
+//				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
+//						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
+//					String filePath = dirPath + File.separator + fileName;
+//					File f = new File(filePath);
+//					if (!f.exists()) {
+//						Files.copy(in, new File(filePath).toPath());
+//						System.out.println("Uploaded profile file: " + filePath);
+//						return fileName;
+//					} else {
+//						System.out.println("Upload file \"" + fileName + "\" already exists");
+//						return fileName;
+//					}
+//				} else {
+//					System.out.println("Wrong upload file format!");
+//					return null;
+//				}
+//			} else {
+//				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
+//				return null;
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.print("Something is wrong with moviePart: ");
+//			System.out.println(profilePicName);
+//			return null;
+//		}
+//	
+//	}
 	
 	
 	
