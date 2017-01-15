@@ -1,5 +1,6 @@
 package bean;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
@@ -74,11 +75,18 @@ public class EventBean {
 	}
 	
 	public void sendMail(UserDTO user, EventDTO eventDTO) {
+		Properties prop = new Properties();
+		try {
+			prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String to = user.getEmail();
-		String from = "zndfproject@gmail.com";
-		String username = "zndfproject@gmail.com";
-		String password = "zndfzndf";
-		String host = "smtp.gmail.com";
+		String from = prop.getProperty("mail.from");
+		String username = prop.getProperty("mail.username");
+		String password = prop.getProperty("mail.password");
+		String host = prop.getProperty("mail.smtp");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
