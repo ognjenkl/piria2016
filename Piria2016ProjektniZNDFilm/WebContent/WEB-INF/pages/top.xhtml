@@ -12,6 +12,7 @@
    			<h:link outcome="#{msg.pageAddMovie}" value="#{msg.pageAddMovieLinkName}" rendered="#{login.user.privilege lt 4}" />
     		<h:link outcome="#{msg.pageGenre}" value="#{msg.pageGenreLinkName}" rendered="#{login.user.privilege lt 2}" />
     		<h:link outcome="#{msg.pageGallery}" value="#{msg.pageGalleryLinkName}" rendered="#{login.user.privilege lt 4}" />
+    		<h:link outcome="#{msg.pageEvent}" value="#{msg.pageEventLinkName}" rendered="#{login.user.privilege lt 3}" />
     		
     		<h:commandLink action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}">
 	    		<img src="/profile/#{login.user.picture}" style="display:#{(login.loggedIn)?'block':'none'}" width="30px" height="40px" />

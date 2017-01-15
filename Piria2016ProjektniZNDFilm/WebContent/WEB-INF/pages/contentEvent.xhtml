@@ -1,0 +1,71 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<h:form id="formEvent" rendered="#{login.user.privilege eq 2}">
+		<h:panelGrid columns="3">	
+			<h:outputLabel for="announcement"  value="#{msg.eventAnnouncement}:" />
+	        <rich:calendar id="announcement" value="#{event.event.eventAnnouncement}" 
+				        	popup="true" showApplyButton="true" 
+				        	datePattern="dd.MM.yyyy. HH:mm" required="true"/>
+	        <h:message for="announcement"></h:message>
+			
+			<h:outputLabel for="maintained"  value="#{msg.eventMaintained}:" />
+	        <rich:calendar id="maintained" value="#{event.event.eventMaintained}" 
+	        				popup="true" 
+	        				datePattern="dd.MM.yyyy. HH:mm" required="true"/>
+	        <h:message for="maintained"></h:message>
+			
+			<h:outputLabel for="eventName"  value="#{msg.eventName}:" />
+	        <h:inputText id="eventName" value="#{event.event.name}" required="true" />
+	        <h:message for="eventName"></h:message>
+			
+			<h:outputLabel for="eventLocation"  value="#{msg.eventLocation}:" />
+	        <h:inputText id="eventLocation" value="#{event.event.location}" required="true" />
+	        <h:message for="eventLocation"></h:message>
+			
+			
+			<h:commandButton value="#{msg.add}" action="#{event.eventAdd}" />
+			<h:commandButton value="#{msg.cancel}" action="#{event.eventCancel}" />
+			<div />
+			<h:message for="formEvent" ></h:message>
+		</h:panelGrid>
+	</h:form>	
+	<h:form id="formEventAdmin" rendered="#{login.user.privilege eq 1}" >
+		<h:dataTable border="1" value="#{event.eventsList}" var="e"> 
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.eventAnnouncement}" />
+				</f:facet>
+				<h:outputText value="#{e.eventAnnouncement}" />
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.eventMaintained}" />
+				</f:facet>
+				<h:outputText value="#{e.eventMaintained}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.eventName}" />
+				</f:facet>			
+				<h:outputText value="#{e.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msg.eventLocation}" />
+				</f:facet>
+				<h:outputText value="#{e.location}" />
+			</h:column>
+			<h:column>
+				<h:commandLink value="#{msg.grant}" action="#{event.eventGrant(e)}"/>
+			</h:column>
+		</h:dataTable>
+		<h:message for="formEventAdmin" />
+	</h:form>
+
+</ui:composition>
