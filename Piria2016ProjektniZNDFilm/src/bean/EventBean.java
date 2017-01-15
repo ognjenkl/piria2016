@@ -25,6 +25,7 @@ public class EventBean {
 	
 	public String eventAdd() {
 		System.out.println("event ann: " + event.getEventAnnouncement() + " name: " + event.getName());
+		
 		if (EventDAO.insert(event) > 0)
 			FacesContext.getCurrentInstance().addMessage("formEvent", new FacesMessage( JSFUtil.getLangMessage("eventAddSuccessful")));
 		else

@@ -60,8 +60,8 @@ public class EventDAO {
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ppst.setDate(1, new java.sql.Date(eventDTO.getEventAnnouncement().getTime()));
-			ppst.setDate(2, new java.sql.Date(eventDTO.getEventMaintained().getTime()));
+			ppst.setTimestamp(1, new java.sql.Timestamp(eventDTO.getEventAnnouncement().getTime()));
+			ppst.setTimestamp(2, new java.sql.Timestamp(eventDTO.getEventMaintained().getTime()));
 			ppst.setString(3, eventDTO.getName());
 			ppst.setString(4, eventDTO.getLocation());
 	
