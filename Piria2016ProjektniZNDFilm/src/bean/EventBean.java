@@ -39,11 +39,11 @@ public class EventBean {
 		return "guest?faces-redirect=true";
 	}
 	
-	public String eventGrant(EventDTO e) {
-		if (EventDAO.grant(e.getId()) > 0)
-			FacesContext.getCurrentInstance().addMessage("formEventAdmin", new FacesMessage(JSFUtil.getLangMessage("eventGrantSuccessful")));
+	public String eventApprove(EventDTO e) {
+		if (EventDAO.approve(e.getId()) > 0)
+			FacesContext.getCurrentInstance().addMessage("formEventAdmin", new FacesMessage(JSFUtil.getLangMessage("eventApproveSuccessful")));
 		else
-			FacesContext.getCurrentInstance().addMessage("formEventAdmin", new FacesMessage(JSFUtil.getLangMessage("eventGrantNotSuccessful")));
+			FacesContext.getCurrentInstance().addMessage("formEventAdmin", new FacesMessage(JSFUtil.getLangMessage("eventApproveNotSuccessful")));
 
 		eventsList = EventDAO.getAllInactive();
 		return null;

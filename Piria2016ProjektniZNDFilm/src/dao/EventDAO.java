@@ -14,7 +14,7 @@ public class EventDAO {
 
 	private static final String SQL_GET_ALL_INACTIVE = "SELECT * FROM events WHERE active=0;";
 	private static final String SQL_INSERT = "INSERT INTO events (event_announcement, event_maintained, name, location) VALUES (?,?,?,?)";
-	private static final String SQL_GRANT = "UPDATE events SET active=1 WHERE id=?";
+	private static final String SQL_APPROVE = "UPDATE events SET active=1 WHERE id=?";
 
 	public static List<EventDTO> getAllInactive() {
 		List<EventDTO> retVal = new ArrayList<>();
@@ -85,15 +85,14 @@ public class EventDAO {
 		
 	}
 	
-	public static Integer grant(Integer eventId) {
+	public static Integer approve(Integer eventId) {
 		Integer retVal = null;
 		Connection conn = null;
 		PreparedStatement ppst = null;
-		ResultSet resultSet = null;
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			ppst = conn.prepareStatement(SQL_GRANT);
+			ppst = conn.prepareStatement(SQL_APPROVE);
 			ppst.setInt(1, eventId);
 	
 			int rowCount = ppst.executeUpdate();
