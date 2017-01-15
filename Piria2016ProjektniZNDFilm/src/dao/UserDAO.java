@@ -18,6 +18,7 @@ public class UserDAO {
 	private static final String SQL_ALL = "SELECT * FROM zndfilm.users;";
 	private static final String SQL_GET_BY_ID = "SELECT * FROM users WHERE id=?;";
 	private static final String SQL_GET_BY_USERNAME = "SELECT * FROM users WHERE username=?;";
+	private static final String SQL_GET_BY_PRIVILEGE = "SELECT * FROM users WHERE privilege=?;";
 	private static final String SQL_INSERT = "INSERT INTO users ( username, password, first_name, last_name, social_no, email, privilege, picture, active, editable) VALUES ( ?, MD5(?), ?, ?, ?, ?, ?, ?, ?, ? );";
 	private static final String SQL_GET_BY_USERNAME_AND_PASSWORD = "SELECT * FROM zndfilm.users where username=? AND password=MD5(?) and active=1;";
 	private static final String SQL_UPDATE_USER_WITHOUT_PRIVILEGE = "UPDATE users SET password=MD5(?), first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
@@ -157,6 +158,52 @@ public class UserDAO {
 	}
 	
 
+	public static List<UserDTO> getByPrivilege(Integer privilege) {
+		List<UserDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		ResultSet resultSet = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BY_PRIVILEGE);
+			ppst.setInt(1, privilege);
+			resultSet = ppst.executeQuery();
+
+			while (resultSet.next()){
+				UserDTO userDTO = new UserDTO();
+				userDTO.setId(resultSet.getInt("id"));
+				userDTO.setUsername(resultSet.getString("username"));
+				userDTO.setPassword(resultSet.getString("password"));
+				userDTO.setFirstName(resultSet.getString("first_name"));
+				userDTO.setLastName(resultSet.getString("last_name"));
+				userDTO.setSocialNo(resultSet.getString("social_no"));
+				userDTO.setEmail(resultSet.getString("email"));
+				userDTO.setPrivilege(resultSet.getInt("privilege"));
+				userDTO.setPicture(resultSet.getString("picture"));
+				retVal.add(userDTO);
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ppst != null)
+				try {
+					ppst.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
 	
 	public static List<UserDTO> getAll(){		
 		Connection conn = null;

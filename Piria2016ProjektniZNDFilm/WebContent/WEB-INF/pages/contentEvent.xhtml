@@ -41,13 +41,17 @@
 				<f:facet name="header">
 					<h:outputText value="#{msg.eventAnnouncement}" />
 				</f:facet>
-				<h:outputText value="#{e.eventAnnouncement}" />
+				<h:outputText value="#{e.eventAnnouncement}">
+					<f:convertDateTime type="date" pattern="dd.MM.yyyy. HH:mm" />
+				</h:outputText>
 			</h:column>	
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.eventMaintained}" />
 				</f:facet>
-				<h:outputText value="#{e.eventMaintained}" />
+				<h:outputText value="#{e.eventMaintained}">
+					<f:convertDateTime type="date" pattern="dd.MM.yyyy. HH:mm" />
+				</h:outputText>
 			</h:column>
 			<h:column>
 				<f:facet name="header">

@@ -31,8 +31,8 @@ public class EventDAO {
 			while (resultSet.next()){
 				EventDTO eventDTO = new EventDTO();
 				eventDTO.setId(resultSet.getInt(1));
-				eventDTO.setEventAnnouncement(resultSet.getDate(2));
-				eventDTO.setEventMaintained(resultSet.getDate(3));
+				eventDTO.setEventAnnouncement(resultSet.getTimestamp(2));
+				eventDTO.setEventMaintained(resultSet.getTimestamp(3));
 				eventDTO.setName(resultSet.getString(4));
 				eventDTO.setLocation(resultSet.getString(5));
 				retVal.add(eventDTO);
@@ -114,6 +114,8 @@ public class EventDAO {
 		
 	}
 	
+
+	
 //	public static Integer insert(Integer userId, Integer movieId, String comment) {
 //	Integer retVal = null;
 //	Connection conn = null;
@@ -146,5 +148,6 @@ public class EventDAO {
 //	}
 //	
 //}
+
 	
 }
