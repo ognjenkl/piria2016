@@ -22,6 +22,7 @@ public class MovieDAO {
 
 	private static final String SQL_GET_ALL = "SELECT * FROM movies WHERE active=1";
 	private static final String SQL_GET_BY_TITLE = "SELECT * FROM movies WHERE active=1 AND title LIKE ?;";
+	private static final String SQL_GET_BY_ID = "SELECT * FROM movies WHERE active=1 AND id=?";
 	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_DELETE = "UPDATE movies SET active=0 WHERE id=?";
 	private static final String SQL_UPDATE = "UPDATE movies SET title=?, release_date=? , storyline=?, trailer_location_type=?, trailer_location=?, runtime_minutes=? WHERE id=?";
@@ -71,6 +72,45 @@ public class MovieDAO {
 		}
 	}
 	
+	public static MovieDTO getById(Integer id){
+		MovieDTO retVal = null;
+		Connection conn = null;
+		ResultSet resultSet = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BY_ID);
+			resultSet = ppst.executeQuery();
+			
+			if (resultSet.next()){
+				MovieDTO movie = new MovieDTO();
+				movie.setId(resultSet.getInt(1));
+				movie.setTitle(resultSet.getString(2));
+				movie.setReleaseDate(resultSet.getDate(3));
+				movie.setStoryline(resultSet.getString(4));
+				movie.setTrailerLocationType(resultSet.getInt(5));
+				movie.setTrailerLocation(resultSet.getString(6));
+				movie.setRuntimeMinutes(resultSet.getInt(7));
+				movie.setRate(resultSet.getDouble(8));
+				
+				movie.setActors(MovieHasActorDAO.getActorsByMovieId(movie.getId()));
+				movie.setGenres(MovieHasGenreDAO.getGenresByMovieId(movie.getId()));
+				
+				retVal = movie;
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+	}
 	
 	public static List<MovieDTO> getByTitle(String title){
 		List<MovieDTO> movieList = new ArrayList<>();

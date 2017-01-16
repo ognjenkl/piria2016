@@ -1,0 +1,15 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<h:form>
+		<h:panelGrid columns="3">
+		<h:outputText value="#{msg.favoriteAddList}:" />
+		<h:inputText value="#{favorite.favoriteListToAdd.name}" />
+		<h:commandButton value="#{msg.add}" action="#{favorite.addFavoriteMovieList}" />
+		
+		</h:panelGrid>
+	</h:form>
+</ui:composition> 
