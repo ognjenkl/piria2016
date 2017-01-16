@@ -96,5 +96,53 @@
 	    </h:panelGrid>
 	</h:form>
 	
+	<br />
+	<br />
+	<br />
+	
+	<h:form id="suggestionMovieForm" rendered="#{login.loggedIn}">
+		#{msg.suggestion}
+		<h:panelGrid id="suggestionMoviePanelGrid" columns="1" width="600">
+			#{msg.movieTitle}:
+			<h:outputText value="#{login.movieSuggestion.title}" />
+			
+			#{msg.movieReleaseDate}:
+			<h:outputText value="#{login.movieSuggestion.releaseDate.time}">
+				<f:convertDateTime type="date" dateStyle="long" pattern="dd.MM.yyyy." />
+			</h:outputText>
+
+			#{msg.movieActors}:
+			<ui:repeat value="#{login.movieSuggestion.actors}" var="actor">
+				<h:outputText value="#{actor}" />
+				<h:outputText value=" | " />
+			</ui:repeat>
+			
+			#{msg.movieStoryline}:
+			<h:outputText value="#{login.movieSuggestion.storyline}" />
+			
+			#{msg.movieGenres}:
+			<ui:repeat value="#{login.movieSuggestion.genres}" var="gen">
+				<h:outputText value="#{gen.name}" />
+				<h:outputText value=" | " />
+			</ui:repeat>
+			
+				
+			#{msg.movieTrailer}:"
+			<h:outputLink value="#{login.movieSuggestion.trailerLocation}" target="_blank" 
+							rendered="#{login.movieSuggestion.trailerLocationType == 2 and login.movieSuggestion.trailerLocation != null}">
+				<h:outputText value="#{msg.movieTrailerWatch}" /> 
+			</h:outputLink>
+			<video controls="controls"  style="display:#{(login.movieSuggestion.trailerLocationType == 1)?'block':'none'}">
+				<source src="/trailer/#{login.movieSuggestion.trailerLocation}" type="video/mp4" />
+			</video>
+			
+			#{msg.movieRuntime}:
+			<h:outputText value="#{login.movieSuggestion.runtimeMinutes}" />
+			
+			#{msg.movieRate}:
+			<h:outputText value="#{login.movieSuggestion.rate}" />		
+		</h:panelGrid>
+	</h:form>	
+	
 	
 </ui:composition>

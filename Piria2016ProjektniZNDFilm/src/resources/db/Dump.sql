@@ -57,7 +57,7 @@ CREATE TABLE `events` (
   `location` varchar(128) NOT NULL,
   `active` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +66,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (5,'2017-01-20 00:00:00','2017-01-27 20:10:00','Izlozba slika','Muzej umjetnosti',1),(6,'2017-01-17 13:00:00','2017-01-31 15:15:00','Izlozba filma','Kino, Banja Luka',0);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,8 +81,9 @@ CREATE TABLE `gallery_pictures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `location` varchar(256) DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +92,7 @@ CREATE TABLE `gallery_pictures` (
 
 LOCK TABLES `gallery_pictures` WRITE;
 /*!40000 ALTER TABLE `gallery_pictures` DISABLE KEYS */;
+INSERT INTO `gallery_pictures` VALUES (11,'16939145304669.jpg','16939145304669.jpg','2017-01-14 15:14:29'),(12,'794943328986909.png','794943328986909.png','2017-01-14 15:14:39');
 /*!40000 ALTER TABLE `gallery_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +239,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (23,'w','f1290186a5d0b1ceab27f4e77c0c5d68','w','w','w','w',3,'profile.default.png',1,0,'2017-01-10 15:26:24'),(24,'q','7694f4a66316e53c8cdd9d9954bd611d','q','q','q','q',1,'profile.default.png',1,0,'2017-01-10 15:31:23'),(25,'a','0cc175b9c0f1b6a831c399e269772661','a','a','a','a',1,'profile.default.png',1,0,'2017-01-10 16:15:14'),(26,'s','03c7c0ace395d80182db07ae2c30f034','s','s','s','s',2,'profile.default.png',1,0,'2017-01-10 16:15:29'),(27,'u','7b774effe4a349c6dd82ad4f4f21d34c','u','u','u','u',3,'profile.default.png',1,0,'2017-01-10 16:15:40'),(28,'e','e1671797c52e15f763380b45e841ec32','e','e','e','e',3,'profile.default.png',1,0,'2017-01-10 16:15:54'),(31,'t','e358efa489f58062f10dd7316b65649e','t','t','t','t',3,'t.png',1,0,'2017-01-10 23:52:48'),(33,'r','4b43b0aee35624cd95b910189b3dc231','r','r','r','r',3,'r.png',1,0,'2017-01-11 09:11:52'),(34,'f','8fa14cdd754f91cc6554c9e71929cce7','f','f','f','f',3,'f.png',1,0,'2017-01-14 01:59:47');
+INSERT INTO `users` VALUES (25,'a','0cc175b9c0f1b6a831c399e269772661','a','a','a','a@mailinator.com',1,'profile.default.png',1,0,'2017-01-10 16:15:14'),(26,'s','03c7c0ace395d80182db07ae2c30f034','s','s','s','s@mailinator.com',2,'profile.default.png',1,0,'2017-01-10 16:15:29'),(27,'u','7b774effe4a349c6dd82ad4f4f21d34c','u','u','u','u@mailinator.com',3,'profile.default.png',1,0,'2017-01-10 16:15:40'),(28,'e','e1671797c52e15f763380b45e841ec32','e','e','e','e@mailinator.com',3,'profile.default.png',1,0,'2017-01-10 16:15:54'),(31,'t','e358efa489f58062f10dd7316b65649e','t','t','t','t@mailinator.com',3,'t.png',1,0,'2017-01-10 23:52:48'),(33,'r','4b43b0aee35624cd95b910189b3dc231','r','r','r','r@mailinator.com',3,'r.png',1,0,'2017-01-11 09:11:52');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,4 +343,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-14  3:06:27
+-- Dump completed on 2017-01-16  1:25:54

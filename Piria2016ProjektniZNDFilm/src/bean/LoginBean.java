@@ -1,18 +1,16 @@
 package bean;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
@@ -27,7 +25,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dao.MovieDAO;
 import dao.UserDAO;
+import dto.MovieDTO;
 import dto.UserDTO;
 import util.JSFUtil;
 
@@ -74,6 +74,7 @@ public class LoginBean {
 	Part profilePicPart;
 //	String defaultProfilePic;
 	
+	MovieDTO movieSuggestion;
 	
 	
 	//consturctor
@@ -118,6 +119,8 @@ public class LoginBean {
 		availableItems.put(prop.getProperty("langShortSr"),prop.getProperty("langLongSr"));
 		availableItems.put(prop.getProperty("langShortFr"),prop.getProperty("langLongFr"));
 		availableItems.put(prop.getProperty("langShortDe"),prop.getProperty("langLongDe"));
+		
+		movieSuggestion = suggestMovie();
 
 	}
 	
@@ -138,20 +141,6 @@ public class LoginBean {
 		return null;
 	}
 	
-//	/*
-//	 * Login with userRegister properties, which is afterwards set to default UserDTO object
-//	 * 
-//	 */
-//	public void login(UserDTO userReg){
-//		UserDTO loggedUser = UserDAO.login(userReg.getUsername(), userReg.getPassword());
-//		if(loggedUser != null){
-//			user = loggedUser;
-//			userReg = new UserDTO();
-//			loggedIn = true;
-//		} else
-//			loggedIn = false;
-//	}
-//	
 	public String logout(){
 		String retVal = "guest?faces-redirect=true";
 		
@@ -267,57 +256,17 @@ public class LoginBean {
 		return false;
 	}	
 	
-//	/*
-//	 * Returns string path of the uploaded profile picture.
-//	 */
-//	/**
-//	 * Uploads profile picture on server.
-//	 * @param profilePicName name of the profile picture to be saved as.
-//	 * @return profile picture name with extension.
-//	 */
-//	public String uploadProfilePic(String profilePicName) {
-//		try(InputStream in = profilePicPart.getInputStream()) {
-//			String dirPath = prop.getProperty("upload.profile.location");
-//			File dir = new File(dirPath);
-//			if(dir.exists()) {
-//				String fileName = profilePicName + ".png";
-//				//if no profile pic is specified
-//				if(JSFUtil.getFilename(profilePicPart).equals("")){
-//					fileName = prop.getProperty("upload.profile.default.name");
-//					System.out.println("naziv profilne slike: " + fileName);
-//					return fileName;
-//				}
-//				
-//				System.out.println("naziv profilne slike: " + fileName);
-//				if(fileName.endsWith(".jpg") || fileName.endsWith(".png")
-//						|| fileName.endsWith(".JPG") || fileName.endsWith(".PNG")) {
-//					String filePath = dirPath + File.separator + fileName;
-//					File f = new File(filePath);
-//					if (!f.exists()) {
-//						Files.copy(in, new File(filePath).toPath());
-//						System.out.println("Uploaded profile file: " + filePath);
-//						return fileName;
-//					} else {
-//						System.out.println("Upload file \"" + fileName + "\" already exists");
-//						return fileName;
-//					}
-//				} else {
-//					System.out.println("Wrong upload file format!");
-//					return null;
-//				}
-//			} else {
-//				System.out.println("Directory \"" + dirPath + "\" for upload does not exist");
-//				return null;
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			System.out.print("Something is wrong with moviePart: ");
-//			System.out.println(profilePicName);
-//			return null;
-//		}
-//	
-//	}
+	public MovieDTO suggestMovie() {
+		MovieDTO movieDTO = null;
+		List<MovieDTO> moviesList = MovieDAO.getAll();
+		
+		if(moviesList != null && moviesList.size() > 0){
+			Random random = new Random();
+			movieDTO = moviesList.get(random.nextInt(moviesList.size()));
+		}
+		
+		return movieDTO;
+	}
 	
 	
 	
@@ -386,14 +335,6 @@ public class LoginBean {
 		this.availableItems = availableItems;
 	}
 
-//	public MovieBean getMovie() {
-//		return movie;
-//	}
-//
-//	public void setMovie(MovieBean movie) {
-//		this.movie = movie;
-//	}
-
 	public ResourceBundle getMsgResourceBundle() {
 		return msgResourceBundle;
 	}
@@ -424,6 +365,13 @@ public class LoginBean {
 		this.profilePicPart = profilePicPart;
 	}
 
+	public MovieDTO getMovieSuggestion() {
+		return movieSuggestion;
+	}
+
+	public void setMovieSuggestion(MovieDTO movieSuggestion) {
+		this.movieSuggestion = movieSuggestion;
+	}
 	
 	
 	
