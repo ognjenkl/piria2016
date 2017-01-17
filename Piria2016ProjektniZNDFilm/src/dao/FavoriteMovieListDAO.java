@@ -12,7 +12,7 @@ import dto.FavoriteListDTO;
 
 public class FavoriteMovieListDAO {
 
-	private static final String SQL_GET_ALL_BY_USER_ID = "";
+	private static final String SQL_GET_ALL_BY_USER_ID = "SELECT * FROM zndfilm.favorite_movies_lists WHERE active=1 and users_id=?;";
 	private static final String SQL_INSERT = "INSERT INTO favorite_movies_lists (name, users_id) VALUES (?,?)";
 	
 	
@@ -25,6 +25,7 @@ public class FavoriteMovieListDAO {
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_GET_ALL_BY_USER_ID);
+			System.out.println("dao userId: " + userId);
 			ppst.setInt(1, userId);
 	
 			resultSet = ppst.executeQuery();
@@ -34,13 +35,15 @@ public class FavoriteMovieListDAO {
 				f.setId(resultSet.getInt(1));
 				f.setName(resultSet.getString(2));
 				f.setCreateDate(resultSet.getTimestamp(3));
-				f.setUsersId(userId);
+				f.setUsersId(resultSet.getInt(4));
 
-				f.setMovies(FavoriteMovieListHasMovieDAO.getAllByFavoriteMovieListId(f.getId()));
-
+				//f.setMovies(FavoriteMovieListHasMovieDAO.getAllByFavoriteMovieListId(f.getId()));
+				//f.setMovies(new ArrayList<>());
 				retVal.add(f);
 			}
 			
+			
+
 			ppst.close();
 			return retVal;
 			

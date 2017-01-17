@@ -12,6 +12,7 @@ import dto.MovieDTO;
 public class FavoriteMovieListHasMovieDAO {
 
 	private static final String SQL_GET_ALL_BY_FAVORITE_MOIVE_LIST_ID = "";
+	private static final String SQL_INSERT = "INSERT INTO favorite_movies_lists_has_movies (favorite_movies_lists_id,favorite_movies_lists_users_id,movies_id) VALUES (?,?,?);";
 	
 	
 	
@@ -48,7 +49,37 @@ public class FavoriteMovieListHasMovieDAO {
 		
 	}
 	
+
+	public static Integer insert(Integer favoriteMoviesListId, Integer favoriteMoviesListUserId, Integer movieId) {
+		Integer retVal = null;
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_INSERT);
+			ppst.setInt(1, favoriteMoviesListId);
+			ppst.setInt(2, favoriteMoviesListUserId);
+			ppst.setInt(3, movieId);
 	
+			int rowCount = ppst.executeUpdate();
+			
+			if (rowCount > 0){
+				retVal = rowCount;
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
 
 //	public static Integer insert(Integer userId, Integer movieId, String comment) {
 //	Integer retVal = null;
