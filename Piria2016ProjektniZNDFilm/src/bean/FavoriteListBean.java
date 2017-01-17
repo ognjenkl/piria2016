@@ -68,6 +68,7 @@ public class FavoriteListBean {
 			FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddListDoesntExist")));
 
 		favoriteLists.add(favoriteListToAdd);
+
 		favoriteListToAdd = new FavoriteListDTO();
 		return null;
 	}
@@ -79,8 +80,10 @@ public class FavoriteListBean {
 		System.out.println("add movie id: " + favoriteMovieIdToAdd);
 		Integer resultInsert = FavoriteMovieListHasMovieDAO.insert(favoriteListDTO.getId(), favoriteListDTO.getUsersId(), favoriteMovieIdToAdd);
 		
-		if ( resultInsert != null && resultInsert > 0 )
+		if ( resultInsert != null && resultInsert > 0 ){
+			favoriteListDTO.getMovies().add(MovieDAO.getById(favoriteMovieIdToAdd));
 			FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddMovieSuccessful")));
+		}
 		else
 			FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddMovieUnsuccessful")));
 		

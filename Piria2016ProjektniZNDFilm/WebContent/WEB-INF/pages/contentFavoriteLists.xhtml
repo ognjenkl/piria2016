@@ -6,14 +6,14 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	
-	<h:dataTable border="1" value="#{favorite.favoriteLists}" var="l">
+	<h:dataTable id="favoriteListsDataTable" border="1" value="#{favorite.favoriteLists}" var="l">
 		<h:column>
 			<h:panelGrid columns="1">
 				
 					<h:outputText value="#{l.name}" />
 					<h:dataTable value="#{l.movies}" var="m">
 						<h:column>
-							<h:outputText value="#{m.name}" />
+							<h:outputText value="#{m.title}" />
 						</h:column>
 					</h:dataTable>
 					<h:form id="favoriteMovieAddForm">
@@ -23,7 +23,7 @@
 										itemValue="#{m.id}" itemLabel="#{m.title}" />
 						</h:selectOneMenu>
 						<h:commandButton value="#{msg.add}" action="#{favorite.addFavoriteMovieToList(l)}">
-							<p:ajax async="true" process="@form" update="favoriteMovieAddForm" />
+							<p:ajax async="true" process="@form" update="@all" />
 						</h:commandButton>
 						<h:message for="favoriteMovieAddForm"></h:message>
 						
@@ -35,13 +35,13 @@
 	</h:dataTable>
 	
 	
-		<h:panelGrid>
-			<h:outputText for="favoriteListAdd" value="#{msg.favoriteAddList}:" />
-			<h:form id="favoriteListAddForm">	
-				<h:inputText id="favoriteListAdd" value="#{favorite.favoriteListToAdd.name}" />		
-				<h:commandButton value="#{msg.add}" action="#{favorite.addFavoriteMovieList}" />
-			</h:form>
-			<h:message for="favoriteListAddForm"></h:message>		
-		</h:panelGrid>
+	<h:panelGrid>
+		<h:outputText for="favoriteListAdd" value="#{msg.favoriteAddList}:" />
+		<h:form id="favoriteListAddForm">	
+			<h:inputText id="favoriteListAdd" value="#{favorite.favoriteListToAdd.name}" />		
+			<h:commandButton value="#{msg.add}" action="#{favorite.addFavoriteMovieList}" />
+		</h:form>
+		<h:message for="favoriteListAddForm"></h:message>		
+	</h:panelGrid>
 		
 </ui:composition> 

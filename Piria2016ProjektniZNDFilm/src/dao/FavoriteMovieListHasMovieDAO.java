@@ -11,7 +11,7 @@ import dto.MovieDTO;
 
 public class FavoriteMovieListHasMovieDAO {
 
-	private static final String SQL_GET_ALL_BY_FAVORITE_MOIVE_LIST_ID = "";
+	private static final String SQL_GET_ALL_BY_FAVORITE_MOVIE_LIST_ID = "SELECT * FROM favorite_movies_lists_has_movies WHERE favorite_movies_lists_id=?;";
 	private static final String SQL_INSERT = "INSERT INTO favorite_movies_lists_has_movies (favorite_movies_lists_id,favorite_movies_lists_users_id,movies_id) VALUES (?,?,?);";
 	
 	
@@ -25,7 +25,7 @@ public class FavoriteMovieListHasMovieDAO {
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			ppst = conn.prepareStatement(SQL_GET_ALL_BY_FAVORITE_MOIVE_LIST_ID);
+			ppst = conn.prepareStatement(SQL_GET_ALL_BY_FAVORITE_MOVIE_LIST_ID);
 			ppst.setInt(1, favoriteMovieListId);
 		
 	

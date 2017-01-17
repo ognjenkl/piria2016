@@ -81,6 +81,7 @@ public class MovieDAO {
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_GET_BY_ID);
+			ppst.setInt(1, id);
 			resultSet = ppst.executeQuery();
 			
 			if (resultSet.next()){

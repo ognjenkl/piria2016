@@ -37,7 +37,7 @@ public class FavoriteMovieListDAO {
 				f.setCreateDate(resultSet.getTimestamp(3));
 				f.setUsersId(resultSet.getInt(4));
 
-				//f.setMovies(FavoriteMovieListHasMovieDAO.getAllByFavoriteMovieListId(f.getId()));
+				f.setMovies(FavoriteMovieListHasMovieDAO.getAllByFavoriteMovieListId(f.getId()));
 				//f.setMovies(new ArrayList<>());
 				retVal.add(f);
 			}
