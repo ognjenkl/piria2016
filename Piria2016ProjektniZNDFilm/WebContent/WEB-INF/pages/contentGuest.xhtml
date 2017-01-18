@@ -13,10 +13,13 @@
 
 	<h:form id="searchForm">
 		<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
+		<h:selectManyCheckbox value="#{movie.searchCriteriaCheckBoxes}" >
+			<f:selectItems value="#{movie.searchCriteriaPredefinedValues}" />
+		</h:selectManyCheckbox>
 		<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
 		<h:commandButton value="#{msg.search}" action="#{movie.search}" ></h:commandButton>
 		
-		<h:dataTable border="1" var="m" value="#{movie.foundMoviesList}">
+		<h:dataTable border="1" value="#{movie.foundMoviesList}" var="m">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.movieTitle}" />
@@ -101,8 +104,8 @@
 	<br />
 	
 	<h:form id="suggestionMovieForm" rendered="#{login.loggedIn}">
-		#{msg.suggestion}
-		<h:panelGrid id="suggestionMoviePanelGrid" columns="1" width="600">
+		#{msg.suggestion}:
+		<h:panelGrid border="1" id="suggestionMoviePanelGrid" columns="1" width="600">
 			#{msg.movieTitle}:
 			<h:outputText value="#{login.movieSuggestion.title}" />
 			

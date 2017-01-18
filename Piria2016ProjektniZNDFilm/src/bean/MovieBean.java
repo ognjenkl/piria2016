@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
+import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,12 +53,18 @@ import util.JSFUtil;
 public class MovieBean implements Serializable{
 	
 	private static final long serialVersionUID = -6851375545924053833L;
+	
+	//search
 	String keyWord;
 	//lista filmova trazenih u pretrazi
 	//koristi se       	<Context docBase="G:\filmUpload" path="/movies/" /> na Tomcat serveru u server.xml
 	List<MovieDTO> foundMoviesList;
 	//film koji ce biti prikazan na stranici movie.xhtml zasebno
 	MovieDTO movieSelected;
+	String[] searchCriteriaCheckBoxes;
+	Map<String, String> searchCriteriaPredefinedValues;
+	Map<Integer, MovieDTO> foundMoviesMap;
+	
 	//movie to be inserted ie. added
 	MovieDTO movieInsert;
 	//All actors in db
@@ -101,6 +109,9 @@ public class MovieBean implements Serializable{
 	List<CommentDTO> commentsList;
 	String comment;
 	
+	
+	
+	
 	public MovieBean() {
 		keyWord = null;
 		foundMoviesList = null;
@@ -119,6 +130,11 @@ public class MovieBean implements Serializable{
 		editable = false;
 		movieEdit = new MovieDTO();
 		actorsToDeleteOnSaveList = new ArrayList<>();
+		
+		searchCriteriaPredefinedValues = new HashMap<>();
+		searchCriteriaPredefinedValues.put("Title", "title");
+		searchCriteriaPredefinedValues.put("Genre", "genre");
+		searchCriteriaPredefinedValues.put("Actor", "actor");
 		
 	}
 
@@ -156,7 +172,36 @@ public class MovieBean implements Serializable{
 	
 	
 	public String search(){
-		foundMoviesList = MovieDAO.getByTitle(keyWord);
+		//foundMoviesList = MovieDAO.getAllByTitleLike(keyWord);
+		//foundMoviesList = new ArrayList<>();
+		foundMoviesMap = new HashMap<>();
+		if(keyWord != null && !keyWord.equals(""))
+			for(String c : searchCriteriaCheckBoxes){
+				switch (c) {
+					case "title":
+						System.out.println("Checked: " + c);
+						for(MovieDTO m : MovieDAO.getAllByTitleLike(keyWord))
+							foundMoviesMap.put(m.getId(), m);
+						break;
+					case "actor":
+						System.out.println("Checked: " + c);
+						for(ActorDTO a : ActorDAO.getAllByActorNameLke(keyWord))
+							for(MovieDTO m : MovieDAO.getAllByActor(a))
+								foundMoviesMap.put(m.getId(), m);
+						break;
+					case "genre":
+						System.out.println("Checked: " + c);
+						for(GenreDTO g : GenreDAO.getAllByGenreNameLike(keyWord))
+							for(MovieDTO m : MovieDAO.getAllByGenre(g))
+								foundMoviesMap.put(m.getId(), m);
+						break;
+					default:
+						break;
+				}
+			}
+		
+		foundMoviesList = new ArrayList<>(foundMoviesMap.values());
+		
 		return null;
 	}
 	
@@ -673,6 +718,22 @@ public class MovieBean implements Serializable{
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String[] getSearchCriteriaCheckBoxes() {
+		return searchCriteriaCheckBoxes;
+	}
+
+	public void setSearchCriteriaCheckBoxes(String[] searchCriteriaCheckBoxes) {
+		this.searchCriteriaCheckBoxes = searchCriteriaCheckBoxes;
+	}
+
+	public Map<String, String> getSearchCriteriaPredefinedValues() {
+		return searchCriteriaPredefinedValues;
+	}
+
+	public void setSearchCriteriaPredefinedValues(Map<String, String> searchCriteriaPredefinedValues) {
+		this.searchCriteriaPredefinedValues = searchCriteriaPredefinedValues;
 	}
 
 
