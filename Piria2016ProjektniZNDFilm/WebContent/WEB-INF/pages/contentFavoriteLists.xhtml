@@ -17,6 +17,7 @@
 						</h:column>
 					</h:dataTable>
 					<h:form id="favoriteMovieAddForm">
+						<p:growl id="growl" showDetail="true" />
 						<h:selectOneMenu id="dropdown" value="#{favorite.favoriteMovieIdToAdd}">
 							<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
 							<f:selectItems value="#{favorite.allMoviesList}" var="m" 
@@ -25,7 +26,7 @@
 						<h:commandButton value="#{msg.add}" action="#{favorite.addFavoriteMovieToList(l)}">
 							<p:ajax async="true" process="@form" update="@all" />
 						</h:commandButton>
-						<h:message for="favoriteMovieAddForm"></h:message>
+						
 						
 					</h:form>
 			</h:panelGrid>			
@@ -33,7 +34,6 @@
 		</h:column>
 		
 	</h:dataTable>
-	
 	
 	<h:panelGrid>
 		<h:outputText for="favoriteListAdd" value="#{msg.favoriteAddList}:" />

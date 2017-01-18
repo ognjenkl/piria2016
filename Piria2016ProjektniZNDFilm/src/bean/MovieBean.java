@@ -133,42 +133,24 @@ public class MovieBean implements Serializable{
 
 		movieSelected = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movie");
 		if(movieSelected != null) {
-//			System.out.println("init selected, movieSelected.title: " + movieSelected.getTitle());
 			selectedGenres = MovieHasGenreDAO.getGenreIdListByMovieId(movieSelected.getId());
 			userHasMovie = UserHasMovieDAO.getById(userId, movieSelected.getId());
-			if(userHasMovie == null) {
-//				System.out.println("init kreira default");
+			if(userHasMovie == null) 
 				userHasMovie = new UserHasMovieDTO();
-			}
-//			System.out.println("init userhHasMovie.getRate(): " + userHasMovie.getRate());
+			
 			commentsList = UserHasMovieCommentDAO.getByMovieId(movieSelected.getId());
 
 		}
 		movieEdit = (MovieDTO) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("movieEdit");
-//		if (movieEdit != null)
-//			System.out.println("init edit, movieEdit.title:  " + movieEdit.getTitle());
-		
+
 		Object e = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("editable");
 		if( e != null)
 			editable = (boolean) e;
 		
 		setActorsString(getActorsString());
-//		System.out.println("actors init: " + getActorsString());
 		
 		genresAllList = GenreDAO.getAll();
-		
-//		moviePart = (Part) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("multiPart");
 
-//		System.out.println("geners and all list");
-//		if (selectedGenres != null && selectedGenres[0] != null)
-//			System.out.println("init selected genres: " + selectedGenres[0]);
-//    	if (genresAllList != null && genresAllList.get(0) != null)
-//    		System.out.println("init genres all list: " + genresAllList.get(0).getId());
-//		System.out.println(UserHasMovieDAO.getFavorite(28, 40));
-//		System.out.println(UserHasMovieDAO.getRate(28, 40));
-//		System.out.println(UserHasMovieDAO.getRateSum(40));
-		
-		
 		
 	}
 	

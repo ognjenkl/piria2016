@@ -60,12 +60,12 @@ public class FavoriteListBean {
 	public String addFavoriteMovieList() {
 		if(favoriteListToAdd != null && !favoriteListToAdd.getName().equals("")) {
 			if(FavoriteMovieListDAO.insert(favoriteListToAdd.getName(), userId) > 0 )
-				FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddListSuccessful")));
+				FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddListSuccessful")));
 			else
-				FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddListUnsuccessful")));
+				FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddListUnsuccessful")));
 			
 		} else
-			FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddListDoesntExist")));
+			FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddListDoesntExist")));
 
 		favoriteLists.add(favoriteListToAdd);
 
@@ -78,14 +78,18 @@ public class FavoriteListBean {
 	public String addFavoriteMovieToList(FavoriteListDTO favoriteListDTO) {
 		System.out.println("add movie favorite list name: " + favoriteListDTO.getName());
 		System.out.println("add movie id: " + favoriteMovieIdToAdd);
-		Integer resultInsert = FavoriteMovieListHasMovieDAO.insert(favoriteListDTO.getId(), favoriteListDTO.getUsersId(), favoriteMovieIdToAdd);
+		if(favoriteMovieIdToAdd != null && favoriteMovieIdToAdd > 0) {
+			Integer resultInsert = FavoriteMovieListHasMovieDAO.insert(favoriteListDTO.getId(), favoriteListDTO.getUsersId(), favoriteMovieIdToAdd);
+			if ( resultInsert != null && resultInsert > 0 ){
+				favoriteListDTO.getMovies().add(MovieDAO.getById(favoriteMovieIdToAdd));
+				FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddMovieSuccessful")));
+			}
+			else
+				FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddMovieUnsuccessful")));
+			
+		} else
+			FacesContext.getCurrentInstance().addMessage("favoriteListAddForm", new FacesMessage("", JSFUtil.getLangMessage("favoriteAddMovieMustChoose")));
 		
-		if ( resultInsert != null && resultInsert > 0 ){
-			favoriteListDTO.getMovies().add(MovieDAO.getById(favoriteMovieIdToAdd));
-			FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddMovieSuccessful")));
-		}
-		else
-			FacesContext.getCurrentInstance().addMessage("favoriteMovieAddForm", new FacesMessage(JSFUtil.getLangMessage("favoriteAddMovieUnsuccessful")));
 		
 		favoriteMovieIdToAdd = null;
 		return null;
