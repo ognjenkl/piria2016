@@ -62,5 +62,11 @@ public class ActorProxy implements actor.Actor {
     return actor.insertActor(actorName);
   }
   
+  public java.lang.String getAllMoviesByTitleLike(java.lang.String searchText) throws java.rmi.RemoteException{
+    if (actor == null)
+      _initActorProxy();
+    return actor.getAllMoviesByTitleLike(searchText);
+  }
+  
   
 }

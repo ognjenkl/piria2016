@@ -11,6 +11,9 @@
 	<h:outputText  value="#{msg.welcome} #{login.user.firstName}"></h:outputText>
 	<h:outputText value=""></h:outputText>
 
+	<br />
+	<br />
+	
 	<h:form id="searchForm">
 		<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
 		<h:selectManyCheckbox value="#{movie.searchCriteriaCheckBoxes}" >
@@ -19,7 +22,7 @@
 		<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
 		<h:commandButton value="#{msg.search}" action="#{movie.search}" ></h:commandButton>
 		
-		<h:dataTable border="1" value="#{movie.foundMoviesList}" var="m">
+		<h:dataTable border="1" value="#{movie.foundMoviesList}" var="m" rendered="#{movie.foundMoviesList != null}">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.movieTitle}" />
@@ -40,6 +43,10 @@
 		
 		</h:dataTable>
 	</h:form>
+	
+	<br />
+	<br />
+	
 	<h:form id="loginForm">
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 	        <h:outputLabel for="username" value="#{msg.username}:"></h:outputLabel>
@@ -54,6 +61,10 @@
 		<div></div>
 		<h:message for="loginForm" style="color: red"></h:message>
     </h:form>
+    
+    <br />
+    <br />
+    
     <h:form id="registerForm" enctype="multipart/form-data">
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 			<h:outputLabel for="firstName"  value="#{msg.firstName}:" />
