@@ -15,7 +15,7 @@ public class ActorDAO {
 
 	
 	private static final String SQL_ALL = "SELECT * FROM zndfilm.actors;";
-	private static final String SQL_INSERT = "INSERT INTO actors (name) VALUES (?);";
+//	private static final String SQL_INSERT = "INSERT INTO actors (name) VALUES (?);";
 	private static final String SQL_GET_ALL_BY_ACTOR_NAME_LIKE = "SELECT * FROM actors WHERE name LIKE ?;";
 	
 	

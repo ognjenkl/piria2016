@@ -117,7 +117,7 @@ public class MovieDAO {
 		}
 	}
 	
-	public static List<MovieDTO> getAllByTitleLike(String serachText){
+	public static List<MovieDTO> getAllByTitleLike(String searchText){
 		List<MovieDTO> movieList = new ArrayList<>();
 		
 		Connection conn = null;
@@ -127,7 +127,7 @@ public class MovieDAO {
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
 			ppst = conn.prepareStatement(SQL_GET_ALL_BY_TITLE);
-			ppst.setString(1, "%" + serachText + "%");
+			ppst.setString(1, "%" + searchText + "%");
 			resultSet = ppst.executeQuery();
 			
 			while(resultSet.next()){

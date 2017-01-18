@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,7 +22,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 import javax.xml.rpc.ServiceException;
 
-import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +115,7 @@ public class MovieBean implements Serializable{
 	
 	public MovieBean() {
 		keyWord = null;
-		foundMoviesList = null;
+//		foundMoviesList = null;
 		movieSelected = null;
 		movieInsert = new MovieDTO();
 		
@@ -180,7 +181,10 @@ public class MovieBean implements Serializable{
 				switch (c) {
 					case "title":
 						System.out.println("Checked: " + c);
-						for(MovieDTO m : MovieDAO.getAllByTitleLike(keyWord))
+						//for(MovieDTO m : MovieDAO.getAllByTitleLike(keyWord))
+//						Actor a = new ActorServiceLocator().getActor();
+//						a.getAllMoviesByTitleLike(keyWord)
+						for (MovieDTO m : getAllMoviesFromSoapWS(keyWord))
 							foundMoviesMap.put(m.getId(), m);
 						break;
 					case "actor":
@@ -205,6 +209,67 @@ public class MovieBean implements Serializable{
 		return null;
 	}
 	
+	public List<MovieDTO> getAllMoviesFromSoapWS(String searchText) {
+		List<MovieDTO> moviesList = new ArrayList<>();
+		
+		Actor a;
+		
+		try {
+			a = new ActorServiceLocator().getActor();
+			JSONArray jArray = new JSONArray(a.getAllMoviesByTitleLike(searchText));
+			for (int i = 0; i < jArray.length(); i++){
+				List<ActorDTO> actorsList = new ArrayList<>();
+				List<GenreDTO> genresList = new ArrayList<>();
+				JSONObject movieJson = jArray.getJSONObject(i);
+				MovieDTO movieDTO = new MovieDTO();
+				
+				movieDTO.setId(movieJson.getInt("id"));
+				movieDTO.setTitle(movieJson.getString("title"));
+				String releaseDateStr = movieJson.getString("releaseDate");
+				movieDTO.setReleaseDate((releaseDateStr.equals("null")) ? null : new SimpleDateFormat("yyyy-MM-dd").parse(releaseDateStr));
+				movieDTO.setStoryline(movieJson.getString("storyLine"));
+				movieDTO.setTrailerLocationType(movieJson.getInt("trailerLocationType"));
+				movieDTO.setTrailerLocation(movieJson.getString("trailerLocation"));
+				movieDTO.setRuntimeMinutes(movieJson.getInt("runtimeMinutes"));
+				movieDTO.setRate(movieJson.getDouble("rate"));
+				
+				JSONArray actorsJsonArray = new JSONArray(movieJson.getString("actors"));
+				for(int j = 0; j < actorsJsonArray.length(); j++) {
+					JSONObject actorJson = actorsJsonArray.getJSONObject(j);
+					ActorDTO actorDTO = new ActorDTO();
+					actorDTO.setId(actorJson.getInt("id"));
+					actorDTO.setName(actorJson.getString("name"));
+					actorsList.add(actorDTO);
+				}
+				
+				JSONArray genresJsonArray = new JSONArray(movieJson.getString("genres"));
+				for(int k = 0; k < genresJsonArray.length(); k++) {
+					JSONObject genreJson = genresJsonArray.getJSONObject(k);
+					GenreDTO genreDTO = new GenreDTO();
+					genreDTO.setId(genreJson.getInt("id"));
+					genreDTO.setName(genreJson.getString("name"));
+					genresList.add(genreDTO);
+				}
+				
+				moviesList.add(movieDTO);
+			}
+			
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return moviesList;
+	}
 	
 	public String details(int userId, MovieDTO movie) {
 		movie.setRate(UserHasMovieDAO.getRateSum(movie.getId()));
