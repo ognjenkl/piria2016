@@ -71,6 +71,65 @@ INSERT INTO `events` VALUES (5,'2017-01-20 00:00:00','2017-01-27 20:10:00','Izlo
 UNLOCK TABLES;
 
 --
+-- Table structure for table `favorite_movies_lists`
+--
+
+DROP TABLE IF EXISTS `favorite_movies_lists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `favorite_movies_lists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `users_id` int(11) NOT NULL,
+  `active` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`,`users_id`),
+  KEY `fk_favorite_movies_lists_users1_idx` (`users_id`),
+  CONSTRAINT `fk_favorite_movies_lists_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favorite_movies_lists`
+--
+
+LOCK TABLES `favorite_movies_lists` WRITE;
+/*!40000 ALTER TABLE `favorite_movies_lists` DISABLE KEYS */;
+INSERT INTO `favorite_movies_lists` VALUES (1,'Fifth favorite list','2017-01-16 23:56:02',26,1),(2,'Sixth favorite list','2017-01-17 07:27:21',28,1),(3,'Eighth favorite movies list','2017-01-17 07:45:33',28,1),(7,'Ninth favorite list','2017-01-17 13:51:23',28,1),(8,'Tenth favorite list','2017-01-17 13:52:32',28,1);
+/*!40000 ALTER TABLE `favorite_movies_lists` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `favorite_movies_lists_has_movies`
+--
+
+DROP TABLE IF EXISTS `favorite_movies_lists_has_movies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `favorite_movies_lists_has_movies` (
+  `favorite_movies_lists_id` int(11) NOT NULL,
+  `favorite_movies_lists_users_id` int(11) NOT NULL,
+  `movies_id` int(11) NOT NULL,
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`favorite_movies_lists_id`,`favorite_movies_lists_users_id`,`movies_id`),
+  KEY `fk_favorite_movies_lists_has_movies_movies1_idx` (`movies_id`),
+  KEY `fk_favorite_movies_lists_has_movies_favorite_movies_lists1_idx` (`favorite_movies_lists_id`,`favorite_movies_lists_users_id`),
+  CONSTRAINT `fk_favorite_movies_lists_has_movies_favorite_movies_lists1` FOREIGN KEY (`favorite_movies_lists_id`, `favorite_movies_lists_users_id`) REFERENCES `favorite_movies_lists` (`id`, `users_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_favorite_movies_lists_has_movies_movies1` FOREIGN KEY (`movies_id`) REFERENCES `movies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `favorite_movies_lists_has_movies`
+--
+
+LOCK TABLES `favorite_movies_lists_has_movies` WRITE;
+/*!40000 ALTER TABLE `favorite_movies_lists_has_movies` DISABLE KEYS */;
+INSERT INTO `favorite_movies_lists_has_movies` VALUES (2,28,18,'2017-01-17 23:31:32'),(2,28,19,'2017-01-18 07:58:35'),(2,28,28,'2017-01-18 07:59:40'),(2,28,29,'2017-01-18 08:03:55'),(3,28,18,'2017-01-17 14:43:52'),(7,28,19,'2017-01-17 23:32:23'),(8,28,18,'2017-01-17 14:23:59');
+/*!40000 ALTER TABLE `favorite_movies_lists_has_movies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `gallery_pictures`
 --
 
@@ -306,32 +365,31 @@ INSERT INTO `users_has_movies_comments` VALUES (1,28,40,'Komentar 1','2017-01-13
 UNLOCK TABLES;
 
 --
--- Table structure for table `users_has_movies_lists`
+-- Table structure for table `users_has_movies_overview`
 --
 
-DROP TABLE IF EXISTS `users_has_movies_lists`;
+DROP TABLE IF EXISTS `users_has_movies_overview`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_has_movies_lists` (
-  `list_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users_has_movies_overview` (
   `users_id` int(11) NOT NULL,
   `movies_id` int(11) NOT NULL,
-  `list_name` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`list_id`,`users_id`,`movies_id`),
-  KEY `fk_users_has_movies1_users1_idx` (`users_id`),
+  `create_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`users_id`,`movies_id`),
   KEY `fk_users_has_movies1_movies1_idx` (`movies_id`),
+  KEY `fk_users_has_movies1_users1_idx` (`users_id`),
   CONSTRAINT `fk_users_has_movies1_movies1` FOREIGN KEY (`movies_id`) REFERENCES `movies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_movies1_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_has_movies_lists`
+-- Dumping data for table `users_has_movies_overview`
 --
 
-LOCK TABLES `users_has_movies_lists` WRITE;
-/*!40000 ALTER TABLE `users_has_movies_lists` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_has_movies_lists` ENABLE KEYS */;
+LOCK TABLES `users_has_movies_overview` WRITE;
+/*!40000 ALTER TABLE `users_has_movies_overview` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users_has_movies_overview` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -343,4 +401,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-16  1:25:54
+-- Dump completed on 2017-01-19  8:25:04
