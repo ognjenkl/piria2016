@@ -1,9 +1,12 @@
 package bean;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.URL;
 import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.text.ParseException;
@@ -195,9 +198,10 @@ public class MovieBean implements Serializable{
 						break;
 					case "genre":
 						System.out.println("Checked: " + c);
-						for(GenreDTO g : GenreDAO.getAllByGenreNameLike(keyWord))
-							for(MovieDTO m : MovieDAO.getAllByGenre(g))
-								foundMoviesMap.put(m.getId(), m);
+//						for(GenreDTO g : GenreDAO.getAllByGenreNameLike(keyWord))
+//							for(MovieDTO m : MovieDAO.getAllByGenre(g))
+						for (MovieDTO m : getAllMoviesFromRESTWS(keyWord))
+							foundMoviesMap.put(m.getId(), m);
 						break;
 					default:
 						break;
@@ -266,6 +270,79 @@ public class MovieBean implements Serializable{
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+		return moviesList;
+	}
+	
+	public List<MovieDTO> getAllMoviesFromRESTWS(String searchText) {
+		List<MovieDTO> moviesList = new ArrayList<>();
+		
+		BufferedReader in = null;
+		
+		try {
+			String urlString = "http://localhost:8080/GenreREST/movieByGenre/" + searchText; 
+			in = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()));
+			
+			JSONArray jArray = new JSONArray(in.readLine());
+			
+			for (int i = 0; i < jArray.length(); i++){
+				List<ActorDTO> actorsList = new ArrayList<>();
+				List<GenreDTO> genresList = new ArrayList<>();
+				JSONObject movieJson = jArray.getJSONObject(i);
+				MovieDTO movieDTO = new MovieDTO();
+				
+				movieDTO.setId(movieJson.getInt("id"));
+				movieDTO.setTitle(movieJson.getString("title"));
+				String releaseDateStr = movieJson.getString("releaseDate");
+				movieDTO.setReleaseDate((releaseDateStr.equals("null")) ? null : new SimpleDateFormat("yyyy-MM-dd").parse(releaseDateStr));
+				movieDTO.setStoryline(movieJson.getString("storyLine"));
+				movieDTO.setTrailerLocationType(movieJson.getInt("trailerLocationType"));
+				movieDTO.setTrailerLocation(movieJson.getString("trailerLocation"));
+				movieDTO.setRuntimeMinutes(movieJson.getInt("runtimeMinutes"));
+				movieDTO.setRate(movieJson.getDouble("rate"));
+				
+				JSONArray actorsJsonArray = new JSONArray(movieJson.getString("actors"));
+				for(int j = 0; j < actorsJsonArray.length(); j++) {
+					JSONObject actorJson = actorsJsonArray.getJSONObject(j);
+					ActorDTO actorDTO = new ActorDTO();
+					actorDTO.setId(actorJson.getInt("id"));
+					actorDTO.setName(actorJson.getString("name"));
+					actorsList.add(actorDTO);
+				}
+				
+				JSONArray genresJsonArray = new JSONArray(movieJson.getString("genres"));
+				for(int k = 0; k < genresJsonArray.length(); k++) {
+					JSONObject genreJson = genresJsonArray.getJSONObject(k);
+					GenreDTO genreDTO = new GenreDTO();
+					genreDTO.setId(genreJson.getInt("id"));
+					genreDTO.setName(genreJson.getString("name"));
+					genresList.add(genreDTO);
+				}
+				
+				moviesList.add(movieDTO);
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 
 		return moviesList;
