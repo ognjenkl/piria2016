@@ -29,12 +29,6 @@ public class AccountBean {
 	
 	Part profilePicPart;
 	
-	/**
-	 * Used for account editing properties. 
-	 */
-	public AccountBean() {
-
-	}
 
 	@PostConstruct
 	public void init(){

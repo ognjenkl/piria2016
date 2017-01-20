@@ -117,9 +117,9 @@ public class MovieBean implements Serializable{
 	
 	
 	public MovieBean() {
-		keyWord = null;
+//		keyWord = null;
 //		foundMoviesList = null;
-		movieSelected = null;
+//		movieSelected = null;
 		movieInsert = new MovieDTO();
 		
 		

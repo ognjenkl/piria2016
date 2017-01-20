@@ -2,7 +2,8 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 	
 
 
@@ -22,7 +23,7 @@
 		<h:inputText id="searchMovie" value="#{movie.keyWord}"></h:inputText>
 		<h:commandButton value="#{msg.search}" action="#{movie.search}" ></h:commandButton>
 		
-		<h:dataTable border="1" value="#{movie.foundMoviesList}" var="m" rendered="#{movie.foundMoviesList != null}">
+		<h:dataTable border="1" value="#{movie.foundMoviesList}" var="m" rendered="#{movie.foundMoviesList.size() gt 0}">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.movieTitle}" />
@@ -158,5 +159,84 @@
 		</h:panelGrid>
 	</h:form>	
 	
+	<br />
+	<br />
+	
+	#{msg.restConsumeTitle}
+	<h:form id="restIllustrationForm">
+		<h:outputLabel for="restSearch" value="#{msg.restSearchLabel}:" />
+		<h:inputText id="restSearch" value="#{restConsume.searchText}" />
+		<h:message for="restSearch" />
+		
+		<h:commandButton value="#{msg.search}" action="#{restConsume.restSearch}">
+			<p:ajax async="true" process="@form" update="@form" />
+		</h:commandButton>
+		<h:message for="restIllustrationForm"></h:message>
+		<h:panelGrid columns="1" cellpadding="10px" cellspacing="10px"  >
+		
+			<h:dataTable value="#{restConsume.namesList}" var="name" rendered="#{restConsume.namesList.size() gt 0}">
+				<h:column>
+					<f:facet name="header" >
+						<h:outputText value="#{msg.restName}" />
+					</f:facet>
+					<h:outputLink value="#{name.url}">
+						<h:graphicImage value="#{name.thumbnail}" />
+					</h:outputLink>
+					<h:outputLink value="#{name.url}">
+						<h:outputText value="#{name.title}" />
+					</h:outputLink>
+					
+				</h:column>		
+			</h:dataTable>
+			
+			
+			<h:dataTable value="#{restConsume.titlesList}" var="title" rendered="#{restConsume.titlesList.size() gt 0}">
+				<h:column>
+					<f:facet name="header" >
+						<h:outputText value="#{msg.restTitle}" />
+					</f:facet>
+					<h:outputLink value="#{title.url}">
+						<h:graphicImage value="#{title.thumbnail}" />
+					</h:outputLink>
+					<h:outputLink value="#{title.url}">
+						<h:outputText value="#{title.title}" />
+					</h:outputLink>
+					
+				</h:column>		
+			</h:dataTable>
+			
+
+			<h:dataTable value="#{restConsume.companiesList}" var="company" rendered="#{restConsume.companiesList.size() gt 0}">
+				<h:column>
+					<f:facet name="header" >
+						<h:outputText value="#{msg.restCompany}" />
+					</f:facet>
+					<h:outputLink value="#{company.url}">
+						<h:graphicImage value="#{company.thumbnail}" />
+					</h:outputLink>
+					<h:outputLink value="#{company.url}">
+						<h:outputText value="#{company.title}" />
+					</h:outputLink>
+					
+				</h:column>		
+			</h:dataTable>
+			
+			<h:dataTable value="#{restConsume.keywordsList}" var="keyword" rendered="#{restConsume.keywordsList.size() gt 0}">
+				<h:column>
+					<f:facet name="header" >
+						<h:outputText value="#{msg.restKeyword}" />
+					</f:facet>
+					<h:outputLink value="#{keyword.url}">
+						<h:graphicImage value="#{keyword.thumbnail}" />
+					</h:outputLink>
+					<h:outputLink value="#{keyword.url}">
+						<h:outputText value="#{keyword.title}" />
+					</h:outputLink>
+					
+				</h:column>		
+			</h:dataTable>
+			
+		</h:panelGrid>
+	</h:form>
 	
 </ui:composition>
