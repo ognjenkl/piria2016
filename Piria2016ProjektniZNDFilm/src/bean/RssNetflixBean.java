@@ -28,41 +28,12 @@ public class RssNetflixBean {
 	@PostConstruct
 	public void init() {
 		top100List = load();
-		int i = 1;
-		for (RSSTop100Item rssTop100Item : top100List) {
-			System.out.println(i+++ ". " + rssTop100Item.getTitle());
-		}
+
 	}
+	
 	
 	public List<RSSTop100Item> load() {
 		List<RSSTop100Item> rssTop100ItemsList = new ArrayList<>();
-//		BufferedReader in = null;
-//		try {
-//			in = new BufferedReader(new InputStreamReader(new URL("http://dvd.netflix.com/Top100RSS").openStream()));
-//			String line = null;
-//			StringBuilder sb = new StringBuilder();
-//			while ((line = in.readLine()) != null)
-//				sb.append(line);
-//			
-//			System.out.println(sb.toString());
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			rssTop100ItemsList = null;
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			rssTop100ItemsList = null;
-//		} finally {
-//			if (in != null)
-//				try {
-//					in.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				
-//		}
 		try {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("http://dvd.netflix.com/Top100RSS");
 			doc.normalize();
@@ -86,6 +57,10 @@ public class RssNetflixBean {
 							rssTop100Item.setGuid(itemElement.getTextContent());
 						if (itemElement.getNodeType() == Node.ELEMENT_NODE && itemElement.getNodeName().equals("description")) {
 							rssTop100Item.setDescription(itemElement.getTextContent());
+//							System.out.println(rssTop100Item.getDescription().replaceFirst("<a.*</a><br>", ""));
+							String regex = "<a.*</a><br>";
+							String replaceWith = "";
+							rssTop100Item.setDescription(rssTop100Item.getDescription().replaceFirst(regex, replaceWith));
 							rssTop100ItemsList.add(rssTop100Item);
 						}
 					}

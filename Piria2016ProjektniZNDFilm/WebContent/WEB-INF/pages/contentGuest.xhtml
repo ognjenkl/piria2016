@@ -15,12 +15,12 @@
 	<br />
 	<br />
 	
-	<p:dataTable id="rssTop100DataTable" value="#{rssNetflix.top100List}" var="top100">
+	<p:dataTable id="rssTop100DataTable" value="#{rssNetflix.top100List}" var="top100" 
+					paginator="true" rows="20">
 		<p:column>
-			<h:outputText value="#{top100.title}" />
-		</p:column>
-		<p:column>
-			<h:outputLink  />
+			<h:outputLink value="#{top100.link}">
+				<h:outputText value="#{top100.title}" />
+			</h:outputLink>
 		</p:column>
 		<p:column>
 			<h:outputText value="#{top100.description}" />
