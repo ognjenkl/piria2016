@@ -11,7 +11,22 @@
 
 	<h:outputText  value="#{msg.welcome} #{login.user.firstName}"></h:outputText>
 	<h:outputText value=""></h:outputText>
-
+	
+	<br />
+	<br />
+	
+	<p:dataTable id="rssTop100DataTable" value="#{rssNetflix.top100List}" var="top100">
+		<p:column>
+			<h:outputText value="#{top100.title}" />
+		</p:column>
+		<p:column>
+			<h:outputLink  />
+		</p:column>
+		<p:column>
+			<h:outputText value="#{top100.description}" />
+		</p:column>
+	</p:dataTable>
+	
 	<br />
 	<br />
 	
