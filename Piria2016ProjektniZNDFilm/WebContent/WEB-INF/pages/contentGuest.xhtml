@@ -15,21 +15,6 @@
 	<br />
 	<br />
 	
-	<p:dataTable id="rssTop100DataTable" value="#{rssNetflix.top100List}" var="top100" 
-					paginator="true" rows="20">
-		<p:column>
-			<h:outputLink value="#{top100.link}">
-				<h:outputText value="#{top100.title}" />
-			</h:outputLink>
-		</p:column>
-		<p:column>
-			<h:outputText value="#{top100.description}" />
-		</p:column>
-	</p:dataTable>
-	
-	<br />
-	<br />
-	
 	<h:form id="searchForm">
 		<h:outputLabel for="searchMovie" value="#{msg.search}:"></h:outputLabel>
 		<h:selectManyCheckbox value="#{movie.searchCriteriaCheckBoxes}" >
@@ -253,5 +238,23 @@
 			
 		</h:panelGrid>
 	</h:form>
+	
+	
+	<br />
+	<br />
+	
+	<p:dataTable id="rssTop100DataTable" value="#{rssNetflix.top100List}" var="top100" 
+					paginator="true" rows="20">
+		<p:column>
+			<h:outputLink value="#{top100.link}">
+				<h:outputText value="#{top100.title}" />
+			</h:outputLink>
+		</p:column>
+		<p:column>
+			<h:outputText value="#{top100.description}" />
+		</p:column>
+	</p:dataTable>
+	
+	
 	
 </ui:composition>

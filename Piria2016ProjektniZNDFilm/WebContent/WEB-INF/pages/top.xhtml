@@ -15,7 +15,7 @@
     		<h:link outcome="#{msg.pageGallery}" value="#{msg.pageGalleryLinkName}" rendered="#{login.user.privilege lt 4}" />
     		<h:link outcome="#{msg.pageEvent}" value="#{msg.pageEventLinkName}" rendered="#{login.user.privilege lt 3}" />
     		<h:commandLink action="#{favorite.favoritePage(login.user.id)}" value="#{msg.pageFavoriteListsLinkName}" rendered="#{login.user.privilege lt 4}" />
-    		
+    		<h:link outcome="#{msg.pageRssBestRatedMovies}" value="#{msg.pageRssBestRatedMoviesLinkName}" />
     		<h:commandLink action="#{login.logout}" rendered="#{login.loggedIn and login.user.privilege lt 4}">
 	    		<img src="/profile/#{login.user.picture}" width="30px" height="40px" />
 				<h:outputText value="#{msg.logout}: #{login.user.username}" />

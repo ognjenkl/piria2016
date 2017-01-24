@@ -46,12 +46,14 @@ public class AccessControlFilter implements Filter{
 //		System.out.println("context path: " + req.getContextPath());
 		LoginBean loginBean = (session != null) ? (LoginBean)session.getAttribute("login") : null;
 		String homeURL = req.getContextPath() + "/guest.xhtml";
+		String rssURL = req.getContextPath() + "/rssBestRatedMovies.xhtml";
 		
 		boolean loggedIn = loginBean != null && loginBean.isLoggedIn();
 		boolean guestRequest = req.getRequestURI().startsWith(homeURL);
 		boolean resourceRequest = req.getRequestURI().startsWith(req.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
+		boolean rssRequest = req.getRequestURI().startsWith(rssURL);
 		//to do temp added movie
-		if(loggedIn || guestRequest || resourceRequest) {
+		if(loggedIn || guestRequest || resourceRequest || rssRequest) {
 			if(!resourceRequest){ // Prevent browser from caching restricted resources.
 				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.

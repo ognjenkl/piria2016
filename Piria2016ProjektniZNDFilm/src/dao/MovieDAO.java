@@ -30,7 +30,7 @@ public class MovieDAO {
 	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_DELETE = "UPDATE movies SET active=0 WHERE id=?";
 	private static final String SQL_UPDATE = "UPDATE movies SET title=?, release_date=? , storyline=?, trailer_location_type=?, trailer_location=?, runtime_minutes=? WHERE id=?";
-	
+	private static final String SQL_GET_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC LIMIT 5;";
 	
 	public static List<MovieDTO> getAll(){
 		List<MovieDTO> retVal = new ArrayList<>();
@@ -355,6 +355,92 @@ public class MovieDAO {
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
 	}
+
+	
+	
+	public static List<MovieDTO> getBestRated() {
+		List<MovieDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BEST_RATED);
+	
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				MovieDTO movie = new MovieDTO();
+				movie.setId(resultSet.getInt(1));
+				movie.setTitle(resultSet.getString(2));
+				movie.setReleaseDate(resultSet.getDate(3));
+				movie.setStoryline(resultSet.getString(4));
+				movie.setTrailerLocationType(resultSet.getInt(5));
+				movie.setTrailerLocation(resultSet.getString(6));
+				movie.setRuntimeMinutes(resultSet.getInt(7));
+				
+				if (resultSet.getDouble(11) > 0)
+					movie.setRate(resultSet.getDouble(11));
+				else
+					continue;
+				
+				movie.setActors(MovieHasActorDAO.getActorsByMovieId(movie.getId()));
+				movie.setGenres(MovieHasGenreDAO.getGenresByMovieId(movie.getId()));
+				
+				retVal.add(movie);
+			}
+			
+			ppst.close();
+			
+			if (retVal.size() > 0) 
+				return retVal;
+			else
+				return null;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+	
+//	public static Integer insert(Integer userId, Integer movieId, String comment) {
+//	Integer retVal = null;
+//	Connection conn = null;
+//	PreparedStatement ppst = null;
+//	ResultSet resultSet = null;
+//	
+//	try {
+//		conn = ConnectionPool.getConnectionPool().checkOut();
+//		ppst = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+//		ppst.setInt(1, userId);
+//		ppst.setInt(2, movieId);
+//		ppst.setString(3, comment);
+//
+//		int rowCount = ppst.executeUpdate();
+//		resultSet = ppst.getGeneratedKeys();
+//		
+//		if (rowCount > 0 && resultSet.next()){
+//			retVal = resultSet.getInt(1);
+//		}
+//		
+//		ppst.close();
+//		return retVal;
+//		
+//	} catch (SQLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//		return null;
+//	} finally {
+//		ConnectionPool.getConnectionPool().checkIn(conn);
+//	}
+//	
+//}
 	
 
 }
