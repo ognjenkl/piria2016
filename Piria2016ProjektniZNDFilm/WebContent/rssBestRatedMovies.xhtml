@@ -8,6 +8,7 @@
 		<h:outputText value="#{msg.pageRssBestRatedMoviesTitle}" />		
 	</ui:define>
 	
-	<h:outputText value="#{rssNetflix.rssFeed}" style="white-space: pre" />
+	
+	<h:outputText value="#{rssNetflix.rssFeed}" escape="false"  />
 
 </ui:composition>
