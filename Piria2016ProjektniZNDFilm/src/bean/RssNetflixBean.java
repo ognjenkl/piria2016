@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.SAXException;
 
 import dao.MovieDAO;
@@ -50,6 +51,7 @@ public class RssNetflixBean {
 		int i = 1;
 		for(MovieDTO m : bestRatedMoviesList)
 			System.out.println(i++ + ". " + m.getTitle() + " " + m.getRate());
+		System.out.println();
 		
 		rssFeed = createRSSDocument();
 	}
@@ -114,7 +116,9 @@ public class RssNetflixBean {
 			doc.setXmlStandalone(true);
 			Element rssNode = doc.createElement("rss");
 			rssNode.setAttribute("version", "2.0");
+//			ProcessingInstruction pi = doc.createProcessingInstruction("xml", "version=\"1.0\" encodint=\"UTF-8\" ");
 			doc.appendChild(rssNode);
+//			doc.insertBefore(pi, rssNode);
 			Element channelNode = doc.createElement("channel");
 			rssNode.appendChild(channelNode);
 			Element titleNode = doc.createElement("title");
@@ -137,12 +141,16 @@ public class RssNetflixBean {
 				itemNode.appendChild(itemDescriptionNode);
 				channelNode.appendChild(itemNode);
 			}
-			
+
 			DOMSource domSource = new DOMSource(doc);
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory tf = TransformerFactory.newInstance();
+			tf.setAttribute("indent-number", 4);
+			Transformer transformer = tf.newTransformer();
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty(OutputKeys.ENCODING, StandardCharsets.UTF_8.toString());
+//			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
 			
 			StringWriter stringWriter = new StringWriter();
@@ -156,14 +164,15 @@ public class RssNetflixBean {
 //							FacesContext.getCurrentInstance().
 //								getExternalContext().getRequestContextPath()
 //									+ "/WebContent/" + "bestRated.xml")));
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("bestRated.xml")));
-			out.print(xmlString);
-			out.close();
+//			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("bestRated.xml")));
+//			out.print(xmlString);
+//			out.close();
 			
 //			System.out.println("path requestcontext: " + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
 //			System.out.println("path real path: " + FacesContext.getCurrentInstance().getExternalContext().getRealPath("/"));
 //			System.out.println("path application context path: " + FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
 //			System.out.println("xml string: ");
+//			System.out.println();
 //			System.out.println(xmlString);
 			
 			return xmlString;
@@ -180,10 +189,11 @@ public class RssNetflixBean {
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
+//		catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		return null;
 		
