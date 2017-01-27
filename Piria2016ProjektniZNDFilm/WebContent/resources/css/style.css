@@ -6,7 +6,8 @@
     padding: 0;
     overflow: hidden;
     background-color: #333;
-    height: 60px;
+    /*height: 60px;
+    */
 }
 
 .links a {
@@ -37,3 +38,35 @@
 .manageAccountsColumn10 { width: 200px; }
 
 
+video {
+    max-width: 100%;
+    height: auto;
+    position:absolute;
+    overflow: hidden;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5){
+
+  html,
+  body{
+    width:100%;
+    overflow-x:hidden;
+    box-sizing: border-box;
+       
+    
+  }
+
+}
+
+#header, #top, #content, #bottom, #footer, #textarea_simulator {
+	box-sizing: border-box;
+}
