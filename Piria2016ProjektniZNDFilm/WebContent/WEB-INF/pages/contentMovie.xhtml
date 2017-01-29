@@ -57,93 +57,96 @@
 				<p:ajax async="true" event="rate" listener="#{movie.onFavorite}" update=":movieForm:moviePanelGridRateAndFavorite" />
 			</p:rating>
 		</h:panelGrid>
-
-		<h:panelGrid id="movieDetails" columns="1" width="600">
 			
-			
-			#{msg.movieTitle}:
-			<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
-			<h:inputText value="#{movie.movieEdit.title}" rendered="#{movie.editable}" />
-			
-			#{msg.movieReleaseDate}:
-			<h:outputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{not movie.editable}">
-				<f:convertDateTime type="date" dateStyle="long" pattern="dd.MM.yyyy." />
-			</h:outputText>
-	        <p:calendar value="#{movie.movieEdit.releaseDate}" rendered="#{movie.editable}"
-      				pattern="dd.MM.yyyy." showOn="button" navigator="true" />
-	        				
-			#{msg.movieActors}:
-			<ui:repeat value="#{movie.movieSelected.actors}" var="actor">
-				<h:outputText value="#{actor}" rendered="#{not movie.editable}" />
-				<h:outputText value=" | " rendered="#{not movie.editable}" />
-			</ui:repeat>
-			
-			<h:dataTable border="1" value="#{movie.movieEdit.actors}" var="a" 
-						rendered="#{movie.editable}">
-				<h:column>
-					<h:outputText value="#{a}" />
-				</h:column>
-				<h:column>
-					<h:commandLink value="#{msg.delete}" action="#{movie.deleteActor(a)}" />
-				</h:column>
-			</h:dataTable>
-	
-			<h:outputLabel for="actorName" value="#{msg.actorSelection}:" rendered="#{movie.editable}" />
-			<h:inputText id="actorName" value="#{movie.actorName}" 
-							onfocus="allActors(#{movie.actorsString})" rendered="#{movie.editable}" />
-			<h:message for="actorName" style="color: red" rendered="#{movie.editable}" />
-			
-			#{msg.movieStoryline}:
-			<h:outputText value="#{movie.movieSelected.storyline}" rendered="#{not movie.editable}" />
-			<h:inputText value="#{movie.movieEdit.storyline}" rendered="#{movie.editable}" />
-	
-			#{msg.movieGenres}:
-			<ui:repeat value="#{movie.movieSelected.genres}" var="gen">
-				<h:outputText value="#{gen.name}" rendered="#{not movie.editable}" />
-				<h:outputText value=" | " rendered="#{not movie.editable}" />
-			</ui:repeat>
-			
-			<h:selectManyListbox id="movieGenres"  value="#{movie.selectedGenres}" rendered="#{movie.editable}">
-				<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
-				<f:selectItems value="#{movie.genresAllList}" var="g" 
-								itemValue="#{g.id}" itemLabel="#{g.name}" />
-			</h:selectManyListbox>
-	        <h:message for="movieGenres" rendered="#{movie.editable}" />
+		<div id="divPanelGrid" style="overflow-x: auto;">
+			<h:panelGrid id="movieDetailsPanelGrid" columns="1" width="600">
 				
 				
+				#{msg.movieTitle}:
+				<h:outputText value="#{movie.movieSelected.title}" rendered="#{not movie.editable}" />
+				<h:inputText value="#{movie.movieEdit.title}" rendered="#{movie.editable}" />
 				
-			<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{not movie.editable}" />
-			<h:outputLink value="#{movie.movieSelected.trailerLocation}" target="_blank" 
-							rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null and !movie.editable}">
-				<h:outputText value="#{msg.movieTrailerWatch}" /> 
-			</h:outputLink>
-			<video controls="controls"  style="display:#{(movie.movieSelected.trailerLocationType == 1 and !movie.editable)?'block':'none'}">
-				<source src="/trailer/#{movie.movieSelected.trailerLocation}" type="video/mp4" />
-			</video>
-			
-			
-			<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{login.user.privilege lt 3 and movie.editable}" />
-			<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
-				<h:selectOneRadio id="radioLocationType" value="#{movie.movieEdit.trailerLocationType}" rendered="#{login.user.privilege lt 3}">
-					<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
-					<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
-				</h:selectOneRadio>
-			</h:panelGroup> 
-			<h:message for="rodioLocationType" rendered="#{login.user.privilege lt 3 and movie.editable}" />
-			<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
-				<h:inputText id="movieTrailer" value="#{movie.movieEdit.trailerLocation}" />
-				<h:inputFile id="movieUpload" value="#{movie.moviePart}"  rendered="#{login.user.privilege lt 3}" />
-			</h:panelGroup>
-			<h:message for="movieTrailer" rendered="#{movie.editable}" />
+				#{msg.movieReleaseDate}:
+				<h:outputText value="#{movie.movieSelected.releaseDate.time}" rendered="#{not movie.editable}">
+					<f:convertDateTime type="date" dateStyle="long" pattern="dd.MM.yyyy." />
+				</h:outputText>
+		        <p:calendar value="#{movie.movieEdit.releaseDate}" rendered="#{movie.editable}"
+	      				pattern="dd.MM.yyyy." showOn="button" navigator="true" />
+		        				
+				#{msg.movieActors}:
+				<ui:repeat value="#{movie.movieSelected.actors}" var="actor">
+					<h:outputText value="#{actor}" rendered="#{not movie.editable}" />
+					<h:outputText value=" | " rendered="#{not movie.editable}" />
+				</ui:repeat>
+				
+				<h:dataTable border="1" value="#{movie.movieEdit.actors}" var="a" 
+							rendered="#{movie.editable}">
+					<h:column>
+						<h:outputText value="#{a}" />
+					</h:column>
+					<h:column>
+						<h:commandLink value="#{msg.delete}" action="#{movie.deleteActor(a)}" />
+					</h:column>
+				</h:dataTable>
+		
+				<h:outputLabel for="actorName" value="#{msg.actorSelection}:" rendered="#{movie.editable}" />
+				<h:inputText id="actorName" value="#{movie.actorName}" 
+								onfocus="allActors(#{movie.actorsString})" rendered="#{movie.editable}" />
+				<h:message for="actorName" style="color: red" rendered="#{movie.editable}" />
+				
+				#{msg.movieStoryline}:
+				<h:outputText value="#{movie.movieSelected.storyline}" rendered="#{not movie.editable}" />
+				<h:inputText value="#{movie.movieEdit.storyline}" rendered="#{movie.editable}" />
+		
+				#{msg.movieGenres}:
+				<ui:repeat value="#{movie.movieSelected.genres}" var="gen">
+					<h:outputText value="#{gen.name}" rendered="#{not movie.editable}" />
+					<h:outputText value=" | " rendered="#{not movie.editable}" />
+				</ui:repeat>
+				
+				<h:selectManyListbox id="movieGenres"  value="#{movie.selectedGenres}" rendered="#{movie.editable}">
+					<f:selectItem itemValue="#{null}" itemLabel="-- select --" />
+					<f:selectItems value="#{movie.genresAllList}" var="g" 
+									itemValue="#{g.id}" itemLabel="#{g.name}" />
+				</h:selectManyListbox>
+		        <h:message for="movieGenres" rendered="#{movie.editable}" />
 					
+					
+					
+				<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{not movie.editable}" />
+				<h:outputLink value="#{movie.movieSelected.trailerLocation}" target="_blank" 
+								rendered="#{movie.movieSelected.trailerLocationType == 2 and movie.movieSelected.trailerLocation != null and !movie.editable}">
+					<h:outputText value="#{msg.movieTrailerWatch}" /> 
+				</h:outputLink>
+				<video controls="controls"  style="display:#{(movie.movieSelected.trailerLocationType == 1 and !movie.editable)?'block':'none'}">
+					<source src="/trailer/#{movie.movieSelected.trailerLocation}" type="video/mp4" />
+				</video>
+				
+				
+				<h:outputLabel value="#{msg.movieTrailer}:" rendered="#{login.user.privilege lt 3 and movie.editable}" />
+				<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
+					<h:selectOneRadio id="radioLocationType" value="#{movie.movieEdit.trailerLocationType}" rendered="#{login.user.privilege lt 3}">
+						<f:selectItem itemValue="1" itemLabel="#{msg.radioLocationTypeVideo}"></f:selectItem>
+						<f:selectItem itemValue="2" itemLabel="#{msg.radioLocationTypeYoutube}"></f:selectItem>
+					</h:selectOneRadio>
+				</h:panelGroup> 
+				<h:message for="rodioLocationType" rendered="#{login.user.privilege lt 3 and movie.editable}" />
+				<h:panelGroup rendered="#{login.user.privilege lt 3 and movie.editable}">
+					<h:inputText id="movieTrailer" value="#{movie.movieEdit.trailerLocation}" />
+					<h:inputFile id="movieUpload" value="#{movie.moviePart}"  rendered="#{login.user.privilege lt 3}" />
+				</h:panelGroup>
+				<h:message for="movieTrailer" rendered="#{movie.editable}" />
+						
+				
+				#{msg.movieRuntime}:
+				<h:outputText value="#{movie.movieSelected.runtimeMinutes}" rendered="#{not movie.editable}" />
+				<h:inputText value="#{movie.movieEdit.runtimeMinutes}" rendered="#{movie.editable}" />
+		
+				#{msg.movieRate}:
+				<h:outputText value="#{movie.movieSelected.rate}" />		
+			</h:panelGrid>
+		</div>
 			
-			#{msg.movieRuntime}:
-			<h:outputText value="#{movie.movieSelected.runtimeMinutes}" rendered="#{not movie.editable}" />
-			<h:inputText value="#{movie.movieEdit.runtimeMinutes}" rendered="#{movie.editable}" />
-	
-			#{msg.movieRate}:
-			<h:outputText value="#{movie.movieSelected.rate}" />		
-		</h:panelGrid>
 		<h:panelGrid id="buttonsMovieGrid" columns="2">	
 			<h:commandButton value="#{msg.delete}" action="#{movie.delete()}" rendered="#{not movie.editable}"/>
 			<h:commandButton value="#{msg.edit}" action="#{movie.edit()}" rendered="#{not movie.editable}"/>

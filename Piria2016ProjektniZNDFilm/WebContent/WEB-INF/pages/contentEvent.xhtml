@@ -6,8 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<h:form id="formEvent" rendered="#{login.user.privilege eq 2}">
-		<h:panelGrid columns="3">	
+	<h:form id="formEvent" rendered="#{login.user.privilege eq 2}" style="overflow-x: auto;">
+		<h:panelGrid id="eventPanelGrid" columns="3">	
 			<h:outputLabel for="announcement"  value="#{msg.eventAnnouncement}:" />
 	        <rich:calendar id="announcement" value="#{event.event.eventAnnouncement}" 
 				        	popup="true" showApplyButton="true" 
@@ -35,8 +35,8 @@
 			<h:message for="formEvent" ></h:message>
 		</h:panelGrid>
 	</h:form>	
-	<h:form id="formEventAdmin" rendered="#{login.user.privilege eq 1}" >
-		<h:dataTable border="1" value="#{event.eventsList}" var="e"> 
+	<h:form id="formEventAdmin" rendered="#{login.user.privilege eq 1}" style="overflow-x: auto;">
+		<h:dataTable id="eventAdminDataTable" border="1" value="#{event.eventsList}" var="e"> 
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.eventAnnouncement}" />

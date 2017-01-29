@@ -5,8 +5,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 	
 		
-	<h:form id="manageAccountsForm">
-		<h:dataTable border="1" value="#{manageAccounts.usersList}" var="u" headerClass="manageAccountsColumn1" columnClasses="manageAccountsColumn1,manageAccountsColumn2,manageAccountsColumn3,manageAccountsColumn4,manageAccountsColumn5,manageAccountsColumn6,manageAccountsColumn7,manageAccountsColumn8,manageAccountsColumn9,manageAccountsColumn10">
+	<h:form id="manageAccountsForm" style="overflow-x: auto;">
+		<h:dataTable id="manageAccountsDataTable" border="1" value="#{manageAccounts.usersList}" var="u">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="#{msg.username}" />

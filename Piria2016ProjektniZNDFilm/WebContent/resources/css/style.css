@@ -26,47 +26,21 @@
 	height: 60px;	
 }
 
-.manageAccountsColumn1 { width: 200px; }
-.manageAccountsColumn2 { width: 200px; }
-.manageAccountsColumn3 { width: 200px; }
-.manageAccountsColumn4 { width: 200px; }
-.manageAccountsColumn5 { width: 200px; }
-.manageAccountsColumn6 { width: 200px; }
-.manageAccountsColumn7 { width: 200px; }
-.manageAccountsColumn8 { width: 200px; }
-.manageAccountsColumn9 { width: 200px; }
-.manageAccountsColumn10 { width: 200px; }
 
-
-video {
+video, img {
     max-width: 100%;
     height: auto;
-    position:absolute;
-    overflow: hidden;
 }
 
-img {
-	max-width: 100%;
-	height: auto;
+table[id$="PanelGrid"] {
+ 		max-width: 100%;
+ 		display: block;
+ 		box-sizing: border-box;
 }
 
-@media
-only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (-o-min-device-pixel-ratio: 3/2),
-only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (min-device-pixel-ratio: 1.5){
-
-  html,
-  body{
-    width:100%;
-    overflow-x:hidden;
-    box-sizing: border-box;
-       
-    
-  }
-
+table[id$="DataTable"] {
+ 		max-width: 100%;
+ 		display: block;
+ 		box-sizing: border-box;
 }
 
-#header, #top, #content, #bottom, #footer, #textarea_simulator {
-	box-sizing: border-box;
-}
