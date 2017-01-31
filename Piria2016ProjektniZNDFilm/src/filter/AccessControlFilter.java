@@ -38,12 +38,15 @@ public class AccessControlFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) arg0;
 		HttpServletResponse resp = (HttpServletResponse) arg1;
-		//System.out.println("Access controler: ");
+//		System.out.println("Access controler: ");
 		HttpSession session = req.getSession(false);
 		
 //		System.out.println("uri: " + req.getRequestURI());
 //		System.out.println("servlet path: " + req.getServletPath());
 //		System.out.println("context path: " + req.getContextPath());
+//		uri: /Piria2016ProjektniZNDFilm/rfRes/skinning.ecss.xhtml
+//		servlet path: /rfRes/skinning.ecss.xhtml
+//		context path: /Piria2016ProjektniZNDFilm
 		LoginBean loginBean = (session != null) ? (LoginBean)session.getAttribute("login") : null;
 		String homeURL = req.getContextPath() + "/guest.xhtml";
 		String rssURL = req.getContextPath() + "/rssBestRatedMovies.xhtml";
