@@ -88,7 +88,7 @@ public class ActorDAO {
 
 			resultSet = ppst.executeQuery();
 			
-			if (resultSet.next()){
+			while (resultSet.next()){
 				ActorDTO actorDTO = new ActorDTO();
 				actorDTO.setId(resultSet.getInt(1));
 				actorDTO.setName(resultSet.getString(2));
