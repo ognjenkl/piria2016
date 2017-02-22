@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.ReportDTO;
 import dto.UserDTO;
 
 /**
@@ -23,7 +24,8 @@ public class UserDAO {
 	private static final String SQL_GET_BY_USERNAME_AND_PASSWORD = "SELECT * FROM zndfilm.users where username=? AND password=MD5(?) and active=1;";
 	private static final String SQL_UPDATE_USER_WITHOUT_PRIVILEGE = "UPDATE users SET password=MD5(?), first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
 	private static final String SQL_UPDATE_USER_WITHOUT_PASSWORD_AND_PRIVILEGE = "UPDATE users SET     first_name=?, last_name=?, social_no=?, email=?, picture=? WHERE username=?;";
-
+	private static final String SQL_GET_NUMBER_OF_REGISTERED_USERS_BY_MONTH = "SELECT MONTHNAME(registered), COUNT(*) FROM users WHERE active = 1 GROUP BY MONTH(registered);";
+	
 	public static UserDTO login(String username, String password){
 		UserDTO user = getByUsernameAndPassword(username, password);
 		if (user != null)
@@ -485,6 +487,74 @@ public class UserDAO {
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
 	}
+	
+	
+	public static List<ReportDTO> getNumberOfRegisteredByMonth() {
+		List<ReportDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_NUMBER_OF_REGISTERED_USERS_BY_MONTH);
+	
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				ReportDTO reportDTO = new ReportDTO();
+				reportDTO.setName(resultSet.getString(1));
+				reportDTO.setValue(resultSet.getDouble(2));
+				retVal.add(reportDTO);
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+	
+//	public static Integer insert(Integer userId, Integer movieId, String comment) {
+//	Integer retVal = null;
+//	Connection conn = null;
+//	PreparedStatement ppst = null;
+//	ResultSet resultSet = null;
+//	
+//	try {
+//		conn = ConnectionPool.getConnectionPool().checkOut();
+//		ppst = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+//		ppst.setInt(1, userId);
+//		ppst.setInt(2, movieId);
+//		ppst.setString(3, comment);
+//
+//		int rowCount = ppst.executeUpdate();
+//		resultSet = ppst.getGeneratedKeys();
+//		
+//		if (rowCount > 0 && resultSet.next()){
+//			retVal = resultSet.getInt(1);
+//		}
+//		
+//		ppst.close();
+//		return retVal;
+//		
+//	} catch (SQLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//		return null;
+//	} finally {
+//		ConnectionPool.getConnectionPool().checkIn(conn);
+//	}
+//	
+//}
+	
 	
 	
 }

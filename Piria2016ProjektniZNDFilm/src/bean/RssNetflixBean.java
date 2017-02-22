@@ -42,13 +42,14 @@ public class RssNetflixBean {
 	@PostConstruct
 	public void init() {
 		top100List = load();
-		bestRatedMoviesList = MovieDAO.getBestRated();
-		int i = 1;
-		for(MovieDTO m : bestRatedMoviesList)
-			System.out.println(i++ + ". " + m.getTitle() + " " + m.getRate());
-		System.out.println();
+		bestRatedMoviesList = MovieDAO.getBestRated(5);
+//		int i = 1;
+//		for(MovieDTO m : bestRatedMoviesList)
+//			System.out.println("RssNetflixBean init: " + i++ + ". " + m.getTitle() + " " + m.getRate());
+//		System.out.println();
 		
 		rssFeed = createRSSDocument();
+		
 	}
 	
 	

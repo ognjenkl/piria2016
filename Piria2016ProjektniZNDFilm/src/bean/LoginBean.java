@@ -1,10 +1,12 @@
 package bean;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +30,15 @@ import javax.servlet.http.Part;
 import dao.MovieDAO;
 import dao.UserDAO;
 import dto.MovieDTO;
+import dto.ReportDTO;
 import dto.UserDTO;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import util.JSFUtil;
 
 /**
@@ -121,6 +131,9 @@ public class LoginBean {
 		availableItems.put(prop.getProperty("langShortDe"),prop.getProperty("langLongDe"));
 		
 		movieSuggestion = suggestMovie();
+		
+		//test static report
+		registeredUsersNumByMonth();
 
 	}
 	
@@ -269,6 +282,43 @@ public class LoginBean {
 	}
 	
 	
+	public void registeredUsersNumByMonth() {
+		Map<String, Object> parameteres = new HashMap<>();
+		parameteres.put("ReportTitle", "Registered users by month");
+		parameteres.put("ReportSubTitle", "Znas neki dobar film");
+		
+		Properties prop = new Properties();
+		try {
+			prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/config/config.properties"));
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		List<ReportDTO> reportDTOsList = UserDAO.getNumberOfRegisteredByMonth();
+		
+		try {
+			
+			JasperReport jasperReport = JasperCompileManager.compileReport(
+					prop.getProperty("report.dir") + File.separator + "reportTemplate.jrxml");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(
+					jasperReport, 
+					parameteres,  
+					new JRBeanCollectionDataSource(reportDTOsList));
+			JasperExportManager.exportReportToPdfFile(
+					jasperPrint, 
+					prop.getProperty("report.dir") + File.separator + "reportRegisteredUsersNum.pdf");
+			System.out.println("LoginBean registeredUsersNumByMonth zavrsio");
+			
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
 	
 	
 	

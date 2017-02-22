@@ -13,6 +13,7 @@ import com.mysql.jdbc.Statement;
 import dto.ActorDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
+import dto.MovieTheMostAddedToFavoriteDTO;
 
 /**
  * @author ognjen
@@ -30,7 +31,10 @@ public class MovieDAO {
 	private static final String SQL_INSERT = "INSERT INTO movies (title, release_date, storyline, trailer_location_type, trailer_location, runtime_minutes) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_DELETE = "UPDATE movies SET active=0 WHERE id=?";
 	private static final String SQL_UPDATE = "UPDATE movies SET title=?, release_date=? , storyline=?, trailer_location_type=?, trailer_location=?, runtime_minutes=? WHERE id=?";
-	private static final String SQL_GET_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC LIMIT 5;";
+	private static final String SQL_GET_FIVE_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC LIMIT ?;";
+	private static final String SQL_GET_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC;";
+	private static final String SQL_GET_THE_MOST_ADDED_TO_FAVORITE = "SELECT m.*, sum(uhm.favorite) as favorite_sum FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY sum(uhm.favorite) DESC;";
+	
 	
 	public static List<MovieDTO> getAll(){
 		List<MovieDTO> retVal = new ArrayList<>();
@@ -357,8 +361,12 @@ public class MovieDAO {
 	}
 
 	
-	
-	public static List<MovieDTO> getBestRated() {
+	/**
+	 * 
+	 * @param limit how many best rated to return, null is to retrun all
+	 * @return
+	 */
+	public static List<MovieDTO> getBestRated(Integer limit) {
 		List<MovieDTO> retVal = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement ppst = null;
@@ -366,8 +374,13 @@ public class MovieDAO {
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
-			ppst = conn.prepareStatement(SQL_GET_BEST_RATED);
-	
+			
+			if(limit != null){
+				ppst = conn.prepareStatement(SQL_GET_FIVE_BEST_RATED);
+				ppst.setInt(1, limit);
+			} else 
+				ppst = conn.prepareStatement(SQL_GET_BEST_RATED);
+					
 			resultSet = ppst.executeQuery();
 			
 			while (resultSet.next()){
@@ -407,6 +420,65 @@ public class MovieDAO {
 		}
 		
 	}
+	
+	
+	/**
+	 * 
+	 * @param limit how many best rated to return, null is to retrun all
+	 * @return
+	 */
+	public static List<MovieTheMostAddedToFavoriteDTO> getMostAddedToFavorite() {
+		List<MovieTheMostAddedToFavoriteDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			
+			ppst = conn.prepareStatement(SQL_GET_THE_MOST_ADDED_TO_FAVORITE);
+					
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				MovieTheMostAddedToFavoriteDTO movie = new MovieTheMostAddedToFavoriteDTO();
+				movie.setId(resultSet.getInt(1));
+				movie.setTitle(resultSet.getString(2));
+				movie.setReleaseDate(resultSet.getDate(3));
+				movie.setStoryline(resultSet.getString(4));
+				movie.setTrailerLocationType(resultSet.getInt(5));
+				movie.setTrailerLocation(resultSet.getString(6));
+				movie.setRuntimeMinutes(resultSet.getInt(7));
+				
+				if (resultSet.getInt(11) > 0)
+					movie.setAddedToFavoriteSum(resultSet.getInt(11));
+				else
+					continue;
+				
+				movie.setActors(MovieHasActorDAO.getActorsByMovieId(movie.getId()));
+				movie.setGenres(MovieHasGenreDAO.getGenresByMovieId(movie.getId()));
+				
+				retVal.add(movie);
+			}
+			
+			ppst.close();
+			
+			if (retVal.size() > 0) 
+				return retVal;
+			else
+				return null;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+	
 	
 	
 //	public static Integer insert(Integer userId, Integer movieId, String comment) {
