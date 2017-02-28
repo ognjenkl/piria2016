@@ -133,7 +133,10 @@ public class LoginBean {
 		movieSuggestion = suggestMovie();
 		
 		//test static report
-		registeredUsersNumByMonth();
+		reportAddedMoviesByMonth();
+		reportBestRatedMovies();
+		reportTheMostAddedToFavoriteMovies();
+		reportRegisteredUsersNumByMonth();
 
 	}
 	
@@ -282,7 +285,7 @@ public class LoginBean {
 	}
 	
 	
-	public void registeredUsersNumByMonth() {
+	public void reportRegisteredUsersNumByMonth() {
 		Map<String, Object> parameteres = new HashMap<>();
 		parameteres.put("ReportTitle", "Registered users by month");
 		parameteres.put("ReportSubTitle", "Znas neki dobar film");
@@ -321,7 +324,32 @@ public class LoginBean {
 	}
 	
 	
+	public void reportAddedMoviesByMonth() {
+		List<ReportDTO> reportDTOList = MovieDAO.getNumberOfAddedMoviesByMonthForReport();
+
+		System.out.println("\nAdded movies report:");
+		for(ReportDTO r : reportDTOList) 
+				System.out.println(r.getName() + " " + r.getValue() );
+		
+	}
 	
+	
+	public void reportBestRatedMovies() {
+		List<ReportDTO> reportDTOList = MovieDAO.getBestRatedMoviesForReport();
+
+		System.out.println("\nBest rated movies report:");
+		for(ReportDTO r : reportDTOList) 
+				System.out.println(r.getName() + " " + r.getValue() );
+		
+	}
+	
+	public void reportTheMostAddedToFavoriteMovies() {
+		List<ReportDTO> reportDTOList = MovieDAO.getTheMostAddedToFavoriteForReport();
+
+		System.out.println("\nThe most added to favorite movies report:");
+		for(ReportDTO r : reportDTOList) 
+				System.out.println(r.getName() + "	" + r.getValue() );
+	}
 	
 	
 	

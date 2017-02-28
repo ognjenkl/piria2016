@@ -14,6 +14,7 @@ import dto.ActorDTO;
 import dto.GenreDTO;
 import dto.MovieDTO;
 import dto.MovieTheMostAddedToFavoriteDTO;
+import dto.ReportDTO;
 
 /**
  * @author ognjen
@@ -34,7 +35,7 @@ public class MovieDAO {
 	private static final String SQL_GET_FIVE_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC LIMIT ?;";
 	private static final String SQL_GET_BEST_RATED = "SELECT m.*, sum(uhm.rate)/count(uhm.rate) as best_rated FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY best_rated DESC;";
 	private static final String SQL_GET_THE_MOST_ADDED_TO_FAVORITE = "SELECT m.*, sum(uhm.favorite) as favorite_sum FROM movies m JOIN users_has_movies uhm ON uhm.movies_id = m.id GROUP BY m.id ORDER BY sum(uhm.favorite) DESC;";
-	
+	private static final String SQL_GET_NUMBER_OF_ADDED_MOVIES_BY_MONTH = "SELECT MONTHNAME(added_date), COUNT(*) FROM movies WHERE active = 1 GROUP BY MONTH(added_date);";
 	
 	public static List<MovieDTO> getAll(){
 		List<MovieDTO> retVal = new ArrayList<>();
@@ -478,6 +479,103 @@ public class MovieDAO {
 		
 	}
 	
+	
+	public static List<ReportDTO> getNumberOfAddedMoviesByMonthForReport() {
+		List<ReportDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_NUMBER_OF_ADDED_MOVIES_BY_MONTH);
+	
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				ReportDTO reportDTO = new ReportDTO();
+				reportDTO.setName(resultSet.getString(1));
+				reportDTO.setValue(resultSet.getDouble(2));
+				retVal.add(reportDTO);
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+	public static List<ReportDTO> getBestRatedMoviesForReport() {
+		List<ReportDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_BEST_RATED);
+	
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				ReportDTO reportDTO = new ReportDTO();
+				reportDTO.setName(resultSet.getString("title"));
+				reportDTO.setValue(resultSet.getDouble("best_rated"));
+				retVal.add(reportDTO);
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
+	
+
+	public static List<ReportDTO> getTheMostAddedToFavoriteForReport() {
+		List<ReportDTO> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ppst = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ppst = conn.prepareStatement(SQL_GET_THE_MOST_ADDED_TO_FAVORITE);
+	
+			resultSet = ppst.executeQuery();
+			
+			while (resultSet.next()){
+				ReportDTO reportDTO = new ReportDTO();
+				reportDTO.setName(resultSet.getString("title"));
+				reportDTO.setValue(resultSet.getDouble("favorite_sum"));
+				retVal.add(reportDTO);
+			}
+			
+			ppst.close();
+			return retVal;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		
+	}
 	
 	
 	
