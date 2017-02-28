@@ -7,7 +7,7 @@
 	
 
 
-
+	<h:outputScript library="js" name="register.js"></h:outputScript>
 
 	<h:outputText  value="#{msg.welcome} #{login.user.firstName}" />
 	
@@ -65,7 +65,7 @@
     <br />
     <br />
     
-    <h:form id="registerForm" enctype="multipart/form-data">
+    <h:form id="registerForm" enctype="multipart/form-data" onsubmit="return validateRegisterForm()">
 		<h:panelGrid columns="3" rendered="#{!login.loggedIn}">
 			<h:outputLabel for="firstName"  value="#{msg.firstName}:" />
 	        <h:inputText id="firstName" value="#{login.userRegister.firstName}"/>
@@ -105,7 +105,7 @@
 			</h:inputSecret>
 			<h:message for="passwordRegisterConfirm" style="color: red"/>
 							
-			<h:commandButton value="#{msg.register}" action="#{login.register}"></h:commandButton>
+			<h:commandButton id="registerBtn" value="#{msg.register}" action="#{login.register}" />
 			<h:message for="registerForm"></h:message>
 	    </h:panelGrid>
 	</h:form>
