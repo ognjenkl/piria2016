@@ -299,19 +299,28 @@ public class LoginBean {
 			e.printStackTrace();
 		}
 
-		List<ReportDTO> reportDTOsList = UserDAO.getNumberOfRegisteredByMonth();
+		String reportFileName = "";
+		//reportFileName = "reportRegisteredUsersNum.pdf";
+		//reportFileName = "reportAddedMoviesNum.pdf";
+		//reportFileName = "reportBestRatedMovies.pdf";
+		reportFileName = "reportTheMostAddedToFavorite.pdf";
 		
-		try {
-			
-			JasperReport jasperReport = JasperCompileManager.compileReport(
-					prop.getProperty("report.dir") + File.separator + "reportTemplate.jrxml");
+		//List<ReportDTO> reportDTOList = UserDAO.getNumberOfRegisteredByMonth();
+		//List<ReportDTO> reportDTOList = MovieDAO.getNumberOfAddedMoviesByMonthForReport();
+		//List<ReportDTO> reportDTOList = MovieDAO.getBestRatedMoviesForReport();
+		List<ReportDTO> reportDTOList = MovieDAO.getTheMostAddedToFavoriteForReport();
+
+		try {			
+			JasperReport jasperReport = 
+					JasperCompileManager.compileReport( 
+							FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/WEB-INF/reportTemplates/reportTemplate.jrxml"));
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
 					jasperReport, 
 					parameteres,  
-					new JRBeanCollectionDataSource(reportDTOsList));
+					new JRBeanCollectionDataSource(reportDTOList));
 			JasperExportManager.exportReportToPdfFile(
 					jasperPrint, 
-					prop.getProperty("report.dir") + File.separator + "reportRegisteredUsersNum.pdf");
+					prop.getProperty("report.dir") + File.separator + reportFileName);
 			System.out.println("LoginBean registeredUsersNumByMonth zavrsio");
 			
 		} catch (JRException e) {
